@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { FathymSharedModule } from '@lcu-ide/common';
+import { LcuDataFlowDataFlowManagerElementComponent } from './elements/data-flow-manager/data-flow-manager.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    LcuDataFlowDataFlowManagerElementComponent
+  ],
+  entryComponents: [
+    LcuDataFlowDataFlowManagerElementComponent
+  ],
+  exports: [
+    LcuDataFlowDataFlowManagerElementComponent
+  ],
   imports: [
-    CommonModule
+    FathymSharedModule
   ]
 })
 export class LcuDataFlowModule { }
