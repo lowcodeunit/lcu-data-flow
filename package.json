@@ -1,6 +1,6 @@
 {
   "name": "@lowcodeunit/lcu-data-flow",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "build:common": "ng build common",
     "build:demo": "ng build demo --prod",
