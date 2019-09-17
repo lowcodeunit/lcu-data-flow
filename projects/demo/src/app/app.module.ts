@@ -26,6 +26,7 @@ import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
+import { LcuDataFlowModule } from '@lowcodeunit/lcu-data-flow-common';
 
 @NgModule({
   declarations: [
@@ -48,11 +49,12 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     UserHasRoleDirective
   ],
   imports: [
-    BrowserAnimationsModule,
+  BrowserAnimationsModule,
     AppRoutingModule,
     FlexLayoutModule,
     FathymSharedModule,
     MaterialModule,
+    LcuDataFlowModule,
     FormsModule,
     ReactiveFormsModule
   ],

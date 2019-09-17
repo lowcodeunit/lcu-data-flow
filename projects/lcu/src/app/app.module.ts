@@ -20,8 +20,8 @@ export class AppModule implements DoBootstrap {
 
   //  Life Cycle
   public ngDoBootstrap() {
-    const cfgMgr = createCustomElement(LcuDataFlowDataFlowManagerElementComponent, { injector: this.injector });
+    const dfMgr = createCustomElement(LcuDataFlowDataFlowManagerElementComponent, { injector: this.injector });
 
-    customElements.define(SelectorLcuDataFlowDataFlowManagerElement, cfgMgr);
+    customElements.define(SelectorLcuDataFlowDataFlowManagerElement, dfMgr);
   }
 }
