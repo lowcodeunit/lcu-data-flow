@@ -6,7 +6,11 @@
   },
   "config": {
     "wc": ["wc/lcu-data-flow.lcu.js"],
-    "solutions": {},
+    "solutions": {
+      "data-flow-manager": {
+        "element": "lcu-data-flow-data-flow-manager-element"
+      }
+    },
     "elements": {},
     "flux": {},
     "dependencies": {}
