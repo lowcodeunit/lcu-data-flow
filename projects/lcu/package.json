@@ -1,6 +1,6 @@
 {
 	"name": "@lowcodeunit/lcu-data-flow-lcu",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"peerDependencies": {
 		"@angular/common": "~8.1.2",
 		"@angular/core": "~8.1.2"
