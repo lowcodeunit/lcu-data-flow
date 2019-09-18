@@ -1,3 +1,37 @@
-<h2>LcuDataFlow DataFlowList Next Steps</h2>
+<mat-list *ngIf="context?.State">
+  <h3 mat-subheader>
+    <mat-icon mat-list-icon>settings_input_antenna</mat-icon>
 
-<p>Do stuff and things!</p>
+    Active Data Flows
+  </h3>
+
+  <mat-list-item *ngFor="let flow of context.State.DataFlows">
+    <div fxFlex="70%">
+      <div matLine>
+        <h4>
+          {{ flow.Name }} - <small>{{ flow.Description }}</small>
+        </h4>
+      </div>
+    </div>
+
+    <div fxFlex="30%">
+      <a mat-raised-button color="accent" (click)="SetAcitveDataFlow(flow)">
+        Manage Flow
+      </a>
+    </div>
+  </mat-list-item>
+
+  <mat-list-item *ngIf="!context?.State?.DataFlows && context?.State.DataFlows.length == 0">
+    <h4 mat-line>No active flows. Provision a flow from the workshop.</h4>
+  </mat-list-item>
+
+  <hr />
+
+  <br />
+
+  <mat-list-item>
+    <a mat-raised-button color="accent" (click)="CreateNewDataFlow()">
+      Create New Flow
+    </a>
+  </mat-list-item>
+</mat-list>

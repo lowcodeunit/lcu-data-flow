@@ -1,7 +1,10 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
+import { DataFlow } from '../../../../models/data-flow';
 
-export class LcuDataFlowDataFlowListElementState {}
+export class LcuDataFlowDataFlowListElementState {
+  public DataFlows: DataFlow[];
+}
 
 export class LcuDataFlowDataFlowListContext extends LCUElementContext<LcuDataFlowDataFlowListElementState> {}
 
@@ -28,6 +31,9 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   }
 
   //  API Methods
+  public CreateNewDataFlow() {}
+
+  public SetAcitveDataFlow(dataFlow: DataFlow) {}
 
   //  Helpers
 }
