@@ -36,8 +36,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(
     protected activatedRouter: ActivatedRoute,
-    protected userService: UsersService,
-    protected userCtxt: UsersStateManagerContext) { }
+    protected userService: UsersService) { }
 
   public ngOnInit(): void {
 
@@ -67,7 +66,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   /**
    * Return single user by id
-   * 
+   *
    * @param id unique identifier
    */
   protected getUserById(id: number): void {

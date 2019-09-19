@@ -1,6 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { StateManagerContext, Application, DAFViewApplicationConfig } from '@lcu-ide/common';
 import { DataFlowManagerState } from './data-flow-manager-state.model';
+import { DataFlow } from '../models/data-flow';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,39 @@ export class DataFlowManagerStateManagerContext extends StateManagerContext<Data
   }
 
   //  API Methods
-  // public ToggleAddingApp() {
-  //   this.Execute({
-  //     Arguments: {},
-  //     Type: 'toggle-adding-app'
-  //   });
-  // }
+  public DeleteDataFlow(dataFlowLookup: string) {
+    this.Execute({
+      Arguments: {
+        DataFlowLookup: dataFlowLookup
+      },
+      Type: 'DeleteDataFlow'
+    });
+  }
+
+  public SaveDataFlow(dataFlow: DataFlow) {
+    this.Execute({
+      Arguments: {
+        DataFlow: dataFlow
+      },
+      Type: 'SaveDataFlow'
+    });
+  }
+
+  public SetActiveDataFlow(dataFlowLookup: string) {
+    this.Execute({
+      Arguments: {
+        DataFlowLookup: dataFlowLookup
+      },
+      Type: 'SetActiveDataFlow'
+    });
+  }
+
+  public ToggleIsCreating() {
+    this.Execute({
+      Arguments: {},
+      Type: 'ToggleIsCreating'
+    });
+  }
 
   //  Helpers
   protected defaultValue() {

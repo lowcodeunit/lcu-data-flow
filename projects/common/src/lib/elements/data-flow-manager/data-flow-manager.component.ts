@@ -1,6 +1,8 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
 import { LcuDataFlowDataFlowListContext } from './controls/data-flow-list/data-flow-list.component';
+import { DataFlowManagerStateManagerContext } from '../../core/data-flow-manager-state-manager.context';
+import { DataFlowManagerState } from '../../core/data-flow-manager-state.model';
 
 export class LcuDataFlowDataFlowManagerElementState {}
 
@@ -17,10 +19,10 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   //  Fields
 
   //  Properties
-  public DataFlowList: LcuDataFlowDataFlowListContext;
+  public State: DataFlowManagerState;
 
   //  Constructors
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, protected state: DataFlowManagerStateManagerContext) {
     super(injector);
   }
 
@@ -28,21 +30,17 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   public ngOnInit() {
     super.ngOnInit();
 
-    this.DataFlowList = {
-      State: {
-        DataFlows: [
-          {
-            Name: 'Test',
-            Description: 'Testing',
-            EnterpriseAPIKey: 'xxx',
-            Lookup: 'test'
-          }
-        ]
-      }
-    };
+    this.state.Context.subscribe(state => {
+      this.State = state;
+
+      this.handleStateChanged();
+    });
   }
 
   //  API Methods
 
   //  Helpers
+  protected handleStateChanged() {
+
+  }
 }

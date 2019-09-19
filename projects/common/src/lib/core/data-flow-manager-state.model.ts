@@ -6,5 +6,9 @@ export class DataFlowManagerState {
 
   public DataFlows?: DataFlow[];
 
+  public EnvironmentLookup?: boolean;
+
+  public IsCreating?: boolean;
+
   public Loading?: boolean;
 }

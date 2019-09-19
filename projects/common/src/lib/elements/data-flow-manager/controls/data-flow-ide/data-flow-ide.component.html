@@ -1,0 +1,15 @@
+<h3>
+  <mat-icon>settings</mat-icon>
+
+  Managing {{ State.ActiveDataFlow.Name }}
+</h3>
+
+<div>
+  <mat-drawer-container class="example-container">
+    <mat-drawer-content>
+      <a mat-raised-button color="warn" (click)="CancelActive()">Cancel</a>
+    </mat-drawer-content>
+
+    <mat-drawer mode="side" opened position="end">Drawer content</mat-drawer>
+  </mat-drawer-container>
+</div>

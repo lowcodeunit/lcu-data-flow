@@ -5,8 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 
-import { FathymSharedModule, MaterialModule } from '@lcu-ide/common';
+import { FathymSharedModule, MaterialModule, LCUServiceSettings } from '@lcu-ide/common';
 import { TutorialsComponent } from './controls/tutorials/tutorials.component';
 import { ReactiveFormComponent } from './controls/reactive-form/reactive-form.component';
 import { FlexLayoutComponent } from './controls/flex-layout/flex-layout.component';
@@ -49,61 +50,66 @@ import { LcuDataFlowModule } from '@lowcodeunit/lcu-data-flow-common';
     UserHasRoleDirective
   ],
   imports: [
-  BrowserAnimationsModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FlexLayoutModule,
-    FathymSharedModule,
+    FathymSharedModule.forRoot(),
     MaterialModule,
     LcuDataFlowModule,
     FormsModule,
     ReactiveFormsModule
   ],
   providers: [
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    },
     UsersService,
     TutorialService,
-  {
-    provide: FaviconsService, useClass: BrowserFavicons
-  },
-  {
-    provide: BROWSER_FAVICONS_CONFIG,
-    useValue: {
-      icons: {
-        'arctic-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_arctic.png'
+    {
+      provide: FaviconsService,
+      useClass: BrowserFavicons
+    },
+    {
+      provide: BROWSER_FAVICONS_CONFIG,
+      useValue: {
+        icons: {
+          'arctic-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_arctic.png'
+          },
+          'cool-candy-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_cool_candy.png'
+          },
+          'flipper-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_flipper.png'
+          },
+          'ice-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_flipper.png'
+          },
+          'white-mint-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_flipper.png'
+          },
+          'contrast-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_circle_red.png',
+            isDefault: true
+          },
+          'sea-green-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_arctic.png'
+          }
         },
-        'cool-candy-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_cool_candy.png'
-        },
-        'flipper-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_flipper.png'
-        },
-        'ice-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_flipper.png'
-        },
-        'white-mint-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_flipper.png'
-        },
-        'contrast-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_circle_red.png',
-          isDefault: true
-        },
-        'sea-green-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_arctic.png'
-        },
-      },
-       // determine whether or not a random token is auto-appended to the HREF
-      // values whenever an icon is injected into the document
-      cacheBusting: true
+        // determine whether or not a random token is auto-appended to the HREF
+        // values whenever an icon is injected into the document
+        cacheBusting: true
+      }
     }
-  }
-],
+  ],
   bootstrap: [AppComponent],
   exports: [
     LoginComponent,
@@ -111,7 +117,8 @@ import { LcuDataFlowModule } from '@lowcodeunit/lcu-data-flow-common';
     LoggedInUserComponent,
     DashboardAdminComponent,
     DashboardNonAdminComponent,
-    UserHasRoleDirective],
+    UserHasRoleDirective
+  ],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
-export class AppModule { }
+export class AppModule {}

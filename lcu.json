@@ -1,18 +1,20 @@
 {
-  "templates": {
-    "repository": "lowcodeunit-devkit/lcu-cli-templates-core",
-    "scope": "@lowcodeunit",
-    "workspace": "lcu-data-flow"
-  },
-  "config": {
-    "wc": ["wc/lcu-data-flow.lcu.js"],
-    "solutions": {
-      "data-flow-manager": {
-        "element": "lcu-data-flow-data-flow-manager-element"
-      }
-    },
-    "elements": {},
-    "flux": {},
-    "dependencies": {}
-  }
+	"templates": {
+		"repository": "lowcodeunit-devkit/lcu-cli-templates-core",
+		"scope": "@lowcodeunit",
+		"workspace": "lcu-data-flow"
+	},
+	"config": {
+		"wc": [
+			"wc/lcu-data-flow.lcu.js"
+		],
+		"solutions": {
+			"data-flow-manager": {
+				"element": "lcu-data-flow-data-flow-manager-element"
+			}
+		},
+		"elements": {},
+		"flux": {},
+		"dependencies": {}
+	}
 }
