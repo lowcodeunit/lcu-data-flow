@@ -1,15 +1,33 @@
-<h3>
-  <mat-icon>settings</mat-icon>
-
-  Managing {{ State.ActiveDataFlow.Name }}
-</h3>
-
-<div>
-  <mat-drawer-container class="example-container">
+<div class="data-flow-ide-container">
+  <mat-drawer-container>
     <mat-drawer-content>
-      <a mat-raised-button color="warn" (click)="CancelActive()">Cancel</a>
+      <div class="home-actions">
+        <a mat-mini-fab color="primary" (click)="CancelActive()"><mat-icon>home</mat-icon></a>
+      </div>
+
+      <a mat-mini-fab color="primary" class="action-toggle-bank" (click)="drawer.toggle()"><mat-icon>menu</mat-icon></a>
     </mat-drawer-content>
 
-    <mat-drawer mode="side" opened position="end">Drawer content</mat-drawer>
+    <mat-drawer mode="side" opened position="end" #drawer>
+      <div class="data-flow-ide-bank-container">
+        <mat-toolbar>
+          <a mat-icon-button color="primary">
+            <mat-icon>home</mat-icon>
+          </a>
+
+          <a mat-icon-button color="primary">
+            <mat-icon>menu</mat-icon>
+          </a>
+        </mat-toolbar>
+
+        <div class="bank">
+          <h3>Managing {{ State.ActiveDataFlow.Name }} Data Flow</h3>
+
+          <hr />
+
+          <lcu-data-flow-modules-bank-element [options]="State.ModuleOptions"></lcu-data-flow-modules-bank-element>
+        </div>
+      </div>
+    </mat-drawer>
   </mat-drawer-container>
 </div>

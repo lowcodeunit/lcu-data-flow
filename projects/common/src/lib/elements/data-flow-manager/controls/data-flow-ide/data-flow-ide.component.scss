@@ -1,0 +1,44 @@
+:host {
+  .data-flow-ide-container {
+    height: 100%;
+
+    .mat-drawer-container {
+      height: 100%;
+      background-color: transparent;
+
+      .mat-drawer-content {
+        position: relative;
+
+        .action-toggle-bank {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+        }
+
+        .home-actions {
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+        }
+      }
+
+      .mat-drawer {
+        width: 300px;
+        background-color: #a4bab3;
+
+        .data-flow-ide-bank-container {
+          height: 100%;
+
+          .mat-toolbar {
+            background-color: #fbfcf3;
+          }
+
+          .bank {
+            margin: .5rem;
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+}

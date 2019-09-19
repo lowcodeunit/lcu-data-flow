@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
-import { DataFlow } from '../../../../models/data-flow';
+import { DataFlow } from '../../../../models/DataFlow';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ export class LcuDataFlowDataFlowListElementState {
 
 export class LcuDataFlowDataFlowListContext extends LCUElementContext<LcuDataFlowDataFlowListElementState> {}
 
-export const SelectorLcuDataFlowDataFlowListElement = 'lcu-data-flow-data-flow-list-element';
+export const SelectorLcuDataFlowDataFlowListElement = 'lcu-data-flow-list-element';
 
 @Component({
   selector: SelectorLcuDataFlowDataFlowListElement,

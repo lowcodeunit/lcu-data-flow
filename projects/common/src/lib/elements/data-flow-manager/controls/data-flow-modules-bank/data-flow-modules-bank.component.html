@@ -1,0 +1,35 @@
+<ng-container [ngSwitch]="View" *ngIf="Options">
+  <!-- <div
+      fxLayout="row"
+      fxLayoutAlign="center stretch"
+      gdAlignColumns="center stretch"
+      gdAlignRows="center stretch"
+      *ngSwitchCase="ViewTypes.Grid"
+    >
+      <ng-container *ngFor="let option of Options">
+        <div></div>
+      </ng-container>
+    </div> -->
+
+  <div *ngSwitchCase="ViewTypes.List">
+    <ng-container *ngFor="let category of Categories">
+      <div class="category">
+        <h4 class="mat-subheading-2">
+          {{ category }}
+        </h4>
+
+        <ng-container *ngFor="let option of GetOptions(category)">
+          <div class="option">
+            <a mat-raised-button color="accent" class="bank-module mat-full-width">
+              <mat-icon>{{ option.Icon?.Icon }}</mat-icon>
+
+              {{ option.Name }}
+            </a>
+          </div>
+        </ng-container>
+
+        <hr />
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

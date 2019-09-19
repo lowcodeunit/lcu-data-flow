@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
-import { DataFlow } from '../../../../models/data-flow';
+import { DataFlow } from '../../../../models/DataFlow';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 
@@ -8,7 +8,7 @@ export class LcuDataFlowDataFlowIdeElementState {}
 
 export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<LcuDataFlowDataFlowIdeElementState> {}
 
-export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-data-flow-ide-element';
+export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element';
 
 @Component({
   selector: SelectorLcuDataFlowDataFlowIdeElement,
@@ -45,5 +45,36 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   //  Helpers
-  protected handleStateChanged() {}
+  protected handleStateChanged() {
+    this.State.ModuleOptions = [
+      {
+        Description: 'Test desc',
+        Icon: { Icon: 'cloud' },
+        Category: 'Test',
+        ModuleType: 'TestModule',
+        Name: 'Infrastructure'
+      },
+      {
+        Description: 'Test desc',
+        Icon: { Icon: 'cloud' },
+        Category: 'Test',
+        ModuleType: 'TestModule2',
+        Name: 'Infrastructure 2.0'
+      },
+      {
+        Description: 'Test desc',
+        Icon: { Icon: 'settings' },
+        Category: 'Admin',
+        ModuleType: 'TestModule3',
+        Name: 'OMS'
+      },
+      {
+        Description: 'Test desc',
+        Icon: { Icon: 'dashboard' },
+        Category: 'Admin',
+        ModuleType: 'TestModule4',
+        Name: 'Active Directory'
+      }
+    ];
+  }
 }

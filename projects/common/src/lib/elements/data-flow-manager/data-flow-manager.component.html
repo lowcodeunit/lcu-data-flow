@@ -1,6 +1,6 @@
-<div class="spread">
+<div class="data-flow-manager-container">
   <ng-container *ngIf="!State.Loading">
-    <ng-container *ngIf="!State.ActiveDataFlow">
+    <div *ngIf="!State.ActiveDataFlow" class="spread">
       <h2 class="mat-headline">Data Flow Management</h2>
 
       <p class="mat-body-2 spread">
@@ -8,11 +8,11 @@
         have different outcomes in provisioned and deployed enterprise assets/configurations.
       </p>
 
-      <lcu-data-flow-data-flow-list-element></lcu-data-flow-data-flow-list-element>
-    </ng-container>
+      <lcu-data-flow-list-element></lcu-data-flow-list-element>
+    </div>
 
     <ng-container *ngIf="State.ActiveDataFlow">
-      <lcu-data-flow-data-flow-ide-element></lcu-data-flow-data-flow-ide-element>
+      <lcu-data-flow-ide-element></lcu-data-flow-ide-element>
     </ng-container>
   </ng-container>
 

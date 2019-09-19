@@ -10,11 +10,11 @@
 		],
 		"solutions": {
 			"data-flow-manager": {
-				"element": "lcu-data-flow-data-flow-manager-element"
+				"element": "lcu-data-flow-manager-element"
 			}
 		},
 		"elements": {},
-		"flux": {},
+		"data-flows": {},
 		"dependencies": {}
 	}
 }

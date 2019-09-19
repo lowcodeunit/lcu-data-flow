@@ -8,7 +8,7 @@ export class LcuDataFlowDataFlowManagerElementState {}
 
 export class LcuDataFlowDataFlowManagerContext extends LCUElementContext<LcuDataFlowDataFlowManagerElementState> {}
 
-export const SelectorLcuDataFlowDataFlowManagerElement = 'lcu-data-flow-data-flow-manager-element';
+export const SelectorLcuDataFlowDataFlowManagerElement = 'lcu-data-flow-manager-element';
 
 @Component({
   selector: SelectorLcuDataFlowDataFlowManagerElement,
