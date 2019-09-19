@@ -3,8 +3,13 @@
 @import '../../../node_modules/@lcu-ide/common/assets/styles/branding/fathym-branding';
 @import '../../../node_modules/@lcu-ide/common/assets/theming/fathym-default-theme';
 
+@import '../../../node_modules/jsplumbtoolkit/dist/css/syntax-highlighter.css';
+@import '../../../node_modules/jsplumbtoolkit/dist/css/jsplumbtoolkit-defaults.css';
+@import '../../../node_modules/jsplumbtoolkit/dist/css/jsplumbtoolkit-demo.css';
+
 @import '../src/app/controls/flex-layout/flex-layout.component.scss';
 @import './assets/themes/fathym-themes.scss';
+
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
 .font-test {
@@ -109,11 +114,11 @@
     /* Set rules to fill background */
     min-height: 100%;
     min-width: 1024px;
-      
+
     /* Set up proportionate scaling */
     width: 100%;
     height: auto;
-      
+
     /* Set up positioning */
     position: fixed;
     top: 0;
@@ -125,12 +130,12 @@
   .cursor-pointer {
     cursor: pointer;
   }
-  
+
   @media screen and (max-width: 1024px) { /* Specific to this particular image */
     .bg-image {
       left: 50%;
       margin-left: -512px;   /* 50% */
     }
 
-    
+
   }

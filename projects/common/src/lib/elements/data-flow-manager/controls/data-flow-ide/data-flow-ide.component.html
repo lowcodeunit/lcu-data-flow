@@ -6,6 +6,12 @@
       </div>
 
       <a mat-mini-fab color="primary" class="action-toggle-bank" (click)="drawer.toggle()"><mat-icon>menu</mat-icon></a>
+
+      <jsplumb-surface [surfaceId]="SurfaceID" [toolkitId]="ToolkitID" [view]="View" [renderParams]="RenderParams"></jsplumb-surface>
+
+      <jsplumb-miniview [surfaceId]="SurfaceID"></jsplumb-miniview>
+
+      <jsplumb-controls [surfaceId]="SurfaceID"></jsplumb-controls>
     </mat-drawer-content>
 
     <mat-drawer mode="side" opened position="end" #drawer>
