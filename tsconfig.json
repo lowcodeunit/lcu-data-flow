@@ -19,10 +19,10 @@
 			"dom"
 		],
 		"paths": {
-			"@lowcodeunit/lcu-data-flow-common": [
+			"@napkin-ide/lcu-data-flow-common": [
 				"dist/common"
 			],
-			"@lowcodeunit/lcu-data-flow-common/*": [
+			"@napkin-ide/lcu-data-flow-common/*": [
 				"dist/common/*"
 			]
 		}

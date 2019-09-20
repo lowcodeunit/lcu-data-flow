@@ -7,7 +7,7 @@ import {
   LcuDataFlowModule,
   LcuDataFlowDataFlowManagerElementComponent,
   SelectorLcuDataFlowDataFlowManagerElement
-} from '@lowcodeunit/lcu-data-flow-common';
+} from '@napkin-ide/lcu-data-flow-common';
 
 @NgModule({
   declarations: [],
