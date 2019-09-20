@@ -12,7 +12,7 @@
     </div> -->
 
   <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a.mat-raised-button" [surfaceId]="DataFlowLookup"
-    [dataGenerator]="dataGenerator">
+    [dataGenerator]="DataGenerator">
     <ng-container *ngFor="let category of Categories">
       <div class="category">
         <h4 class="mat-subheading-2">
@@ -22,7 +22,7 @@
         <ng-container *ngFor="let option of GetOptions(category)">
           <div class="option">
             <a mat-raised-button color="accent" class="bank-module mat-full-width"
-              [attr.data-node-type]="option.ModuleType" title="Drag to add new" [attr.jtk-width]="75" [attr.jtk-height]="75">
+              [attr.module-type]="option.ModuleType" title="Drag to add new" [attr.module-width]="75" [attr.module-height]="75">
               <mat-icon>{{ option.Icon?.Icon }}</mat-icon>
 
               {{ option.Name }}
