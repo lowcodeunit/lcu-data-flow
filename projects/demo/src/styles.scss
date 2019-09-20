@@ -10,7 +10,6 @@
 @import '../src/app/controls/flex-layout/flex-layout.component.scss';
 @import './assets/themes/fathym-themes.scss';
 
-
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
 .font-test {
   font-family: 'Open Sans', sans-serif;
@@ -21,7 +20,7 @@
 // }
 
 .foreground-color {
- color: mat-color($primary) !important;
+  color: mat-color($primary) !important;
 }
 
 @mixin set-theme($theme) {
@@ -47,95 +46,94 @@
   // @include side-nav-component-theme($theme);
 }
 
-  .app-background {
-    display: flex;
-    flex-direction: column;
-    min-height: -webkit-fill-available;
-    min-width: 300px;
-    max-height: -webkit-fill-available;
+.app-background {
+  display: flex;
+  flex-direction: column;
+  min-height: -webkit-fill-available;
+  min-width: 300px;
+  max-height: -webkit-fill-available;
+}
+
+.arctic-theme {
+  @include set-theme($arctic-theme);
+  .primary-logo {
+    background-image: url($fathym-full-ice-logo);
+    // @include primary-logo($fathym-full-ice-logo, 150px);
   }
+}
 
-   .arctic-theme {
-    @include set-theme($arctic-theme);
-    .primary-logo {
-      background-image: url($fathym-full-ice-logo);
-      // @include primary-logo($fathym-full-ice-logo, 150px);
-    }
-   }
+.contrast-theme {
+  @include set-theme($contrast-theme);
+  .primary-logo {
+    background-image: url($fathym-full-contrast-logo);
+  }
+}
 
-   .contrast-theme {
-    @include set-theme($contrast-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-contrast-logo);
-    }
-   }
+.cool-candy-theme {
+  @include set-theme($cool-candy-theme);
+  .primary-logo {
+    background-image: url($fathym-full-arctic-logo);
+  }
+}
 
-   .cool-candy-theme {
-    @include set-theme($cool-candy-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-arctic-logo);
-    }
-   }
+.flipper-theme {
+  @include set-theme($flipper-theme);
+  .primary-logo {
+    background-image: url($fathym-full-ice-logo);
+  }
+}
 
-   .flipper-theme {
-    @include set-theme($flipper-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-ice-logo);
-    }
-   }
+.ice-theme {
+  @include set-theme($ice-theme);
+  .primary-logo {
+    background-image: url($fathym-full-flipper-logo);
+  }
+}
 
-   .ice-theme {
-    @include set-theme($ice-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-flipper-logo);
-    }
-   }
+.sea-green-theme {
+  @include set-theme($sea-green-theme);
+  .primary-logo {
+    background-image: url($fathym-full-cool-candy-logo);
+  }
+}
 
-   .sea-green-theme {
-    @include set-theme($sea-green-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-cool-candy-logo);
-    }
-   }
+.white-mint-theme {
+  @include set-theme($white-mint-theme);
+  .primary-logo {
+    background-image: url($fathym-full-flipper-logo);
+  }
+}
 
-   .white-mint-theme {
-    @include set-theme($white-mint-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-flipper-logo);
-    }
-   }
+.disabled {
+  @include opacity(0.5);
+}
 
-  .disabled {
-    @include opacity(.5);
-   }
+.bg-image {
+  z-index: -100;
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
 
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  @include opacity(0.35);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  /* Specific to this particular image */
   .bg-image {
-    z-index: -100;
-    /* Set rules to fill background */
-    min-height: 100%;
-    min-width: 1024px;
-
-    /* Set up proportionate scaling */
-    width: 100%;
-    height: auto;
-
-    /* Set up positioning */
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    @include opacity(.35);
+    left: 50%;
+    margin-left: -512px; /* 50% */
   }
-
-  .cursor-pointer {
-    cursor: pointer;
-  }
-
-  @media screen and (max-width: 1024px) { /* Specific to this particular image */
-    .bg-image {
-      left: 50%;
-      margin-left: -512px;   /* 50% */
-    }
-
-
-  }
+}
