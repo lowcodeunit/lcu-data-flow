@@ -60,6 +60,7 @@
             "aot": false,
             "assets": [
               "projects/lcu/src/favicon.ico",
+              "projects/demo/src/data",
               {
                 "glob": "package.json",
                 "input": "./projects/lcu/",
