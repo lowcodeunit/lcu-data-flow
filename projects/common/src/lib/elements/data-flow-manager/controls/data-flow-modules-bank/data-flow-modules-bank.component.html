@@ -11,8 +11,19 @@
       </ng-container>
     </div> -->
 
-  <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a.mat-raised-button" [surfaceId]="DataFlowLookup"
-    [dataGenerator]="DataGenerator">
+  <div class="sidebar node-palette" jsplumb-surface-drop selector="div" [surfaceId]="'DataFlowLookup'" [dataGenerator]="dataGenerator">
+    <div
+      class="sidebar-item"
+      [attr.data-node-type]="'Test'"
+      title="Drag to add new"
+      [attr.jtk-width]="75"
+      [attr.jtk-height]="75"
+    >
+     Test
+    </div>
+  </div>
+
+  <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a" [surfaceId]="'DataFlowLookup'" [dataGenerator]="DataGenerator">
     <ng-container *ngFor="let category of Categories">
       <div class="category">
         <h4 class="mat-subheading-2">
@@ -21,8 +32,15 @@
 
         <ng-container *ngFor="let option of GetOptions(category)">
           <div class="option">
-            <a mat-raised-button color="accent" class="bank-module mat-full-width"
-              [attr.module-type]="option.ModuleType" title="Drag to add new" [attr.module-width]="75" [attr.module-height]="75">
+            <a
+              mat-raised-button
+              color="accent"
+              class="bank-module mat-full-width"
+              [attr.module-type]="option.ModuleType"
+              title="Drag to add new"
+              [attr.module-width]="75"
+              [attr.module-height]="75"
+            >
               <mat-icon>{{ option.Icon?.Icon }}</mat-icon>
 
               {{ option.Name }}

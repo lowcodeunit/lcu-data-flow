@@ -53,8 +53,17 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
   }
 
   //  API Methods
+  dataGenerator(el: Element) {
+    return {
+      type: el.getAttribute('data-node-type'),
+      w: parseInt(el.getAttribute('jtk-width'), 10),
+      h: parseInt(el.getAttribute('jtk-height'), 10)
+    };
+  }
+
   public DataGenerator(el: Element) {
     return {
+      name: el.getAttribute('module-type'),
       type: el.getAttribute('module-type'),
       w: parseInt(el.getAttribute('module-width'), 10),
       h: parseInt(el.getAttribute('module-height'), 10)

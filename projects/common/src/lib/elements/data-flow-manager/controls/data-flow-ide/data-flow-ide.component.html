@@ -7,11 +7,11 @@
 
       <a mat-mini-fab color="primary" class="action-toggle-bank" (click)="drawer.toggle()"><mat-icon>menu</mat-icon></a>
 
-      <jsplumb-surface [surfaceId]="SurfaceID" [toolkitId]="ToolkitID" [view]="View" [renderParams]="RenderParams"></jsplumb-surface>
+      <jsplumb-surface [surfaceId]="'DataFlowLookup'" [toolkitId]="ToolkitID" [view]="View" [renderParams]="RenderParams"></jsplumb-surface>
 
-      <jsplumb-miniview [surfaceId]="SurfaceID"></jsplumb-miniview>
+      <jsplumb-miniview [surfaceId]="'DataFlowLookup'"></jsplumb-miniview>
 
-      <jsplumb-controls [surfaceId]="SurfaceID"></jsplumb-controls>
+      <jsplumb-controls [surfaceId]="'DataFlowLookup'"></jsplumb-controls>
     </mat-drawer-content>
 
     <mat-drawer mode="side" opened position="end" #drawer>
@@ -31,7 +31,7 @@
 
           <hr />
 
-          <lcu-data-flow-modules-bank-element [options]="State.ModuleOptions" [data-flow-lookup]="State.ActiveDataFlow.Lookup"></lcu-data-flow-modules-bank-element>
+          <lcu-data-flow-modules-bank-element [options]="State.ModuleOptions" [data-flow-lookup]="'DataFlowLookup'"></lcu-data-flow-modules-bank-element>
         </div>
       </div>
     </mat-drawer>
