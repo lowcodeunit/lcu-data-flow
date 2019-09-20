@@ -8,14 +8,17 @@
 
       .mat-drawer-content {
         position: relative;
+        overflow: hidden;
 
         .action-toggle-bank {
+          z-index: 500;
           position: absolute;
           top: 1rem;
           right: 1rem;
         }
 
         .home-actions {
+          z-index: 500;
           position: absolute;
           top: 1rem;
           left: 1rem;
