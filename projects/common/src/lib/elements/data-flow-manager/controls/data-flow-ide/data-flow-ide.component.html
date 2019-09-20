@@ -7,6 +7,19 @@
 
       <a mat-mini-fab color="primary" class="action-toggle-bank" (click)="drawer.toggle()"><mat-icon>menu</mat-icon></a>
 
+      <div class="sidebar node-palette" jsplumb-surface-drop selector="div" surfaceId="flowchartSurface" [dataGenerator]="dataGenerator">
+        <div
+          *ngFor="let nodeType of nodeTypes"
+          class="sidebar-item"
+          [attr.data-node-type]="nodeType.type"
+          title="Drag to add new"
+          [attr.jtk-width]="nodeType.w"
+          [attr.jtk-height]="nodeType.h"
+        >
+          {{ nodeType.label }}
+        </div>
+      </div>
+
       <jsplumb-surface [surfaceId]="'DataFlowLookup'" [toolkitId]="ToolkitID" [view]="View" [renderParams]="RenderParams"></jsplumb-surface>
 
       <jsplumb-miniview [surfaceId]="'DataFlowLookup'"></jsplumb-miniview>
@@ -31,7 +44,10 @@
 
           <hr />
 
-          <lcu-data-flow-modules-bank-element [options]="State.ModuleOptions" [data-flow-lookup]="'DataFlowLookup'"></lcu-data-flow-modules-bank-element>
+          <lcu-data-flow-modules-bank-element
+            [options]="State.ModuleOptions"
+            [data-flow-lookup]="'DataFlowLookup'"
+          ></lcu-data-flow-modules-bank-element>
         </div>
       </div>
     </mat-drawer>
