@@ -29,6 +29,9 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
     });
   }
 
+  @Input('data-flow-lookup')
+  public DataFlowLookup: string;
+
   @Input('options')
   public Options: DataFlowModuleOption[];
 
@@ -50,6 +53,14 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
   }
 
   //  API Methods
+  public DataGenerator(el: Element) {
+    return {
+      type: el.getAttribute('data-node-type'),
+      w: parseInt(el.getAttribute('jtk-width'), 10),
+      h: parseInt(el.getAttribute('jtk-height'), 10)
+    };
+  }
+
   public GetOptions(category: string) {
     return this.Options.filter(opt => opt.Category === category);
   }

@@ -248,14 +248,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     });
   }
 
-  public DataGenerator(el: Element) {
-    return {
-      type: el.getAttribute('data-node-type'),
-      w: parseInt(el.getAttribute('jtk-width'), 10),
-      h: parseInt(el.getAttribute('jtk-height'), 10)
-    };
-  }
-
   //  Helpers
   protected handleStateChanged() {
     this.State.ModuleOptions = [
