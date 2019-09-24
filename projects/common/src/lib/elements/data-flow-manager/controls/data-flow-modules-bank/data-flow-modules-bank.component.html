@@ -11,19 +11,7 @@
       </ng-container>
     </div> -->
 
-  <div class="sidebar node-palette" jsplumb-surface-drop selector="div" [surfaceId]="'DataFlowLookup'" [dataGenerator]="dataGenerator">
-    <div
-      class="sidebar-item"
-      [attr.data-node-type]="'Test'"
-      title="Drag to add new"
-      [attr.jtk-width]="75"
-      [attr.jtk-height]="75"
-    >
-     Test
-    </div>
-  </div>
-
-  <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a" [surfaceId]="'DataFlowLookup'" [dataGenerator]="DataGenerator">
+  <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a" [surfaceId]="DataFlowLookup" [dataGenerator]="DataGenerator">
     <ng-container *ngFor="let category of Categories">
       <div class="category">
         <h4 class="mat-subheading-2">

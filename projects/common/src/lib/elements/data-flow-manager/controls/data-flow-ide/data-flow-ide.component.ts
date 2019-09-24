@@ -183,12 +183,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     }
   };
 
-  nodeTypes = [
-    { label: 'Question', type: 'question', w: 120, h: 120 },
-    { label: 'Action', type: 'action', w: 120, h: 70 },
-    { label: 'Output', type: 'output', w: 120, h: 70 }
-  ];
-
   //  Constructors
   constructor(protected injector: Injector, protected state: DataFlowManagerStateManagerContext, protected $jsplumb: jsPlumbService) {
     super(injector);
@@ -296,7 +290,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
             id: 6,
             source: 'decide',
             target: 'nothing',
-            data: { label: 'Can\'t Decide', type: 'connection' }
+            data: { label: "Can't Decide", type: 'connection' }
           },
           {
             id: 7,
@@ -326,14 +320,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   //  API Methods
-  dataGenerator(el: Element) {
-    return {
-      type: el.getAttribute('data-node-type'),
-      w: parseInt(el.getAttribute('jtk-width'), 10),
-      h: parseInt(el.getAttribute('jtk-height'), 10)
-    };
-  }
-
   public CancelActive() {
     this.State.Loading = true;
 
