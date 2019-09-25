@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FathymSharedModule, MaterialModule } from '@lcu-ide/common';
+import { FathymSharedModule, MaterialModule } from '@lcu/common';
 import { Dialogs } from 'jsplumbtoolkit';
 import { jsPlumbToolkitModule } from 'jsplumbtoolkit-angular';
 import { jsPlumbToolkitDragDropModule } from 'jsplumbtoolkit-angular-drop';

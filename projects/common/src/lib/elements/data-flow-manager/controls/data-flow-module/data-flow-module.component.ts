@@ -1,10 +1,6 @@
-import { Component, OnInit, Injector, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
-import { DataFlow } from '../../../../models/DataFlow';
-import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
-import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
-import { jsPlumbSurfaceComponent, AngularViewOptions, BaseNodeComponent } from 'jsplumbtoolkit-angular';
-import { Surface, jsPlumbToolkit, Dialogs, DrawingTools } from 'jsplumbtoolkit';
+import { Component } from '@angular/core';
+import { BaseNodeComponent } from 'jsplumbtoolkit-angular';
+import { Dialogs } from 'jsplumbtoolkit';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';

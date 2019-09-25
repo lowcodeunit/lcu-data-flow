@@ -1,7 +1,7 @@
 import { NgModule, DoBootstrap, Injector } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createCustomElement } from '@angular/elements';
-import { FathymSharedModule } from '@lcu-ide/common';
+import { FathymSharedModule } from '@lcu/common';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   LcuDataFlowModule,

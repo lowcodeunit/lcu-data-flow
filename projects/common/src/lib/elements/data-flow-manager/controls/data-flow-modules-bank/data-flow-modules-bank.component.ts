@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
-import { DataFlowModuleOption } from '../../../../models/DataFlowModuleOption';
+import { LCUElementContext, LcuElementComponent } from '@lcu/common';
+import { DataFlowModuleOption, DataFlowModuleDisplay } from '@lcu/common';
 
 export enum DataFlowModulesBankViewTypes {
   Grid,
@@ -24,13 +24,20 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
 
   //  Properties
   public get Categories(): string[] {
-    return this.Options.map(opt => opt.Category).filter((value, index, self) => {
+    return this.Options.map(opt => {
+      const display = this.GetDisplay(opt.ModuleType);
+
+      return display.Category;
+    }).filter((value, index, self) => {
       return self.indexOf(value) === index;
     });
   }
 
   @Input('data-flow-lookup')
   public DataFlowLookup: string;
+
+  @Input('displays')
+  public Displays: DataFlowModuleDisplay[];
 
   @Input('options')
   public Options: DataFlowModuleOption[];
@@ -62,8 +69,16 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
     };
   }
 
+  public GetDisplay(moduleType: string) {
+    return this.Displays.find(d => d.ModuleType === moduleType);
+  }
+
   public GetOptions(category: string) {
-    return this.Options.filter(opt => opt.Category === category);
+    return this.Options.filter(opt => {
+      const display = this.GetDisplay(opt.ModuleType);
+
+      return display.Category === category;
+    });
   }
 
   //  Helpers

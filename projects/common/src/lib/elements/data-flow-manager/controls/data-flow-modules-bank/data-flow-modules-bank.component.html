@@ -19,21 +19,23 @@
         </h4>
 
         <ng-container *ngFor="let option of GetOptions(category)">
-          <div class="option">
-            <a
-              mat-raised-button
-              color="accent"
-              class="bank-module mat-full-width"
-              [attr.module-type]="option.ModuleType"
-              title="Drag to add new"
-              [attr.module-width]="75"
-              [attr.module-height]="75"
-            >
-              <mat-icon>{{ option.Icon?.Icon }}</mat-icon>
+          <ng-container *ngIf="GetDisplay(option.ModuleType); let display">
+            <div class="option">
+              <a
+                mat-raised-button
+                color="accent"
+                class="bank-module mat-full-width"
+                [attr.module-height]="display.Height"
+                [attr.module-type]="option.ModuleType"
+                [attr.module-width]="display.Width"
+                title="Drag to add new"
+              >
+                <mat-icon>{{ display.Icon?.Icon }}</mat-icon>
 
-              {{ option.Name }}
-            </a>
-          </div>
+                {{ option.Name }}
+              </a>
+            </div>
+          </ng-container>
         </ng-container>
 
         <hr />

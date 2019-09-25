@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
-import { StateManagerContext, Application, DAFViewApplicationConfig } from '@lcu-ide/common';
+import { StateManagerContext, Application, DAFViewApplicationConfig } from '@lcu/common';
 import { DataFlowManagerState } from './data-flow-manager-state.model';
-import { DataFlow } from '../models/DataFlow';
+import { DataFlow } from '@lcu/common';
 
 @Injectable({
   providedIn: 'root'

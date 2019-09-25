@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
+import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { LcuDataFlowDataFlowListContext } from './controls/data-flow-list/data-flow-list.component';
 import { DataFlowManagerStateManagerContext } from '../../core/data-flow-manager-state-manager.context';
 import { DataFlowManagerState } from '../../core/data-flow-manager-state.model';

@@ -1,6 +1,5 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
-import { DataFlow } from '../../../../models/DataFlow';
+import { DataFlow, LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

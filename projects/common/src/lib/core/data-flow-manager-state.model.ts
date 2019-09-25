@@ -1,6 +1,4 @@
-import { Application, DAFViewApplicationConfig } from '@lcu-ide/common';
-import { DataFlow } from '../models/DataFlow';
-import { DataFlowModuleOption } from './../models/DataFlowModuleOption';
+import { DataFlow, DataFlowModuleDisplay, DataFlowModuleOption, DataFlowModulePack } from '@lcu/common';
 
 export class DataFlowManagerState {
   public ActiveDataFlow?: DataFlow;
@@ -12,6 +10,10 @@ export class DataFlowManagerState {
   public IsCreating?: boolean;
 
   public Loading?: boolean;
+
+  public ModuleDisplays?: DataFlowModuleDisplay[];
+
+  public ModulePacks?: DataFlowModulePack[];
 
   public ModuleOptions?: DataFlowModuleOption[];
 }
