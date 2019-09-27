@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
@@ -16,6 +16,7 @@ import {
   StartNodeComponent,
   OutputNodeComponent
 } from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
+import { DataFlowJSPlumbToolkitIO } from './services/data-flow-jsplumb-toolkit-io.service';
 
 @NgModule({
   declarations: [
@@ -64,5 +65,12 @@ export class LcuDataFlowModule {
     Dialogs.initialize({
       selector: '.dlg'
     });
+  }
+
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: LcuDataFlowModule,
+      providers: [ DataFlowJSPlumbToolkitIO ]
+    }
   }
 }

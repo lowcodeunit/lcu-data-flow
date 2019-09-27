@@ -11,7 +11,7 @@ import {
 
 @NgModule({
   declarations: [],
-  imports: [BrowserModule, BrowserAnimationsModule, FathymSharedModule, LcuDataFlowModule],
+  imports: [BrowserModule, BrowserAnimationsModule, FathymSharedModule, LcuDataFlowModule.forRoot()],
   exports: [LcuDataFlowModule]
 })
 export class AppModule implements DoBootstrap {

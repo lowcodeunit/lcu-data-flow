@@ -55,7 +55,7 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     FlexLayoutModule,
     FathymSharedModule.forRoot(),
     MaterialModule,
-    LcuDataFlowModule,
+    LcuDataFlowModule.forRoot(),
     FormsModule,
     ReactiveFormsModule
   ],
