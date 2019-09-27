@@ -24,9 +24,9 @@ export class DataFlowJSPlumbToolkitIO {
 
   // 	Constructors
   constructor() {
-    jsPlumbToolkitIO.parsers['data-flow'] = this.ParseFlow;
+    jsPlumbToolkitIO.parsers['data-flow'] = this.Parse;
 
-    jsPlumbToolkitIO.exporters['data-flow'] = this.MapFlow;
+    jsPlumbToolkitIO.exporters['data-flow'] = this.Export;
 
     // jsPlumbToolkitIO.parsers.fathymIOSchema = this.ParseSchemaFlow;
 
@@ -34,7 +34,7 @@ export class DataFlowJSPlumbToolkitIO {
   }
 
   // 	API Methods
-  public MapFlow(toolkit: any, params: {}) {
+  public Export(toolkit: any, params: {}) {
     const nodes = toolkit.getNodes();
 
     const edges = toolkit.getAllEdges();
@@ -60,7 +60,7 @@ export class DataFlowJSPlumbToolkitIO {
     return output;
   }
 
-  public ParseFlow(flow: DataFlow, toolkit: any, params: {}) {
+  public Parse(flow: DataFlow, toolkit: any, params: {}) {
     flow.Output.Modules.filter(item => {
       return !item.Deleted;
     }).forEach(item => {
