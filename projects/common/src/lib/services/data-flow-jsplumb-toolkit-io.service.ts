@@ -19,8 +19,10 @@ import { DataFlow, DataFlowOutput } from '@lcu/common';
 @Injectable({
   providedIn: 'root'
 })
-export class DataFlowJSPlumbToolkitIO {
+export class DataFlowJSPlumbToolkitIOService {
   // 	Fields
+
+  //  Properties
 
   // 	Constructors
   constructor() {
@@ -61,27 +63,36 @@ export class DataFlowJSPlumbToolkitIO {
   }
 
   public Parse(flow: DataFlow, toolkit: any, params: {}) {
-    flow.Output.Modules.filter(item => {
-      return !item.Deleted;
-    }).forEach(item => {
-      let jspItem: any;
-      jspItem = item;
-      jspItem.id = item.ID;
+    if (flow.Output) {
+      flow.Output.Modules.filter(item => {
+        return !item.Deleted;
+      }).forEach(item => {
+        const jspItem = {
+          ...item,
+          id: item.ID,
+          name: item.Text,
+          type: 'question',
+          left: 290,
+          top: 79,
+          w: 150,
+          h: 150
+        };
 
-      toolkit.addNode(jspItem);
-    });
-
-    flow.Output.Streams.forEach(item => {
-      toolkit.addEdge({
-        id: item.ID,
-        source: item.InputModuleID,
-        target: item.OutputModuleID,
-        data: {
-          label: item.Title,
-          type: 'connection'
-        }
+        toolkit.addNode(jspItem);
       });
-    });
+
+      flow.Output.Streams.forEach(item => {
+        toolkit.addEdge({
+          id: item.ID,
+          source: item.InputModuleID,
+          target: item.OutputModuleID,
+          data: {
+            label: item.Title,
+            type: 'connection'
+          }
+        });
+      });
+    }
   }
 
   //  TODO:  Move to sepearate service in different repo specifically

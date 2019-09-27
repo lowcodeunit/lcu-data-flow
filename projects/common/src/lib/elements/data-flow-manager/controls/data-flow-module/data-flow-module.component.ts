@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseNodeComponent } from 'jsplumbtoolkit-angular';
-import { Dialogs } from 'jsplumbtoolkit';
+import { Dialogs, jsPlumbToolkit, Surface } from 'jsplumbtoolkit';
+import { DataFlowModuleShapeTypes, DataFlowActionEvent, DataFlow } from '@lcu/common';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';
@@ -9,8 +10,8 @@ function isNode(obj: any): obj is Node {
 /**
  * This is the base class for editable nodes in this demo. It extends `BaseNodeComponent`
  */
-export class DataFlowModuleComponent extends BaseNodeComponent {
-  removeNode() {
+export class BaseDataFlowModuleComponent extends BaseNodeComponent {
+  public removeNode() {
     const obj = this.getNode();
 
     if (obj != null) {
@@ -18,7 +19,7 @@ export class DataFlowModuleComponent extends BaseNodeComponent {
         Dialogs.show({
           id: 'dlgConfirm',
           data: {
-            msg: 'Delete \'' + obj.data.text + '\''
+            msg: "Delete '" + obj.data.text + "'"
           },
           onOK: () => {
             this.toolkit.removeNode(obj); // <Node> obj);
@@ -28,7 +29,7 @@ export class DataFlowModuleComponent extends BaseNodeComponent {
     }
   }
 
-  editNode() {
+  public editNode() {
     const obj = this.getNode();
     Dialogs.show({
       id: 'dlgText',
@@ -48,21 +49,60 @@ export class DataFlowModuleComponent extends BaseNodeComponent {
 // ----------------- question node -------------------------------
 
 @Component({ templateUrl: 'question.html' })
-export class QuestionNodeComponent extends DataFlowModuleComponent {}
+export class QuestionNodeComponent extends BaseDataFlowModuleComponent {}
 
 // ----------------- action node -------------------------------
 
 @Component({ templateUrl: 'action.html' })
-export class ActionNodeComponent extends DataFlowModuleComponent {}
+export class ActionNodeComponent extends BaseDataFlowModuleComponent {}
 
 // ----------------- start node -------------------------------
 
 @Component({ templateUrl: 'start.html' })
-export class StartNodeComponent extends DataFlowModuleComponent {}
+export class StartNodeComponent extends BaseDataFlowModuleComponent {}
 
 // ----------------- output node -------------------------------
 
 @Component({ templateUrl: 'output.html' })
-export class OutputNodeComponent extends DataFlowModuleComponent {}
+export class OutputNodeComponent extends BaseDataFlowModuleComponent {}
 
 // -------------- /node components ------------------------------------
+
+@Component({
+  templateUrl: './data-flow-module.html'
+})
+export class DataFlowModuleComponent extends BaseDataFlowModuleComponent implements OnInit {
+  // 	Fields
+
+  // 	Properties
+  @Output('data-flow')
+  public DataFlow: DataFlow;
+
+  @Output('manage')
+  public ActionEvent: EventEmitter<DataFlowActionEvent>;
+
+  // 	Constructors
+  constructor() {
+    super();
+
+    this.ActionEvent = new EventEmitter();
+  }
+
+  // 	Runtime
+  public ngOnInit() {
+  }
+
+  // 	API Methods
+  public Abs(input: number) {
+    return Math.abs(input);
+  }
+
+  public OpenFlowManager(node: any) {
+    this.ActionEvent.emit({
+      Action: 'manage',
+      Output: this.DataFlow.Output
+    });
+  }
+
+  // 	Helpers
+}

@@ -3,13 +3,14 @@ import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { jsPlumbSurfaceComponent, AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
-import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil } from 'jsplumbtoolkit';
+import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil, LayoutSpec } from 'jsplumbtoolkit';
 import {
   StartNodeComponent,
   QuestionNodeComponent,
   OutputNodeComponent,
   ActionNodeComponent
 } from '../data-flow-module/data-flow-module.component';
+import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 
 export class LcuDataFlowDataFlowIdeElementState {}
 
@@ -183,7 +184,12 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   };
 
   //  Constructors
-  constructor(protected injector: Injector, protected state: DataFlowManagerStateManagerContext, protected $jsplumb: jsPlumbService) {
+  constructor(
+    protected injector: Injector,
+    protected state: DataFlowManagerStateManagerContext,
+    protected $jsplumb: jsPlumbService,
+    protected io: DataFlowJSPlumbToolkitIOService
+  ) {
     super(injector);
   }
 
@@ -201,6 +207,14 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
       type: 'data-flow',
       data: this.State.ActiveDataFlow,
       parameters: {}
+    });
+
+    this.Surface.setLayout(<LayoutSpec> {
+      type: 'Hierarchical',
+      parameters: {
+        padding: [150, 150],
+        orientation: 'vertical'
+      }
     });
     // {
     //   nodes: [

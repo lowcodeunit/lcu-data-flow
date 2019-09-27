@@ -16,7 +16,7 @@ import {
   StartNodeComponent,
   OutputNodeComponent
 } from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
-import { DataFlowJSPlumbToolkitIO } from './services/data-flow-jsplumb-toolkit-io.service';
+import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-toolkit-io.service';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,7 @@ export class LcuDataFlowModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: LcuDataFlowModule,
-      providers: [ DataFlowJSPlumbToolkitIO ]
+      providers: [ DataFlowJSPlumbToolkitIOService ]
     }
   }
 }

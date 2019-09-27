@@ -117,7 +117,8 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     LoggedInUserComponent,
     DashboardAdminComponent,
     DashboardNonAdminComponent,
-    UserHasRoleDirective
+    UserHasRoleDirective,
+    LcuDataFlowModule
   ],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
