@@ -2,10 +2,28 @@
   <mat-drawer-container>
     <mat-drawer-content>
       <div class="home-actions">
-        <a mat-mini-fab color="accent" (click)="CancelActive()"><mat-icon>home</mat-icon></a>
+        <a mat-mini-fab color="accent" title="Data Flows Home" (click)="CancelActive()">
+          <mat-icon>home</mat-icon>
+        </a>
       </div>
 
-      <a mat-mini-fab color="primary" class="action-toggle-bank" (click)="drawer.toggle()"><mat-icon>menu</mat-icon></a>
+      <div class="panel-actions">
+        <a mat-mini-fab color="primary" title="Toggle Modules" (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </a>
+      </div>
+
+      <div class="flow-actions">
+        <a mat-mini-fab title="Select Mode" (click)="ToggleSelectMode()">
+          <mat-icon title="Switch to Select Mode" *ngIf="SelectMode != 'select'">edit</mat-icon>
+
+          <mat-icon title="Switch to Pan Mode" *ngIf="SelectMode != 'pan'">pan_tool</mat-icon>
+        </a>
+
+        <a mat-mini-fab title="Zoom to Fit" (click)="ZoomToFit()">
+          <mat-icon>zoom_out_map</mat-icon>
+        </a>
+      </div>
 
       <jsplumb-surface
         [surfaceId]="State.ActiveDataFlow.Lookup"
@@ -22,12 +40,16 @@
     <mat-drawer mode="side" opened position="end" #drawer>
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
-          <a mat-icon-button color="primary">
-            <mat-icon>home</mat-icon>
+          <a mat-icon-button color="primary" (click)="Save()">
+            <mat-icon>save</mat-icon>
           </a>
 
-          <a mat-icon-button color="primary">
-            <mat-icon>menu</mat-icon>
+          <a mat-icon-button color="primary" (click)="Deploy()">
+            <mat-icon>cloud_upload</mat-icon>
+          </a>
+
+          <a mat-icon-button color="primary" (click)="Relayout()">
+            <mat-icon>loop</mat-icon>
           </a>
         </mat-toolbar>
 

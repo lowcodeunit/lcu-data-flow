@@ -41,6 +41,5 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
 
   //  Helpers
   protected handleStateChanged() {
-
   }
 }

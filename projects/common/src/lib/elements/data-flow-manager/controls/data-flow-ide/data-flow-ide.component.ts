@@ -3,7 +3,7 @@ import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { jsPlumbSurfaceComponent, AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
-import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil, LayoutSpec } from 'jsplumbtoolkit';
+import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil, LayoutSpec, SurfaceMode } from 'jsplumbtoolkit';
 import {
   StartNodeComponent,
   QuestionNodeComponent,
@@ -29,21 +29,62 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   //  Fields
   protected drawing: DrawingTools;
 
+  protected surface: Surface;
+
+  protected toolkit: jsPlumbToolkit;
+
   //  Properties
-  public NodeTypes = [
-    { label: 'Question', type: 'question', w: 120, h: 120 },
-    { label: 'Action', type: 'action', w: 120, h: 70 },
-    { label: 'Output', type: 'output', w: 120, h: 70 }
-  ];
+  public RenderParams = {
+    layout: {
+      type: 'Spring'
+    },
+    events: {
+      edgeAdded: (params: any) => {
+        if (params.addedByMouse) {
+          this.EditLabel(params.edge);
+        }
+      }
+    },
+    consumeRightClick: false,
+    dragOptions: {
+      filter: '.jtk-draw-handle, .node-action, .node-action i'
+    }
+  };
+
+  public SelectMode: SurfaceMode;
 
   @ViewChild(jsPlumbSurfaceComponent, { static: false })
   public SurfaceComponent: jsPlumbSurfaceComponent;
 
-  public Surface: Surface;
-
-  public Toolkit: jsPlumbToolkit;
-
   public State: DataFlowManagerState;
+
+  public ToolkitParams = {
+    nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
+      Dialogs.show({
+        id: 'dlgText',
+        title: 'Enter ' + type + ' name:',
+        onOK: (d: any) => {
+          data.text = d.text;
+          // if the user entered a name...
+          if (data.text) {
+            // and it was at least 2 chars
+            if (data.text.length >= 2) {
+              // set an id and continue.
+              data.id = jsPlumbUtil.uuid();
+
+              callback(data);
+            } else {
+              alert(type + ' names must be at least 2 characters!');
+            }
+          }
+          // else...do not proceed.
+        }
+      });
+    },
+    beforeStartConnect: (node: any, edgeType: string) => {
+      return { label: '...' };
+    }
+  };
 
   public View: AngularViewOptions = {
     nodes: {
@@ -137,51 +178,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     }
   };
 
-  public RenderParams = {
-    layout: {
-      type: 'Spring'
-    },
-    events: {
-      edgeAdded: (params: any) => {
-        if (params.addedByMouse) {
-          this.EditLabel(params.edge);
-        }
-      }
-    },
-    consumeRightClick: false,
-    dragOptions: {
-      filter: '.jtk-draw-handle, .node-action, .node-action i'
-    }
-  };
-
-  public ToolkitParams = {
-    nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
-      Dialogs.show({
-        id: 'dlgText',
-        title: 'Enter ' + type + ' name:',
-        onOK: (d: any) => {
-          data.text = d.text;
-          // if the user entered a name...
-          if (data.text) {
-            // and it was at least 2 chars
-            if (data.text.length >= 2) {
-              // set an id and continue.
-              data.id = jsPlumbUtil.uuid();
-
-              callback(data);
-            } else {
-              alert(type + ' names must be at least 2 characters!');
-            }
-          }
-          // else...do not proceed.
-        }
-      });
-    },
-    beforeStartConnect: (node: any, edgeType: string) => {
-      return { label: '...' };
-    }
-  };
-
   //  Constructors
   constructor(
     protected injector: Injector,
@@ -190,19 +186,21 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     protected io: DataFlowJSPlumbToolkitIOService
   ) {
     super(injector);
+
+    this.SelectMode = 'pan';
   }
 
   //  Life Cycle
   public ngAfterViewInit() {
-    this.Surface = this.SurfaceComponent.surface;
+    this.surface = this.SurfaceComponent.surface;
 
-    this.Toolkit = this.Surface.getToolkit();
+    this.toolkit = this.surface.getToolkit();
 
     this.drawing = new DrawingTools({
-      renderer: this.Surface
+      renderer: this.surface
     });
 
-    this.io.LoadOntoSurface(this.Surface, this.State.ActiveDataFlow.Output);
+    this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
   }
 
   public ngOnDestroy() {
@@ -226,16 +224,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.state.SetActiveDataFlow(null);
   }
 
-  public GetToolkit(): jsPlumbToolkit {
-    return this.Toolkit;
-  }
+  public Deploy() {
+    this.State.Loading = true;
 
-  public ToggleSelection(node: any) {
-    this.Toolkit.toggleSelection(node);
-  }
-
-  public RemoveEdge(edge: any) {
-    this.Toolkit.removeEdge(edge);
+    this.state.DeployDataFlow(this.State.ActiveDataFlow.Lookup);
   }
 
   public EditLabel(edge: any) {
@@ -245,13 +237,43 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
         text: edge.data.label || ''
       },
       onOK: (data: any) => {
-        this.Toolkit.updateEdge(edge, { label: data.text });
+        this.toolkit.updateEdge(edge, { label: data.text });
       }
     });
   }
 
+  public RemoveEdge(edge: any) {
+    this.toolkit.removeEdge(edge);
+  }
+
+  public Relayout() {
+    this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
+  }
+
+  public Save() {
+    this.State.Loading = true;
+
+    this.State.ActiveDataFlow.Output = this.io.ExportFromSurface(this.surface);
+
+    this.state.SaveDataFlow(this.State.ActiveDataFlow);
+  }
+
+  public ToggleSelection(node: any) {
+    this.toolkit.toggleSelection(node);
+  }
+
+  public ToggleSelectMode() {
+    this.SelectMode = this.SelectMode === 'pan' ? 'select' : 'pan';
+
+    this.surface.setMode(this.SelectMode);
+  }
+
+  public ZoomToFit() {
+    this.surface.zoomToFit();
+  }
+
   //  Helpers
   protected handleStateChanged() {
-    this.Toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+    // this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
   }
 }

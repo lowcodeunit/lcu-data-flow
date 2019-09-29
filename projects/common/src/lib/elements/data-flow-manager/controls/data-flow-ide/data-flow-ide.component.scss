@@ -10,17 +10,28 @@
         position: relative;
         overflow: hidden;
 
-        .action-toggle-bank {
-          z-index: 500;
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
+        .mat-mini-fab {
+          margin: 0 .5rem;
         }
 
         .home-actions {
           z-index: 500;
           position: absolute;
           top: 1rem;
+          left: 1rem;
+        }
+
+        .panel-actions {
+          z-index: 500;
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+        }
+
+        .flow-actions {
+          z-index: 500;
+          position: absolute;
+          bottom: 1rem;
           left: 1rem;
         }
 

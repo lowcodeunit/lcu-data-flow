@@ -24,6 +24,15 @@ export class DataFlowManagerStateManagerContext extends StateManagerContext<Data
     });
   }
 
+  public DeployDataFlow(dataFlowLookup: string) {
+    this.Execute({
+      Arguments: {
+        DataFlowLookup: dataFlowLookup
+      },
+      Type: 'DeployDataFlow'
+    });
+  }
+
   public SaveDataFlow(dataFlow: DataFlow) {
     this.Execute({
       Arguments: {
