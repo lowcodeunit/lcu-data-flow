@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseNodeComponent } from 'jsplumbtoolkit-angular';
 import { Dialogs, jsPlumbToolkit, Surface } from 'jsplumbtoolkit';
-import { DataFlowModuleShapeTypes, DataFlowActionEvent, DataFlow } from '@lcu/common';
+import { DataFlowModuleShapeTypes, DataFlowActionEvent, DataFlow, DataFlowModule } from '@lcu/common';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';
@@ -75,17 +75,21 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
   // 	Fields
 
   // 	Properties
-  @Output('data-flow')
-  public DataFlow: DataFlow;
+  public get Module(): DataFlowModule {
+    //  this.obj is managed by BasePortComponent
+    return this.obj;
+  }
+
+  public ModuleShapes = DataFlowModuleShapeTypes;
 
   @Output('manage')
-  public ActionEvent: EventEmitter<DataFlowActionEvent>;
+  public ManageEvent: EventEmitter<DataFlowModule>;
 
   // 	Constructors
   constructor() {
     super();
 
-    this.ActionEvent = new EventEmitter();
+    this.ManageEvent = new EventEmitter();
   }
 
   // 	Runtime
@@ -97,10 +101,9 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
     return Math.abs(input);
   }
 
-  public OpenFlowManager(node: any) {
-    this.ActionEvent.emit({
-      Action: 'manage',
-      Output: this.DataFlow.Output
+  public ManageModule(node: any) {
+    this.ManageEvent.emit({
+      ...this.Module
     });
   }
 

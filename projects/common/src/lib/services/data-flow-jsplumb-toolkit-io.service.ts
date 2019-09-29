@@ -71,7 +71,7 @@ export class DataFlowJSPlumbToolkitIOService {
           ...item,
           id: item.ID,
           name: item.Text,
-          type: 'question',
+          type: 'data-flow',
           left: 290,
           top: 79,
           w: 150,

@@ -14,7 +14,8 @@ import {
   QuestionNodeComponent,
   ActionNodeComponent,
   StartNodeComponent,
-  OutputNodeComponent
+  OutputNodeComponent,
+  DataFlowModuleComponent
 } from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-toolkit-io.service';
 
@@ -27,7 +28,8 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     QuestionNodeComponent,
     ActionNodeComponent,
     StartNodeComponent,
-    OutputNodeComponent
+    OutputNodeComponent,
+    DataFlowModuleComponent
   ],
   entryComponents: [
     LcuDataFlowDataFlowManagerElementComponent,
@@ -37,7 +39,8 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     QuestionNodeComponent,
     ActionNodeComponent,
     StartNodeComponent,
-    OutputNodeComponent
+    OutputNodeComponent,
+    DataFlowModuleComponent
   ],
   exports: [
     LcuDataFlowDataFlowManagerElementComponent,
@@ -47,7 +50,8 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     QuestionNodeComponent,
     ActionNodeComponent,
     StartNodeComponent,
-    OutputNodeComponent
+    OutputNodeComponent,
+    DataFlowModuleComponent
   ],
   imports: [
     FathymSharedModule,

@@ -8,7 +8,8 @@ import {
   StartNodeComponent,
   QuestionNodeComponent,
   OutputNodeComponent,
-  ActionNodeComponent
+  ActionNodeComponent,
+  DataFlowModuleComponent
 } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 
@@ -40,13 +41,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   public Surface: Surface;
 
-  @Input('data-flow-lookup')
-  public DataFlowLookup: string;
-
   public Toolkit: jsPlumbToolkit;
-
-  @Input('toolkit-id')
-  public ToolkitID: string;
 
   public State: DataFlowManagerState;
 
@@ -61,6 +56,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
             this.ToggleSelection(params.node);
           }
         }
+      },
+      'data-flow': {
+        parent: 'selectable',
+        component: DataFlowModuleComponent
       },
       question: {
         parent: 'selectable',
@@ -331,8 +330,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
       this.handleStateChanged();
     });
-
-    this.Toolkit = this.$jsplumb.getToolkit(this.ToolkitID, this.ToolkitParams);
   }
 
   //  API Methods
@@ -367,5 +364,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   //  Helpers
-  protected handleStateChanged() {}
+  protected handleStateChanged() {
+    this.Toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+  }
 }
