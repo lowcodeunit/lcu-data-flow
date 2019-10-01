@@ -22,9 +22,10 @@
           <ng-container *ngIf="GetDisplay(option.ModuleType); let display">
             <div class="option">
               <a
+                fxFlex
                 mat-raised-button
                 color="accent"
-                class="bank-module mat-full-width"
+                class="bank-module flow-option"
                 [attr.module-height]="display.Height"
                 [attr.module-type]="option.ModuleType"
                 [attr.module-width]="display.Width"
