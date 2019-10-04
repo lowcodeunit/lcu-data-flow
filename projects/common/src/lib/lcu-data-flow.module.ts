@@ -18,6 +18,7 @@ import {
   DataFlowModuleComponent
 } from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-toolkit-io.service';
+import { LcuDataFlowDataFlowAnalyticsElementComponent } from './elements/data-flow-analytics/data-flow-analytics.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     LcuDataFlowDataFlowListElementComponent,
     LcuDataFlowDataFlowIdeElementComponent,
     LcuDataFlowDataFlowModulesBankElementComponent,
+    LcuDataFlowDataFlowAnalyticsElementComponent,
     QuestionNodeComponent,
     ActionNodeComponent,
     StartNodeComponent,
@@ -36,6 +38,7 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     LcuDataFlowDataFlowListElementComponent,
     LcuDataFlowDataFlowIdeElementComponent,
     LcuDataFlowDataFlowModulesBankElementComponent,
+    LcuDataFlowDataFlowAnalyticsElementComponent,
     QuestionNodeComponent,
     ActionNodeComponent,
     StartNodeComponent,
@@ -47,6 +50,7 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     LcuDataFlowDataFlowListElementComponent,
     LcuDataFlowDataFlowIdeElementComponent,
     LcuDataFlowDataFlowModulesBankElementComponent,
+    LcuDataFlowDataFlowAnalyticsElementComponent,
     QuestionNodeComponent,
     ActionNodeComponent,
     StartNodeComponent,

@@ -6,7 +6,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import {
   LcuDataFlowModule,
   LcuDataFlowDataFlowManagerElementComponent,
-  SelectorLcuDataFlowDataFlowManagerElement
+  SelectorLcuDataFlowDataFlowManagerElement,
+  LcuDataFlowDataFlowAnalyticsElementComponent,
+  SelectorLcuDataFlowDataFlowAnalyticsElement
 } from '@napkin-ide/lcu-data-flow-common';
 
 @NgModule({
@@ -20,6 +22,10 @@ export class AppModule implements DoBootstrap {
 
   //  Life Cycle
   public ngDoBootstrap() {
+    const dsMgr = createCustomElement(LcuDataFlowDataFlowAnalyticsElementComponent, { injector: this.injector });
+
+    customElements.define(SelectorLcuDataFlowDataFlowAnalyticsElement, dsMgr);
+
     const dfMgr = createCustomElement(LcuDataFlowDataFlowManagerElementComponent, { injector: this.injector });
 
     customElements.define(SelectorLcuDataFlowDataFlowManagerElement, dfMgr);

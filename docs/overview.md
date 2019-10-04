@@ -1,10 +1,10 @@
-# DataFlowModulesBank Overview
+# DataFlowAnalytics Overview
 
-DataFlowModulesBank ...
+DataFlowAnalytics ...
 
-## Getting Started with DataFlowModulesBank
+## Getting Started with DataFlowAnalytics
 
-Getting started with DataFlowModulesBank ...
+Getting started with DataFlowAnalytics ...
 
 ### Example
 
