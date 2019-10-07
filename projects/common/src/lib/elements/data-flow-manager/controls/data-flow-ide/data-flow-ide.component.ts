@@ -5,10 +5,6 @@ import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-m
 import { jsPlumbSurfaceComponent, AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil, LayoutSpec, SurfaceMode } from 'jsplumbtoolkit';
 import {
-  StartNodeComponent,
-  QuestionNodeComponent,
-  OutputNodeComponent,
-  ActionNodeComponent,
   DataFlowModuleComponent
 } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';

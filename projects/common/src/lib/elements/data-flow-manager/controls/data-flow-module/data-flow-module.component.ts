@@ -46,26 +46,6 @@ export class BaseDataFlowModuleComponent extends BaseNodeComponent {
   }
 }
 
-// ----------------- question node -------------------------------
-
-@Component({ templateUrl: 'question.html' })
-export class QuestionNodeComponent extends BaseDataFlowModuleComponent {}
-
-// ----------------- action node -------------------------------
-
-@Component({ templateUrl: 'action.html' })
-export class ActionNodeComponent extends BaseDataFlowModuleComponent {}
-
-// ----------------- start node -------------------------------
-
-@Component({ templateUrl: 'start.html' })
-export class StartNodeComponent extends BaseDataFlowModuleComponent {}
-
-// ----------------- output node -------------------------------
-
-@Component({ templateUrl: 'output.html' })
-export class OutputNodeComponent extends BaseDataFlowModuleComponent {}
-
 // -------------- /node components ------------------------------------
 
 @Component({
