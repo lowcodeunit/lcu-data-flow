@@ -87,34 +87,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   };
 
   public View: AngularViewOptions = {
-    nodes: {
-      start: {
-        component: StartNodeComponent
-      },
-      selectable: {
-        events: {
-          tap: (params: any) => {
-            this.ToggleSelection(params.node);
-          }
-        }
-      },
-      'data-flow': {
-        parent: 'selectable',
-        component: DataFlowModuleComponent
-      },
-      question: {
-        parent: 'selectable',
-        component: QuestionNodeComponent
-      },
-      output: {
-        parent: 'selectable',
-        component: OutputNodeComponent
-      },
-      action: {
-        parent: 'selectable',
-        component: ActionNodeComponent
-      }
-    },
+    nodes: {},
     edges: {
       default: {
         anchor: 'AutoDefault',
@@ -275,5 +248,24 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   //  Helpers
   protected handleStateChanged() {
     // this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+
+    this.View.nodes = {
+      selectable: {
+        events: {
+          tap: (params: any) => {
+            this.ToggleSelection(params.node);
+          }
+        }
+      }
+    };
+
+    if (this.State.ModuleOptions) {
+      this.State.ModuleOptions.forEach(option => {
+        this.View.nodes[option.ModuleType] = {
+          parent: 'selectable',
+          component: DataFlowModuleComponent
+        };
+      });
+    }
   }
 }
