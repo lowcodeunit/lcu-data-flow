@@ -1,7 +1,19 @@
 import { Injectable } from '@angular/core';
-import { jsPlumbToolkitIO, Surface, LayoutSpec } from 'jsplumbtoolkit';
-import { DataFlow, DataFlowOutput, DataFlowModule } from '@lcu/common';
+import {
+  jsPlumbToolkitIO,
+  Surface,
+  LayoutSpec,
+  jsPlumbInstance,
+  Dialogs,
+  jsPlumbUtil,
+  jsPlumbToolkitOptions,
+  SurfaceRenderParams
+} from 'jsplumbtoolkit';
+import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption } from '@lcu/common';
 import { isString } from 'util';
+import { jsPlumbToolkit } from 'jsplumbtoolkit';
+import { AngularViewOptions } from 'jsplumbtoolkit-angular';
+import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +35,15 @@ export class DataFlowJSPlumbToolkitIOService {
   }
 
   // 	API Methods
+  public ExportFromSurface(surface: Surface): DataFlowOutput {
+    const toolkit = surface.getToolkit();
+
+    return toolkit.exportData({
+      type: 'data-flow-output',
+      parameters: {}
+    });
+  }
+
   public LoadOntoSurface(surface: Surface, output: DataFlowOutput, layoutSpec: LayoutSpec | string = null) {
     if (!layoutSpec) {
       layoutSpec = this.loadDefaultLayoutSpec();
@@ -46,17 +67,146 @@ export class DataFlowJSPlumbToolkitIOService {
     });
   }
 
-  public ExportFromSurface(surface: Surface): DataFlowOutput {
-    const toolkit = surface.getToolkit();
+  public LoadRenderParams(toolkit: jsPlumbToolkit, layoutType: string = 'Spring'): SurfaceRenderParams {
+    return {
+      layout: {
+        type: layoutType
+      },
+      events: {
+        edgeAdded: (params: any) => {
+          this.edgeAdded(params, toolkit);
+        }
+      },
+      consumeRightClick: false,
+      dragOptions: {
+        filter: '.jtk-draw-handle, .node-action, .node-action i, .bank-module'
+      }
+    };
+  }
 
-    return toolkit.exportData({
-      type: 'data-flow-output',
-      parameters: {}
-    });
+  public LoadToolkitParams(toolkit: jsPlumbToolkit): jsPlumbToolkitOptions {
+    return {
+      nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
+        this.nodeFactory(type, data, callback, toolkit);
+      },
+      beforeStartConnect: (node: any, edgeType: string) => {
+        this.beforeStartConnect(node, edgeType, toolkit);
+      }
+    };
+  }
+
+  public LoadView(toolkit: jsPlumbToolkit): AngularViewOptions {
+    const view: AngularViewOptions = {
+      nodes: {},
+      edges: {
+        default: {
+          anchor: 'AutoDefault',
+          endpoint: 'Blank',
+          connector: ['Flowchart', { cornerRadius: 5 }],
+          paintStyle: { strokeWidth: 2, stroke: 'rgb(132, 172, 179)', outlineWidth: 3, outlineStroke: 'transparent' },
+          hoverPaintStyle: { strokeWidth: 2, stroke: 'rgb(67,67,67)' }, // hover paint style for this edge type.
+          events: {
+            dblclick: (params: any) => {
+              this.edgeDoubleClicked(params, toolkit);
+            }
+          },
+          overlays: [['Arrow', { location: 1, width: 10, length: 10 }], ['Arrow', { location: 0.3, width: 10, length: 10 }]]
+        },
+        connection: {
+          parent: 'default',
+          overlays: [
+            [
+              'Label',
+              {
+                label: '${label}',
+                events: {
+                  click: (params: any) => {
+                    this.editLabel(params.edge, toolkit);
+                  }
+                }
+              }
+            ]
+          ]
+        }
+      },
+      ports: {
+        start: {
+          endpoint: 'Blank',
+          anchor: 'Continuous',
+          uniqueEndpoint: true,
+          edgeType: 'default'
+        },
+        source: {
+          endpoint: 'Blank',
+          paintStyle: { fill: '#84acb3' },
+          anchor: 'AutoDefault',
+          maxConnections: -1,
+          edgeType: 'connection'
+        },
+        target: {
+          maxConnections: -1,
+          endpoint: 'Blank',
+          anchor: 'AutoDefault',
+          paintStyle: { fill: '#84acb3' },
+          isTarget: true
+        }
+      }
+    };
+
+    return view;
+  }
+
+  public SetViewNodes(toolkit: jsPlumbToolkit, options: DataFlowModuleOption[], view: AngularViewOptions) {
+    if (toolkit && options && view) {
+      view.nodes = {
+        selectable: {
+          events: {
+            tap: (params: any) => {
+              this.toggleSelection(params.node, toolkit);
+            }
+          }
+        }
+      };
+
+      if (options) {
+        options.forEach(option => {
+          view.nodes[option.ModuleType] = {
+            parent: 'selectable',
+            component: DataFlowModuleComponent
+          };
+        });
+      }
+    }
   }
 
   // 	Helpers
-  protected exportOutput(toolkit: any, params: {}) {
+  protected beforeStartConnect(node: any, edgeType: string, toolkit: jsPlumbToolkit) {
+    return { label: '...' };
+  }
+
+  protected edgeAdded(params: any, toolkit: jsPlumbToolkit) {
+    if (params.addedByMouse) {
+      this.editLabel(params.edge, toolkit);
+    }
+  }
+
+  protected edgeDoubleClicked(edge: any, toolkit: jsPlumbToolkit) {
+    this.removeEdge(edge, toolkit);
+  }
+
+  protected editLabel(edge: any, toolkit: jsPlumbToolkit) {
+    Dialogs.show({
+      id: 'dlgText',
+      data: {
+        text: edge.data.label || ''
+      },
+      onOK: (data: any) => {
+        toolkit.updateEdge(edge, { label: data.text });
+      }
+    });
+  }
+
+  protected exportOutput(toolkit: jsPlumbToolkit, params: {}) {
     const nodes = toolkit.getNodes();
 
     const edges = toolkit.getAllEdges();
@@ -108,8 +258,33 @@ export class DataFlowJSPlumbToolkitIOService {
     };
   }
 
-  protected parseOutput(output: DataFlowOutput, toolkit: any, params: {}) {
+  protected nodeFactory(type: string, data: any, callback: (data: object) => void, toolkit: jsPlumbToolkit) {
+    Dialogs.show({
+      id: 'dlgText',
+      title: 'Enter ' + type + ' name:',
+      onOK: (d: any) => {
+        data.text = d.text;
+        // if the user entered a name...
+        if (data.text) {
+          // and it was at least 2 chars
+          if (data.text.length >= 2) {
+            // set an id and continue.
+            data.id = jsPlumbUtil.uuid();
+
+            callback(data);
+          } else {
+            alert(type + ' names must be at least 2 characters!');
+          }
+        }
+        // else...do not proceed.
+      }
+    });
+  }
+
+  protected parseOutput(output: DataFlowOutput, toolkit: jsPlumbToolkit, params: {}) {
     if (output) {
+      toolkit.clear();
+
       output.Modules.filter(item => {
         return !item.Deleted;
       }).forEach(item => {
@@ -139,6 +314,14 @@ export class DataFlowJSPlumbToolkitIOService {
         });
       });
     }
+  }
+
+  protected removeEdge(edge: any, toolkit: jsPlumbToolkit) {
+    toolkit.removeEdge(edge);
+  }
+
+  protected toggleSelection(node: any, toolkit: jsPlumbToolkit) {
+    toolkit.toggleSelection(node);
   }
 }
 
