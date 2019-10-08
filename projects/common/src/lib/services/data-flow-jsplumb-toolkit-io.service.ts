@@ -67,16 +67,21 @@ export class DataFlowJSPlumbToolkitIOService {
     };
 
     nodes.forEach(item => {
-      console.log(item);
-
       const mdl: DataFlowModule = {
-        ...item
-        // ...item.data,
-        // ID: item.id,
-        // Text: item
+        ID: item.id,
+        Text: item.data.name,
+        Display: item.data.Display,
+        Deleted: item.data.Deleted,
+        Status: item.data.Status
       };
 
-      console.log(mdl);
+      mdl.Display.Left = item.data.left;
+
+      mdl.Display.Top = item.data.top;
+
+      mdl.Display.Width = item.data.w;
+
+      mdl.Display.Height = item.data.h;
 
       output.Modules.push(mdl);
     });

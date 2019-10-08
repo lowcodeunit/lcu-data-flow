@@ -30,10 +30,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   //  Properties
   public RenderParams = {
     layout: {
-      type: 'Spring',
-      locationFunction: (node: any) => {
-        return [node.data.Display.Top, node.data.Display.Left];
-      }
+      type: 'Spring'
     },
     events: {
       edgeAdded: (params: any) => {
