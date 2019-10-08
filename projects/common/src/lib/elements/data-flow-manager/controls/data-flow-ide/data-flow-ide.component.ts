@@ -41,7 +41,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     },
     consumeRightClick: false,
     dragOptions: {
-      filter: '.jtk-draw-handle, .node-action, .node-action i'
+      filter: '.jtk-draw-handle, .node-action, .node-action i, .bank-module'
     }
   };
 
