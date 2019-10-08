@@ -30,7 +30,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   //  Properties
   public RenderParams = {
     layout: {
-      type: 'Spring'
+      type: 'Spring',
+      locationFunction: (node: any) => {
+        return [node.data.Display.Top, node.data.Display.Left];
+      }
     },
     events: {
       edgeAdded: (params: any) => {
@@ -214,7 +217,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   public Relayout() {
-    this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
+    if (this.surface && this.State.ActiveDataFlow) {
+      this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
+    }
   }
 
   public Save() {
@@ -241,8 +246,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   //  Helpers
   protected handleStateChanged() {
-    // this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
-
     this.View.nodes = {
       selectable: {
         events: {
@@ -260,10 +263,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
           component: DataFlowModuleComponent
         };
       });
+
+      console.log(this.View.nodes);
     }
 
-    if (this.surface && this.State.ActiveDataFlow) {
-      this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
-    }
+    this.Relayout();
   }
 }

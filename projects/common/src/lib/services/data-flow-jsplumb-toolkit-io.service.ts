@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { jsPlumbToolkitIO, Surface, LayoutSpec } from 'jsplumbtoolkit';
-import { DataFlow, DataFlowOutput } from '@lcu/common';
+import { DataFlow, DataFlowOutput, DataFlowModule } from '@lcu/common';
 import { isString } from 'util';
 
 @Injectable({
@@ -67,7 +67,18 @@ export class DataFlowJSPlumbToolkitIOService {
     };
 
     nodes.forEach(item => {
-      output.Modules.push(item.data);
+      console.log(item);
+
+      const mdl: DataFlowModule = {
+        ...item
+        // ...item.data,
+        // ID: item.id,
+        // Text: item
+      };
+
+      console.log(mdl);
+
+      output.Modules.push(mdl);
     });
 
     edges.forEach(item => {
@@ -97,13 +108,11 @@ export class DataFlowJSPlumbToolkitIOService {
       output.Modules.filter(item => {
         return !item.Deleted;
       }).forEach(item => {
-        console.log(item);
-
         const jspItem = {
           ...item,
           id: item.ID,
           name: item.Text,
-          type: 'data-flow',
+          type: item.Display.ModuleType,
           left: item.Display.Left,
           top: item.Display.Top,
           w: item.Display.Width,
@@ -115,10 +124,10 @@ export class DataFlowJSPlumbToolkitIOService {
 
       output.Streams.forEach(item => {
         toolkit.addEdge({
-          id: item.ID,
           source: item.InputModuleID,
           target: item.OutputModuleID,
           data: {
+            id: item.ID,
             label: item.Title,
             type: 'connection'
           }
