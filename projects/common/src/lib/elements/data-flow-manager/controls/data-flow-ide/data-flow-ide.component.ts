@@ -4,9 +4,7 @@ import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.m
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { jsPlumbSurfaceComponent, AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil, LayoutSpec, SurfaceMode } from 'jsplumbtoolkit';
-import {
-  DataFlowModuleComponent
-} from '../data-flow-module/data-flow-module.component';
+import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 
 export class LcuDataFlowDataFlowIdeElementState {}
@@ -262,6 +260,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
           component: DataFlowModuleComponent
         };
       });
+    }
+
+    if (this.surface && this.State.ActiveDataFlow) {
+      this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
     }
   }
 }

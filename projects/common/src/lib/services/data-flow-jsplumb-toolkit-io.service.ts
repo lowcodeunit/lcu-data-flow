@@ -97,6 +97,8 @@ export class DataFlowJSPlumbToolkitIOService {
       output.Modules.filter(item => {
         return !item.Deleted;
       }).forEach(item => {
+        console.log(item);
+
         const jspItem = {
           ...item,
           id: item.ID,
