@@ -49,7 +49,27 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   public ToolkitParams: jsPlumbToolkitOptions;
 
-  public View: AngularViewOptions;
+  public View: AngularViewOptions = {
+    nodes: {
+      // start: {
+      //   component: StartNodeComponent
+      // },
+      'data-flow': {
+        component: DataFlowModuleComponent
+      },
+      selectable: {
+        events: {
+          tap: (params: any) => {
+            // this.ToggleSelection(params.node);
+          }
+        }
+      },
+      'data-stream': {
+        parent: 'selectable',
+        component: DataFlowModuleComponent
+      }
+    }
+  };
 
   //  Constructors
   constructor(
@@ -72,6 +92,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.drawing = new DrawingTools({
       renderer: this.surface
     });
+
+    this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
     await this.Relayout();
   }
@@ -164,8 +186,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.ToolkitParams = this.io.LoadToolkitParams();
 
     this.View = this.io.LoadView();
-
-    this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
     this.io.EdgeAdded.subscribe(params => {
       this.edgeAdded(params);
