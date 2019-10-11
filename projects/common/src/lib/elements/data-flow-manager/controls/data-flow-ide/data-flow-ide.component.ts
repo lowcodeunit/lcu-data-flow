@@ -164,7 +164,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     });
 
     this.io.EdgeLabelClicked.subscribe(params => {
-      this.editLabel(params);
+      this.editLabel(params.edge);
     });
 
     this.io.ToggleSelection.subscribe(params => {
