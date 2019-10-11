@@ -47,6 +47,8 @@ export class DataFlowJSPlumbToolkitIOService {
 
     this.NodeAdded = new EventEmitter();
 
+    this.NodeFactoried = new EventEmitter();
+
     this.ToggleSelection = new EventEmitter();
 
     // jsPlumbToolkitIO.parsers.fathymIOSchema = this.ParseSchemaFlow;

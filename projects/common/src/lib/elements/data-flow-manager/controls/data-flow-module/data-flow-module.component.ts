@@ -11,24 +11,6 @@ function isNode(obj: any): obj is Node {
  * This is the base class for editable nodes in this demo. It extends `BaseNodeComponent`
  */
 export class BaseDataFlowModuleComponent extends BaseNodeComponent {
-  public removeNode() {
-    const obj = this.getNode();
-
-    if (obj != null) {
-      if (isNode(obj)) {
-        Dialogs.show({
-          id: 'dlgConfirm',
-          data: {
-            msg: "Delete '" + obj.data.text + "'"
-          },
-          onOK: () => {
-            this.toolkit.removeNode(obj); // <Node> obj);
-          }
-        });
-      }
-    }
-  }
-
   public editNode() {
     const obj = this.getNode();
     Dialogs.show({
@@ -73,8 +55,7 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
   }
 
   // 	Runtime
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   // 	API Methods
   public Abs(input: number) {
@@ -85,6 +66,20 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
     this.ManageEvent.emit({
       ...this.Module
     });
+  }
+
+  public RemoveNode() {
+    if (this.Module != null) {
+      Dialogs.show({
+        id: 'dlgConfirm',
+        data: {
+          msg: `Delete '${this.Module.Text}'?`
+        },
+        onOK: () => {
+          this.toolkit.removeNode(this.obj);
+        }
+      });
+    }
   }
 
   // 	Helpers
