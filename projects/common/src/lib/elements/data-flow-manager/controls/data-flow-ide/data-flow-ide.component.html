@@ -1,5 +1,5 @@
 <div class="data-flow-ide-container">
-  <mat-drawer-container>
+  <mat-drawer-container *ngIf="State?.ModuleOptions?.length > 0">
     <mat-drawer-content>
       <div class="home-actions">
         <a mat-mini-fab color="accent" title="Data Flows Home" (click)="CancelActive()">
