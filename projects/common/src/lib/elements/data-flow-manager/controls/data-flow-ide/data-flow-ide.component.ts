@@ -18,6 +18,7 @@ import {
 } from 'jsplumbtoolkit';
 import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
+import { DataFlowNodeFactoryParams } from '../../../../services/DataFlowNodeFactoryParams';
 
 export class LcuDataFlowDataFlowIdeElementState {}
 
@@ -153,39 +154,67 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   protected async handleStateChanged() {
+    this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+
     this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
     await this.Relayout(true);
   }
 
-  protected nodeAdded(node: Node) {
-    if (!node.data.Text) {
-      Dialogs.show({
-        id: 'dlgText',
-        title: `Enter ${node.data.type} name:`,
-        onOK: (d: any) => {
-          const data = {
-            ...node.data,
-            name: d.text,
-            Text: d.text
-          };
+  protected nodeAdded(node: { type: string; data: any; callback: (data: object) => void }) {}
 
-          if (data.name) {
-            if (data.name.length >= 2) {
-              data.id = jsPlumbUtil.uuid();
+  protected nodeFactory(params: DataFlowNodeFactoryParams) {
+    Dialogs.show({
+      id: 'dlgText',
+      title: `Enter ${params.Data.type} name:`,
+      onOK: (d: any) => {
+        const data = {
+          ...params.Data,
+          name: d.text,
+          Text: d.text
+        };
 
-              this.toolkit.updateNode(node, data);
-            } else {
-              alert(`${data.type} names must be at least 2 characters!`);
+        data.text = d.text;
 
-              this.nodeAdded(node);
-            }
+        if (data.text) {
+          if (data.text.length >= 2) {
+            data.id = jsPlumbUtil.uuid();
+
+            params.Callback(data);
           } else {
-            this.toolkit.removeNode(node);
+            alert(`${data.type} names must be at least 2 characters!`);
           }
         }
-      });
-    }
+        // else...do not proceed.
+      }
+    });
+    // if (!node.data.Text) {
+    //   Dialogs.show({
+    //     id: 'dlgText',
+    //     title: `Enter ${node.data.type} name:`,
+    //     onOK: (d: any) => {
+    //       const data = {
+    //         ...node.data,
+    //         name: d.text,
+    //         Text: d.text
+    //       };
+
+    //       if (data.name) {
+    //         if (data.name.length >= 2) {
+    //           data.id = jsPlumbUtil.uuid();
+
+    //           this.toolkit.updateNode(node, data);
+    //         } else {
+    //           alert(`${data.type} names must be at least 2 characters!`);
+
+    //           this.nodeAdded(node);
+    //         }
+    //       } else {
+    //         this.toolkit.removeNode(node);
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   protected removeEdge(edge: any) {
@@ -216,7 +245,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     });
 
     this.io.NodeFactoried.subscribe(params => {
-      alert(`Node factoried ${params.type}`);
+      this.nodeFactory(params);
     });
 
     this.io.ToggleSelection.subscribe(params => {

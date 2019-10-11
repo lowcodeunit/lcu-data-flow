@@ -13,6 +13,7 @@ import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption } from '
 import { isString } from 'util';
 import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
+import { DataFlowNodeFactoryParams } from './DataFlowNodeFactoryParams';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class DataFlowJSPlumbToolkitIOService {
 
   public NodeAdded: EventEmitter<any>;
 
-  public NodeFactoried: EventEmitter<{type: string, data: any, callback: (data: object) => void}>;
+  public NodeFactoried: EventEmitter<DataFlowNodeFactoryParams>;
 
   public ToggleSelection: EventEmitter<any>;
 
@@ -130,7 +131,7 @@ export class DataFlowJSPlumbToolkitIOService {
   public LoadToolkitParams(): jsPlumbToolkitOptions {
     return {
       nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
-        this.NodeFactoried.emit({ type, data, callback });
+        this.NodeFactoried.emit({ Type: type, Data: data, Callback: callback });
       },
       beforeStartConnect: (node: any, edgeType: string) => {
         this.beforeStartConnect(node, edgeType);
