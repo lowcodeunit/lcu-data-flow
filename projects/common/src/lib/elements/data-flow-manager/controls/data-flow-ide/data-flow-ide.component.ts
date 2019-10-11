@@ -49,27 +49,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   public ToolkitParams: jsPlumbToolkitOptions;
 
-  public View: AngularViewOptions = {
-    nodes: {
-      // start: {
-      //   component: StartNodeComponent
-      // },
-      'data-flow': {
-        component: DataFlowModuleComponent
-      },
-      selectable: {
-        events: {
-          tap: (params: any) => {
-            // this.ToggleSelection(params.node);
-          }
-        }
-      },
-      'data-stream': {
-        parent: 'selectable',
-        component: DataFlowModuleComponent
-      }
-    }
-  };
+  public View: AngularViewOptions;
 
   //  Constructors
   constructor(
