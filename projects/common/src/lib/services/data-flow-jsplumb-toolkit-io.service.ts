@@ -29,6 +29,8 @@ export class DataFlowJSPlumbToolkitIOService {
 
   public NodeAdded: EventEmitter<any>;
 
+  public NodeFactoried: EventEmitter<{type: string, data: any, callback: (data: object) => void}>;
+
   public ToggleSelection: EventEmitter<any>;
 
   // 	Constructors
@@ -70,14 +72,16 @@ export class DataFlowJSPlumbToolkitIOService {
     });
   }
 
-  public async LoadOntoSurface(surface: Surface, output: DataFlowOutput, layoutSpec: LayoutSpec | string = null) {
+  public async LoadOntoSurface(surface: Surface, output: DataFlowOutput, refreshOutput: boolean, layoutSpec: LayoutSpec | string = null) {
     if (!layoutSpec) {
       layoutSpec = this.loadDefaultLayoutSpec();
     } else if (isString(layoutSpec)) {
       layoutSpec = this.loadDefaultLayoutSpec(layoutSpec);
     }
 
-    await this.LoadOutput(surface, output);
+    if (refreshOutput) {
+      await this.LoadOutput(surface, output);
+    }
 
     surface.repaintEverything();
 
@@ -124,7 +128,7 @@ export class DataFlowJSPlumbToolkitIOService {
   public LoadToolkitParams(): jsPlumbToolkitOptions {
     return {
       nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
-        this.nodeFactory(type, data, callback);
+        this.NodeFactoried.emit({ type, data, callback });
       },
       beforeStartConnect: (node: any, edgeType: string) => {
         this.beforeStartConnect(node, edgeType);
@@ -271,9 +275,6 @@ export class DataFlowJSPlumbToolkitIOService {
         orientation: 'vertical'
       }
     };
-  }
-
-  protected nodeFactory(type: string, data: any, callback: (data: object) => void) {
   }
 
   protected parseOutput(output: DataFlowOutput, toolkit: jsPlumbToolkit, params: {}) {

@@ -77,7 +77,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
     this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
-    await this.Relayout();
+    await this.Relayout(true);
   }
 
   public ngOnDestroy() {
@@ -109,9 +109,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.state.DeployDataFlow(this.State.ActiveDataFlow.Lookup);
   }
 
-  public async Relayout() {
+  public async Relayout(refreshOutput: boolean = false) {
     if (this.surface && this.State.ActiveDataFlow) {
-      await this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output);
+      await this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output, refreshOutput);
     }
   }
 
@@ -155,7 +155,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected async handleStateChanged() {
     this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
-    await this.Relayout();
+    await this.Relayout(true);
   }
 
   protected nodeAdded(node: Node) {
@@ -164,17 +164,25 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
         id: 'dlgText',
         title: `Enter ${node.data.type} name:`,
         onOK: (d: any) => {
-          node.data.name = node.data.Text = d.text;
+          const data = {
+            ...node.data,
+            name: d.text,
+            Text: d.text
+          };
 
-          if (node.data.name) {
-            if (node.data.name.length >= 2) {
-              node.data.id = jsPlumbUtil.uuid();
+          if (data.name) {
+            if (data.name.length >= 2) {
+              data.id = jsPlumbUtil.uuid();
+
+              this.toolkit.updateNode(node, data);
             } else {
-              alert(`${node.data.type} names must be at least 2 characters!`);
-            }
-          }
+              alert(`${data.type} names must be at least 2 characters!`);
 
-          this.toolkit.updateNode(node, node.data);
+              this.nodeAdded(node);
+            }
+          } else {
+            this.toolkit.removeNode(node);
+          }
         }
       });
     }
@@ -205,6 +213,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
     this.io.NodeAdded.subscribe(params => {
       this.nodeAdded(params.node);
+    });
+
+    this.io.NodeFactoried.subscribe(params => {
+      alert(`Node factoried ${params.type}`);
     });
 
     this.io.ToggleSelection.subscribe(params => {
