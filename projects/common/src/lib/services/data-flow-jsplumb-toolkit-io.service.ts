@@ -52,7 +52,7 @@ export class DataFlowJSPlumbToolkitIOService {
   public async ExportFromSurface(surface: Surface) {
     const toolkit = surface.getToolkit();
 
-    return <DataFlowOutput>toolkit.exportData({
+    return <DataFlowOutput> toolkit.exportData({
       type: 'data-flow-output',
       parameters: {}
     });
@@ -77,7 +77,7 @@ export class DataFlowJSPlumbToolkitIOService {
 
     surface.repaintEverything();
 
-    surface.setLayout(<LayoutSpec>layoutSpec);
+    surface.setLayout(<LayoutSpec> layoutSpec);
 
     surface.zoomToFit();
   }
@@ -117,7 +117,9 @@ export class DataFlowJSPlumbToolkitIOService {
   public LoadToolkitParams(): jsPlumbToolkitOptions {
     return {
       nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
-        this.nodeFactory(type, data, callback);
+        alert('Node Factory');
+
+        // this.nodeFactory(type, data, callback);
       },
       beforeStartConnect: (node: any, edgeType: string) => {
         this.beforeStartConnect(node, edgeType);
@@ -257,7 +259,7 @@ export class DataFlowJSPlumbToolkitIOService {
   }
 
   protected loadDefaultLayoutSpec(type: string = 'Hierarchical') {
-    return <LayoutSpec>{
+    return <LayoutSpec> {
       type,
       parameters: {
         padding: [150, 150],
