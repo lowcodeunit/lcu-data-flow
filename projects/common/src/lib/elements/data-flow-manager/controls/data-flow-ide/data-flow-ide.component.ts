@@ -3,7 +3,17 @@ import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { jsPlumbSurfaceComponent, AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
-import { Surface, jsPlumbToolkit, Dialogs, DrawingTools, jsPlumbUtil, LayoutSpec, SurfaceMode, SurfaceRenderParams, jsPlumbToolkitOptions } from 'jsplumbtoolkit';
+import {
+  Surface,
+  jsPlumbToolkit,
+  Dialogs,
+  DrawingTools,
+  jsPlumbUtil,
+  LayoutSpec,
+  SurfaceMode,
+  SurfaceRenderParams,
+  jsPlumbToolkitOptions
+} from 'jsplumbtoolkit';
 import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 
@@ -154,6 +164,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.ToolkitParams = this.io.LoadToolkitParams();
 
     this.View = this.io.LoadView();
+
+    this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
     this.io.EdgeAdded.subscribe(params => {
       this.edgeAdded(params);
