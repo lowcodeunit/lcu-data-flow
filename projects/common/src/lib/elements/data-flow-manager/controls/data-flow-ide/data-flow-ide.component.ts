@@ -12,7 +12,9 @@ import {
   LayoutSpec,
   SurfaceMode,
   SurfaceRenderParams,
-  jsPlumbToolkitOptions
+  jsPlumbToolkitOptions,
+  Node,
+  Edge
 } from 'jsplumbtoolkit';
 import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
@@ -138,7 +140,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     }
   }
 
-  protected editLabel(edge: any) {
+  protected editLabel(edge: Edge) {
     Dialogs.show({
       id: 'dlgText',
       data: {
@@ -154,6 +156,28 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
     await this.Relayout();
+  }
+
+  protected nodeAdded(node: Node) {
+    if (!node.data.Text) {
+      Dialogs.show({
+        id: 'dlgText',
+        title: `Enter ${node.data.type} name:`,
+        onOK: (d: any) => {
+          node.data.name = node.data.Text = d.text;
+
+          if (node.data.name) {
+            if (node.data.name.length >= 2) {
+              node.data.id = jsPlumbUtil.uuid();
+            } else {
+              alert(`${node.data.type} names must be at least 2 characters!`);
+            }
+          }
+
+          this.toolkit.updateNode(node, node.data);
+        }
+      });
+    }
   }
 
   protected removeEdge(edge: any) {
@@ -177,6 +201,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
     this.io.EdgeLabelClicked.subscribe(params => {
       this.editLabel(params.edge);
+    });
+
+    this.io.NodeAdded.subscribe(params => {
+      this.nodeAdded(params.node);
     });
 
     this.io.ToggleSelection.subscribe(params => {

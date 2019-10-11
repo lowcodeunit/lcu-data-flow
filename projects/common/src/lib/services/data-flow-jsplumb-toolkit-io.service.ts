@@ -27,6 +27,8 @@ export class DataFlowJSPlumbToolkitIOService {
 
   public EdgeLabelClicked: EventEmitter<any>;
 
+  public NodeAdded: EventEmitter<any>;
+
   public ToggleSelection: EventEmitter<any>;
 
   // 	Constructors
@@ -40,6 +42,8 @@ export class DataFlowJSPlumbToolkitIOService {
     this.EdgeDoubleClicked = new EventEmitter();
 
     this.EdgeLabelClicked = new EventEmitter();
+
+    this.NodeAdded = new EventEmitter();
 
     this.ToggleSelection = new EventEmitter();
 
@@ -105,6 +109,9 @@ export class DataFlowJSPlumbToolkitIOService {
       events: {
         edgeAdded: (params: any) => {
           this.EdgeAdded.emit(params);
+        },
+        nodeAdded: (params: any) => {
+          this.NodeAdded.emit(params);
         }
       },
       consumeRightClick: false,
@@ -117,9 +124,7 @@ export class DataFlowJSPlumbToolkitIOService {
   public LoadToolkitParams(): jsPlumbToolkitOptions {
     return {
       nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
-        alert('Node Factory');
-
-        // this.nodeFactory(type, data, callback);
+        this.nodeFactory(type, data, callback);
       },
       beforeStartConnect: (node: any, edgeType: string) => {
         this.beforeStartConnect(node, edgeType);
@@ -269,26 +274,6 @@ export class DataFlowJSPlumbToolkitIOService {
   }
 
   protected nodeFactory(type: string, data: any, callback: (data: object) => void) {
-    Dialogs.show({
-      id: 'dlgText',
-      title: 'Enter ' + type + ' name:',
-      onOK: (d: any) => {
-        data.text = d.text;
-        // if the user entered a name...
-        if (data.text) {
-          // and it was at least 2 chars
-          if (data.text.length >= 2) {
-            // set an id and continue.
-            data.id = jsPlumbUtil.uuid();
-
-            callback(data);
-          } else {
-            alert(type + ' names must be at least 2 characters!');
-          }
-        }
-        // else...do not proceed.
-      }
-    });
   }
 
   protected parseOutput(output: DataFlowOutput, toolkit: jsPlumbToolkit, params: {}) {
