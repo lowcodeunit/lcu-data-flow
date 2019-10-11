@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import {
   jsPlumbToolkitIO,
   Surface,
   LayoutSpec,
-  jsPlumbInstance,
+  jsPlumbToolkit,
   Dialogs,
   jsPlumbUtil,
   jsPlumbToolkitOptions,
@@ -11,7 +11,6 @@ import {
 } from 'jsplumbtoolkit';
 import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption } from '@lcu/common';
 import { isString } from 'util';
-import { jsPlumbToolkit } from 'jsplumbtoolkit';
 import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 
@@ -22,6 +21,13 @@ export class DataFlowJSPlumbToolkitIOService {
   // 	Fields
 
   //  Properties
+  public EdgeAdded: EventEmitter<any>;
+
+  public EdgeDoubleClicked: EventEmitter<any>;
+
+  public EdgeLabelClicked: EventEmitter<any>;
+
+  public ToggleSelection: EventEmitter<any>;
 
   // 	Constructors
   constructor(protected jsPlumb: jsPlumbService) {
@@ -29,15 +35,21 @@ export class DataFlowJSPlumbToolkitIOService {
 
     jsPlumbToolkitIO.exporters['data-flow-output'] = this.exportOutput;
 
+    this.EdgeAdded = new EventEmitter();
+
+    this.EdgeDoubleClicked = new EventEmitter();
+
+    this.EdgeLabelClicked = new EventEmitter();
+
+    this.ToggleSelection = new EventEmitter();
+
     // jsPlumbToolkitIO.parsers.fathymIOSchema = this.ParseSchemaFlow;
 
     // jsPlumbToolkitIO.exporters.fathymIOSchema = this.MapSchemaFlow;
   }
 
   // 	API Methods
-  public async ExportFromSurface(surfaceId: string) {
-    const surface = await this.GetSurface(surfaceId);
-
+  public async ExportFromSurface(surface: Surface) {
     const toolkit = surface.getToolkit();
 
     return <DataFlowOutput>toolkit.exportData({
@@ -54,9 +66,7 @@ export class DataFlowJSPlumbToolkitIOService {
     });
   }
 
-  public async LoadOntoSurface(surfaceId: string, output: DataFlowOutput, layoutSpec: LayoutSpec | string = null) {
-    const surface = await this.GetSurface(surfaceId);
-
+  public async LoadOntoSurface(surface: Surface, output: DataFlowOutput, layoutSpec: LayoutSpec | string = null) {
     if (!layoutSpec) {
       layoutSpec = this.loadDefaultLayoutSpec();
     } else if (isString(layoutSpec)) {
@@ -87,14 +97,14 @@ export class DataFlowJSPlumbToolkitIOService {
     });
   }
 
-  public LoadRenderParams(toolkit: jsPlumbToolkit, layoutType: string = 'Spring'): SurfaceRenderParams {
+  public LoadRenderParams(layoutType: string = 'Spring'): SurfaceRenderParams {
     return {
       layout: {
         type: layoutType
       },
       events: {
         edgeAdded: (params: any) => {
-          this.edgeAdded(params, toolkit);
+          this.EdgeAdded.emit(params);
         }
       },
       consumeRightClick: false,
@@ -104,18 +114,18 @@ export class DataFlowJSPlumbToolkitIOService {
     };
   }
 
-  public LoadToolkitParams(toolkit: jsPlumbToolkit): jsPlumbToolkitOptions {
+  public LoadToolkitParams(): jsPlumbToolkitOptions {
     return {
       nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
-        this.nodeFactory(type, data, callback, toolkit);
+        this.nodeFactory(type, data, callback);
       },
       beforeStartConnect: (node: any, edgeType: string) => {
-        this.beforeStartConnect(node, edgeType, toolkit);
+        this.beforeStartConnect(node, edgeType);
       }
     };
   }
 
-  public LoadView(toolkit: jsPlumbToolkit): AngularViewOptions {
+  public LoadView(): AngularViewOptions {
     const view: AngularViewOptions = {
       nodes: {},
       edges: {
@@ -127,7 +137,7 @@ export class DataFlowJSPlumbToolkitIOService {
           hoverPaintStyle: { strokeWidth: 2, stroke: 'rgb(67,67,67)' }, // hover paint style for this edge type.
           events: {
             dblclick: (params: any) => {
-              this.edgeDoubleClicked(params, toolkit);
+              this.EdgeDoubleClicked.emit(params);
             }
           },
           overlays: [['Arrow', { location: 1, width: 10, length: 10 }], ['Arrow', { location: 0.3, width: 10, length: 10 }]]
@@ -141,7 +151,7 @@ export class DataFlowJSPlumbToolkitIOService {
                 label: '${label}',
                 events: {
                   click: (params: any) => {
-                    this.editLabel(params.edge, toolkit);
+                    this.EdgeLabelClicked.emit(params);
                   }
                 }
               }
@@ -176,13 +186,13 @@ export class DataFlowJSPlumbToolkitIOService {
     return view;
   }
 
-  public SetViewNodes(toolkit: jsPlumbToolkit, options: DataFlowModuleOption[], view: AngularViewOptions) {
-    if (toolkit && options && view) {
+  public SetViewNodes(options: DataFlowModuleOption[], view: AngularViewOptions, comp: any = DataFlowModuleComponent) {
+    if (options && view) {
       view.nodes = {
         selectable: {
           events: {
             tap: (params: any) => {
-              this.toggleSelection(params.node, toolkit);
+              this.ToggleSelection.emit(params);
             }
           }
         }
@@ -192,7 +202,7 @@ export class DataFlowJSPlumbToolkitIOService {
         options.forEach(option => {
           view.nodes[option.ModuleType] = {
             parent: 'selectable',
-            component: DataFlowModuleComponent
+            component: comp
           };
         });
       }
@@ -200,30 +210,8 @@ export class DataFlowJSPlumbToolkitIOService {
   }
 
   // 	Helpers
-  protected beforeStartConnect(node: any, edgeType: string, toolkit: jsPlumbToolkit) {
+  protected beforeStartConnect(node: any, edgeType: string) {
     return { label: '...' };
-  }
-
-  protected edgeAdded(params: any, toolkit: jsPlumbToolkit) {
-    if (params.addedByMouse) {
-      this.editLabel(params.edge, toolkit);
-    }
-  }
-
-  protected edgeDoubleClicked(edge: any, toolkit: jsPlumbToolkit) {
-    this.removeEdge(edge, toolkit);
-  }
-
-  protected editLabel(edge: any, toolkit: jsPlumbToolkit) {
-    Dialogs.show({
-      id: 'dlgText',
-      data: {
-        text: edge.data.label || ''
-      },
-      onOK: (data: any) => {
-        toolkit.updateEdge(edge, { label: data.text });
-      }
-    });
   }
 
   protected exportOutput(toolkit: jsPlumbToolkit, params: {}) {
@@ -278,7 +266,7 @@ export class DataFlowJSPlumbToolkitIOService {
     };
   }
 
-  protected nodeFactory(type: string, data: any, callback: (data: object) => void, toolkit: jsPlumbToolkit) {
+  protected nodeFactory(type: string, data: any, callback: (data: object) => void) {
     Dialogs.show({
       id: 'dlgText',
       title: 'Enter ' + type + ' name:',
@@ -338,10 +326,6 @@ export class DataFlowJSPlumbToolkitIOService {
 
   protected removeEdge(edge: any, toolkit: jsPlumbToolkit) {
     toolkit.removeEdge(edge);
-  }
-
-  protected toggleSelection(node: any, toolkit: jsPlumbToolkit) {
-    toolkit.toggleSelection(node);
   }
 }
 

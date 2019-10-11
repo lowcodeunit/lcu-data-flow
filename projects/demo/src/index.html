@@ -1,29 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Data Flow Demo</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Data Flow Demo</title>
+    <base href="/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <script id="lcu-reg">
-    window.LCU = {
-      APIRoot: 'https://localhost:44387',
-      // APIRoot: 'https://www.fathym-int.com',
-      Application: {
-        ID: ''
-      },
-      State: {
-        Environment: 'local',
-        UsernameMock: 'michael.gearhardt@fathym.com'
-      }
-    };
-  </script>
-</head>
-<body>
-  <lcu-root></lcu-root>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script id="lcu-reg">
+      window.LCU = {
+        APIRoot: 'https://localhost:44387',
+        // APIRoot: 'https://www.fathym-int.com',
+        Application: {
+          ID: ''
+        },
+        State: {
+          Environment: 'local',
+          UsernameMock: 'michael.gearhardt@fathym.com'
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <lcu-root></lcu-root>
+
+    <script type="jtk" class="dlg" id="dlgText" title="Enter Text">
+      <input type="text" size="50" jtk-focus jtk-att="text" value="${text}" jtk-commit="true"/>
+    </script>
+  </body>
 </html>
