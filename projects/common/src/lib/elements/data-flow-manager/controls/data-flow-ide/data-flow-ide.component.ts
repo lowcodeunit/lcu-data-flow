@@ -83,6 +83,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   public ngOnDestroy() {
     console.log('flowchart being destroyed');
+
+    //  TODO: Destroy all subscription, like state sub
   }
 
   public ngOnInit() {
@@ -156,9 +158,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected async handleStateChanged() {
     if (this.State.ActiveDataFlow) {
       this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
-    }
 
-    this.io.SetViewNodes(this.State.ModuleOptions, this.View);
+      this.io.SetViewNodes(this.State.ModuleOptions, this.View);
+    }
 
     await this.Relayout(true);
   }
