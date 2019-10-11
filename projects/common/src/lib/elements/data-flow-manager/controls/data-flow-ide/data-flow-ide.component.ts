@@ -154,7 +154,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   protected async handleStateChanged() {
-    this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+    if (this.State.ActiveDataFlow) {
+      this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+    }
 
     this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
