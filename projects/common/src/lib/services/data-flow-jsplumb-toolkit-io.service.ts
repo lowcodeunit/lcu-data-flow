@@ -12,7 +12,7 @@ import {
 import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption } from '@lcu/common';
 import { isString } from 'util';
 import { jsPlumbToolkit } from 'jsplumbtoolkit';
-import { AngularViewOptions } from 'jsplumbtoolkit-angular';
+import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class DataFlowJSPlumbToolkitIOService {
   //  Properties
 
   // 	Constructors
-  constructor() {
+  constructor(protected jsPlumb: jsPlumbService) {
     jsPlumbToolkitIO.parsers['data-flow-output'] = this.parseOutput;
 
     jsPlumbToolkitIO.exporters['data-flow-output'] = this.exportOutput;
@@ -35,35 +35,55 @@ export class DataFlowJSPlumbToolkitIOService {
   }
 
   // 	API Methods
-  public ExportFromSurface(surface: Surface): DataFlowOutput {
+  public async ExportFromSurface(surfaceId: string) {
+    const surface = await this.GetSurface(surfaceId);
+
     const toolkit = surface.getToolkit();
 
-    return toolkit.exportData({
+    return <DataFlowOutput>toolkit.exportData({
       type: 'data-flow-output',
       parameters: {}
     });
   }
 
-  public LoadOntoSurface(surface: Surface, output: DataFlowOutput, layoutSpec: LayoutSpec | string = null) {
+  public async GetSurface(surfaceId: string) {
+    return new Promise<Surface>(resolve => {
+      this.jsPlumb.getSurface(surfaceId, surface => {
+        resolve(surface);
+      });
+    });
+  }
+
+  public async LoadOntoSurface(surfaceId: string, output: DataFlowOutput, layoutSpec: LayoutSpec | string = null) {
+    const surface = await this.GetSurface(surfaceId);
+
     if (!layoutSpec) {
       layoutSpec = this.loadDefaultLayoutSpec();
     } else if (isString(layoutSpec)) {
       layoutSpec = this.loadDefaultLayoutSpec(layoutSpec);
     }
 
-    const toolkit = surface.getToolkit();
+    await this.LoadOutput(surface, output);
 
-    toolkit.load({
-      type: 'data-flow-output',
-      data: output,
-      parameters: {},
-      onload() {
-        surface.repaintEverything();
+    surface.repaintEverything();
 
-        surface.setLayout(<LayoutSpec> layoutSpec);
+    surface.setLayout(<LayoutSpec>layoutSpec);
 
-        surface.zoomToFit();
-      }
+    surface.zoomToFit();
+  }
+
+  public async LoadOutput(surface: Surface, output: DataFlowOutput) {
+    return new Promise<void>(resolve => {
+      const toolkit = surface.getToolkit();
+
+      toolkit.load({
+        type: 'data-flow-output',
+        data: output,
+        parameters: {},
+        onload() {
+          resolve();
+        }
+      });
     });
   }
 
@@ -249,7 +269,7 @@ export class DataFlowJSPlumbToolkitIOService {
   }
 
   protected loadDefaultLayoutSpec(type: string = 'Hierarchical') {
-    return <LayoutSpec> {
+    return <LayoutSpec>{
       type,
       parameters: {
         padding: [150, 150],
