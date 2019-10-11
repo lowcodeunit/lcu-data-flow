@@ -134,7 +134,7 @@ export class DataFlowJSPlumbToolkitIOService {
         this.NodeFactoried.emit({ Type: type, Data: data, Callback: callback });
       },
       beforeStartConnect: (node: any, edgeType: string) => {
-        this.beforeStartConnect(node, edgeType);
+        return this.beforeStartConnect(node, edgeType);
       }
     };
   }
