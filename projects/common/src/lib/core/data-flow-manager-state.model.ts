@@ -3,6 +3,8 @@ import { DataFlow, DataFlowModuleDisplay, DataFlowModuleOption, DataFlowModulePa
 export class DataFlowManagerState {
   public ActiveDataFlow?: DataFlow;
 
+  public AllowCreationModules?: boolean;
+
   public DataFlows?: DataFlow[];
 
   public EnvironmentLookup?: boolean;

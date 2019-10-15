@@ -18,7 +18,7 @@ import {
 } from 'jsplumbtoolkit';
 import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
-import { DataFlowNodeFactoryParams } from '../../../../services/DataFlowNodeFactoryParams';
+import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
 
 export class LcuDataFlowDataFlowIdeElementState {}
 
@@ -70,6 +70,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   public async ngAfterViewInit() {
     this.surface = this.SurfaceComponent.surface;
 
+    if (this.surface) {
     this.toolkit = this.surface.getToolkit();
 
     this.drawing = new DrawingTools({
@@ -79,6 +80,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
     await this.Relayout(true);
+    }
   }
 
   public ngOnDestroy() {
@@ -124,6 +126,12 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.State.ActiveDataFlow.Output = await this.io.ExportFromSurface(this.surface);
 
     this.state.SaveDataFlow(this.State.ActiveDataFlow);
+  }
+
+  public ToggleCreationModules() {
+    this.State.Loading = true;
+
+    this.state.ToggleCreationModules();
   }
 
   public ToggleSelectMode() {

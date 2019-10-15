@@ -13,7 +13,7 @@ import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption } from '
 import { isString } from 'util';
 import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
-import { DataFlowNodeFactoryParams } from './DataFlowNodeFactoryParams';
+import { DataFlowNodeFactoryParams } from '../models/DataFlowNodeFactoryParams';
 
 @Injectable({
   providedIn: 'root'
