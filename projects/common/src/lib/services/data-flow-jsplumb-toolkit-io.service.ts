@@ -146,7 +146,7 @@ export class DataFlowJSPlumbToolkitIOService {
         default: {
           anchor: 'AutoDefault',
           endpoint: 'Blank',
-          connector: ['Flowchart', { cornerRadius: 5 }],
+          connector: ['Flowchart', { cornerRadius: 5, anchors: ['Bottom', 'Top'] }],
           paintStyle: { strokeWidth: 2, stroke: 'rgb(132, 172, 179)', outlineWidth: 3, outlineStroke: 'transparent' },
           hoverPaintStyle: { strokeWidth: 2, stroke: 'rgb(67,67,67)' }, // hover paint style for this edge type.
           events: {
@@ -225,7 +225,7 @@ export class DataFlowJSPlumbToolkitIOService {
 
   // 	Helpers
   protected beforeStartConnect(node: any, edgeType: string) {
-    return { label: '...' };
+    return { label: '' };
   }
 
   protected exportOutput(toolkit: jsPlumbToolkit, params: {}) {
