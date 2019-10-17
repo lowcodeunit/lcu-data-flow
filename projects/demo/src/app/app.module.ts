@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,7 +27,7 @@ import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
-import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
+// import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,7 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     FlexLayoutModule,
     FathymSharedModule.forRoot(),
     MaterialModule,
-    LcuDataFlowModule.forRoot(),
+    // LcuDataFlowModule.forRoot(),
     FormsModule,
     ReactiveFormsModule
   ],
@@ -111,6 +111,7 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     }
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     LoginComponent,
     DashboardComponent,
@@ -118,7 +119,7 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     DashboardAdminComponent,
     DashboardNonAdminComponent,
     UserHasRoleDirective,
-    LcuDataFlowModule
+    // LcuDataFlowModule
   ],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
