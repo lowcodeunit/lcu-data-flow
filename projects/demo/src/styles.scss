@@ -7,7 +7,6 @@
 @import '../../../node_modules/jsplumbtoolkit/dist/css/jsplumbtoolkit-defaults.css';
 @import '../../../node_modules/jsplumbtoolkit/dist/css/jsplumbtoolkit-demo.css';
 
-@import '../src/app/controls/flex-layout/flex-layout.component.scss';
 @import './assets/themes/fathym-themes.scss';
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
@@ -41,7 +40,6 @@
 
 // for updating components with themes
 @mixin component-themes($theme) {
-  @include flex-layout-component-theme($theme);
   // @include user-list-component-theme($theme);
   // @include side-nav-component-theme($theme);
 }
@@ -57,7 +55,7 @@
 .arctic-theme {
   @include set-theme($arctic-theme);
   .primary-logo {
-    background-image: url($fathym-full-ice-logo);
+    // background-image: url($fathym-full-ice-logo);
     // @include primary-logo($fathym-full-ice-logo, 150px);
   }
 }
@@ -65,42 +63,42 @@
 .contrast-theme {
   @include set-theme($contrast-theme);
   .primary-logo {
-    background-image: url($fathym-full-contrast-logo);
+    // background-image: url($fathym-full-contrast-logo);
   }
 }
 
 .cool-candy-theme {
   @include set-theme($cool-candy-theme);
   .primary-logo {
-    background-image: url($fathym-full-arctic-logo);
+    // background-image: url($fathym-full-arctic-logo);
   }
 }
 
 .flipper-theme {
   @include set-theme($flipper-theme);
   .primary-logo {
-    background-image: url($fathym-full-ice-logo);
+    // background-image: url($fathym-full-ice-logo);
   }
 }
 
 .ice-theme {
   @include set-theme($ice-theme);
   .primary-logo {
-    background-image: url($fathym-full-flipper-logo);
+    // background-image: url($fathym-full-flipper-logo);
   }
 }
 
 .sea-green-theme {
   @include set-theme($sea-green-theme);
   .primary-logo {
-    background-image: url($fathym-full-cool-candy-logo);
+    // background-image: url($fathym-full-cool-candy-logo);
   }
 }
 
 .white-mint-theme {
   @include set-theme($white-mint-theme);
   .primary-logo {
-    background-image: url($fathym-full-flipper-logo);
+    // background-image: url($fathym-full-flipper-logo);
   }
 }
 
