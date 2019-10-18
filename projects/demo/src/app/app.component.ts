@@ -3,17 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {OverlayContainer} from '@angular/cdk/overlay';
 
 import { Subscription } from 'rxjs';
-import { NavigationConstants } from './utils/constants/navigation.constants';
-
-import { NavLinkModel } from './models/nav-link.model';
-import { SharedNotificationService } from './services/shared-notification.service';
-import { TutorialService } from './services/tutorial.service';
-import { ParseRouteUtil } from './utils/parse-route.utils';
-import { TutorialModel } from './models/tutorial.model';
-import { ToggleThemeUtil } from './utils/toggle-theme.utils';
-import { FaviconsService } from './services/favicons.service';
-
-
 
 @Component({
   selector: 'lcu-root',
