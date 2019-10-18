@@ -29,6 +29,9 @@ export class AppComponent implements OnInit {
 
   public Links: Array<NavLinkModel>;
 
+  /**
+   * For changing themes
+   */
   public SelectedTheme: string;
 
   public title = 'demo';
