@@ -146,9 +146,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   //  Helpers
   protected edgeAdded(params: any) {
-    if (params.addedByMouse) {
-      this.editLabel(params.edge);
-    }
+    // if (params.addedByMouse) {
+    //   this.editLabel(params.edge);
+    // }
   }
 
   protected editLabel(edge: Edge) {
