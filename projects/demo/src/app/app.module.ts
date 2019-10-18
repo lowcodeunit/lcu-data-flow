@@ -27,7 +27,7 @@ import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
-// import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
+import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
 
 @NgModule({
   declarations: [
@@ -55,10 +55,11 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     FlexLayoutModule,
     FathymSharedModule.forRoot(),
     MaterialModule,
-    // LcuDataFlowModule.forRoot(),
+    LcuDataFlowModule.forRoot(),
     FormsModule,
     ReactiveFormsModule
   ],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: LCUServiceSettings,
@@ -111,7 +112,6 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     }
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     LoginComponent,
     DashboardComponent,
@@ -119,7 +119,7 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     DashboardAdminComponent,
     DashboardNonAdminComponent,
     UserHasRoleDirective,
-    // LcuDataFlowModule
+    LcuDataFlowModule
   ],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
