@@ -46,8 +46,7 @@ export class DashboardNonAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     protected mediaService: MediaObserver,
-    protected usersService: UsersService,
-    protected userCtxt: UsersStateManagerContext) {
+    protected usersService: UsersService) {
 
     this.subscription = mediaService.asObservable()
       .subscribe((events: MediaChange[]) => {

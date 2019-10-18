@@ -1,3 +1,22 @@
-<h2>LcuDataFlow DataFlowManager Next Steps</h2>
+<div class="data-flow-manager-container">
+  <ng-container *ngIf="!State.Loading">
+    <div *ngIf="!State.ActiveDataFlow" class="spread">
+      <h2 class="mat-headline">Data Flow Management</h2>
 
-<p>Do stuff and things!</p>
+      <p class="mat-body-2 spread">
+        A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
+        have different outcomes in provisioned and deployed enterprise assets/configurations.
+      </p>
+
+      <lcu-data-flow-list-element></lcu-data-flow-list-element>
+    </div>
+
+    <ng-container *ngIf="State.ActiveDataFlow">
+      <lcu-data-flow-ide-element></lcu-data-flow-ide-element>
+    </ng-container>
+  </ng-container>
+
+  <div class="spread" *ngIf="State.Loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

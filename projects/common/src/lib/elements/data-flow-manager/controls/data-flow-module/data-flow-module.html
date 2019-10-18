@@ -1,0 +1,184 @@
+<div
+  [style.width]="Abs(Module.Display.Width) + 'px'"
+  [style.height]="Abs(Module.Display.Height) + 'px'"
+  class="flowchart-object flowchart-{{ Module.Display.ModuleType }}"
+>
+  <div>
+    <div title="Configure Node" class="node-configure node-action" (click)="ManageModule(Module)">
+      <i class="fa fa-gear"></i>
+    </div>
+
+    <div title="Edit Node Name" class="node-edit node-action">
+      <i class="fa fa-pencil-square-o"></i>
+    </div>
+
+    <a mat-icon-button title="Delete Node" class="node-delete node-action" (click)="RemoveNode()">
+      <i class="fa fa-times"></i>
+    </a>
+
+    <div
+      *ngIf="Module.Status && Module.Status.Code == 0"
+      title="Successfully provisioned"
+      class="node-action node-status"
+      style="color:green;"
+    >
+      <i class="fa fa-check fa-3x"></i>
+    </div>
+
+    <div
+      *ngIf="!Module.Status || (Module.Status && Module.Status.Code != 0 && Module.Status.Code != 100 && Module.Status.Code != -100)"
+      title="Provisioned resource not located"
+      class="node-action node-status"
+      style="color:red;"
+    >
+      <i class="fa fa-exclamation-triangle fa-3x"></i>
+    </div>
+
+    <div
+      *ngIf="Module.Status && Module.Status.Code == -100"
+      title="Not yet provisioned"
+      class="node-action node-status"
+      style="color:yellow;"
+    >
+      <i class="fa fa-exclamation-triangle fa-3x"></i>
+    </div>
+
+    <div
+      *ngIf="Module.Status && Module.Status.Code == 100"
+      title="Provisioning unavailable"
+      class="node-action node-status"
+      style="color:gray;"
+    >
+      <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+    </div>
+
+    <svg
+      [attr.width]="Abs(Module.Display.Width)"
+      [attr.height]="Abs(Module.Display.Height)"
+      [fxShow]="Module.Display.Shape == ModuleShapes.Rectangle"
+    >
+      <rect [attr.x]="0" [attr.y]="0" [attr.width]="Abs(Module.Display.Width)" [attr.height]="Abs(Module.Display.Height)" class="outer" />
+
+      <rect
+        [attr.x]="10"
+        [attr.y]="10"
+        [attr.width]="Abs(Module.Display.Width - 20)"
+        [attr.height]="Abs(Module.Display.Height - 20)"
+        class="inner"
+      />
+
+      <text
+        text-anchor="middle"
+        [attr.x]="Abs(Module.Display.Width) / 2"
+        [attr.y]="Abs(Module.Display.Height) / 2"
+        dominant-baseline="central"
+      >
+        {{ Module.Text }}
+      </text>
+    </svg>
+
+    <svg
+      [attr.width]="Abs(Module.Display.Width)"
+      [attr.height]="Abs(Module.Display.Height)"
+      [fxShow]="Module.Display.Shape == ModuleShapes.Circle"
+    >
+      <circle [attr.cx]="Abs(Module.Display.Width) / 2" [attr.cy]="Abs(Module.Display.Height) / 2" class="outer" />
+      <circle [attr.cx]="Abs(Module.Display.Width) / 2" [attr.cy]="Abs(Module.Display.Height) / 2" class="inner" />
+
+      <text
+        text-anchor="middle"
+        [attr.x]="Abs(Module.Display.Width) / 2"
+        [attr.y]="Abs(Module.Display.Height) / 2"
+        dominant-baseline="central"
+      >
+        {{ Module.Text }}
+      </text>
+    </svg>
+
+    <svg
+      [attr.width]="Abs(Module.Display.Width)"
+      [attr.height]="Abs(Module.Display.Height)"
+      [fxShow]="Module.Display.Shape == ModuleShapes.Ellipse"
+    >
+      <ellipse
+        [attr.cx]="Abs(Module.Display.Width) / 2"
+        [attr.cy]="Abs(Module.Display.Height) / 2"
+        [attr.rx]="Abs(Module.Display.Width) / 2"
+        [attr.ry]="Abs(Module.Display.Height) / 2"
+        class="outer"
+      />
+      <ellipse
+        [attr.cx]="Abs(Module.Display.Width) / 2"
+        [attr.cy]="Abs(Module.Display.Height) / 2"
+        [attr.rx]="Abs(Module.Display.Width / 2 - 10)"
+        [attr.ry]="Abs(Module.Display.Height / 2 - 10)"
+        class="inner"
+      />
+
+      <text
+        text-anchor="middle"
+        [attr.x]="Abs(Module.Display.Width) / 2"
+        [attr.y]="Abs(Module.Display.Height) / 2"
+        dominant-baseline="central"
+      >
+        {{ Module.Text }}
+      </text>
+    </svg>
+
+    <svg
+      [attr.width]="Abs(Module.Display.Width)"
+      [attr.height]="Abs(Module.Display.Height)"
+      [fxShow]="Module.Display.Shape == ModuleShapes.Custom"
+    >
+      <path
+        [attr.d]="
+          'M ' +
+          Abs(Module.Display.Width) / 2 +
+          ' 0 L ' +
+          Abs(Module.Display.Width) +
+          ' ' +
+          Abs(Module.Display.Height) / 2 +
+          ' L ' +
+          Abs(Module.Display.Width) / 2 +
+          ' ' +
+          Abs(Module.Display.Height) +
+          ' L 0 ' +
+          Abs(Module.Display.Height) / 2 +
+          ' Z'
+        "
+        class="outer"
+      />
+      <path
+        [attr.d]="
+          'M ' +
+          Abs(Module.Display.Width) / 2 +
+          ' 10 L ' +
+          Abs(Module.Display.Width - 10) +
+          ' ' +
+          Abs(Module.Display.Height) / 2 +
+          ' L ' +
+          Abs(Module.Display.Width) / 2 +
+          ' ' +
+          Abs(Module.Display.Height - 10) +
+          ' L 10 ' +
+          Abs(Module.Display.Height) / 2 +
+          ' Z'
+        "
+        class="inner"
+      />
+
+      <text
+        text-anchor="middle"
+        [attr.x]="Abs(Module.Display.Width) / 2"
+        [attr.y]="Abs(Module.Display.Height) / 2"
+        dominant-baseline="central"
+      >
+        {{ Module.Text }}
+      </text>
+    </svg>
+  </div>
+
+  <jtk-target port-type="target"></jtk-target>
+
+  <jtk-source port-type="source" filter=".outer"></jtk-source>
+</div>

@@ -1,0 +1,45 @@
+<ng-container [ngSwitch]="View" *ngIf="Options">
+  <!-- <div
+      fxLayout="row"
+      fxLayoutAlign="center stretch"
+      gdAlignColumns="center stretch"
+      gdAlignRows="center stretch"
+      *ngSwitchCase="ViewTypes.Grid"
+    >
+      <ng-container *ngFor="let option of Options">
+        <div></div>
+      </ng-container>
+    </div> -->
+
+  <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a" [surfaceId]="DataFlowLookup" [dataGenerator]="DataGenerator">
+    <ng-container *ngFor="let category of Categories">
+      <div class="category">
+        <h4 class="mat-subheading-2">
+          {{ category }}
+        </h4>
+
+        <ng-container *ngFor="let option of GetOptions(category)">
+          <ng-container *ngIf="GetDisplay(option.ModuleType); let display">
+            <div class="option">
+              <a
+                fxFlex
+                mat-raised-button
+                color="accent"
+                class="bank-module flow-option"
+                [attr.module-display]="GetObjString(display)"
+                [attr.module-type]="option.ModuleType"
+                title="Drag to add new"
+              >
+                <mat-icon>{{ display.Icon?.Icon }}</mat-icon>
+
+                {{ option.Name }}
+              </a>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <hr />
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

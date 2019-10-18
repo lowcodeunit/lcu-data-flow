@@ -1,21 +1,68 @@
-import { NgModule } from '@angular/core';
-import { FathymSharedModule } from '@lcu-ide/common';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FathymSharedModule, MaterialModule } from '@lcu/common';
+import { Dialogs } from 'jsplumbtoolkit';
+import { jsPlumbToolkitModule } from 'jsplumbtoolkit-angular';
+import { jsPlumbToolkitDragDropModule } from 'jsplumbtoolkit-angular-drop';
+
 import { LcuDataFlowDataFlowManagerElementComponent } from './elements/data-flow-manager/data-flow-manager.component';
-
-
+import { LcuDataFlowDataFlowListElementComponent } from './elements/data-flow-manager/controls/data-flow-list/data-flow-list.component';
+import { LcuDataFlowDataFlowIdeElementComponent } from './elements/data-flow-manager/controls/data-flow-ide/data-flow-ide.component';
+import { LcuDataFlowDataFlowModulesBankElementComponent } from './elements/data-flow-manager/controls/data-flow-modules-bank/data-flow-modules-bank.component';
+import {
+  DataFlowModuleComponent
+} from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
+import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-toolkit-io.service';
+import { LcuDataFlowDataFlowAnalyticsElementComponent } from './elements/data-flow-analytics/data-flow-analytics.component';
 
 @NgModule({
   declarations: [
-    LcuDataFlowDataFlowManagerElementComponent
+    LcuDataFlowDataFlowManagerElementComponent,
+    LcuDataFlowDataFlowListElementComponent,
+    LcuDataFlowDataFlowIdeElementComponent,
+    LcuDataFlowDataFlowModulesBankElementComponent,
+    LcuDataFlowDataFlowAnalyticsElementComponent,
+    DataFlowModuleComponent
   ],
   entryComponents: [
-    LcuDataFlowDataFlowManagerElementComponent
+    LcuDataFlowDataFlowManagerElementComponent,
+    LcuDataFlowDataFlowListElementComponent,
+    LcuDataFlowDataFlowIdeElementComponent,
+    LcuDataFlowDataFlowModulesBankElementComponent,
+    LcuDataFlowDataFlowAnalyticsElementComponent,
+    DataFlowModuleComponent
   ],
   exports: [
-    LcuDataFlowDataFlowManagerElementComponent
+    LcuDataFlowDataFlowManagerElementComponent,
+    LcuDataFlowDataFlowListElementComponent,
+    LcuDataFlowDataFlowIdeElementComponent,
+    LcuDataFlowDataFlowModulesBankElementComponent,
+    LcuDataFlowDataFlowAnalyticsElementComponent,
+    DataFlowModuleComponent
   ],
   imports: [
-    FathymSharedModule
-  ]
+    FathymSharedModule,
+    MaterialModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    FormsModule,
+    jsPlumbToolkitModule,
+    jsPlumbToolkitDragDropModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class LcuDataFlowModule { }
+export class LcuDataFlowModule {
+  constructor() {
+    Dialogs.initialize({
+      selector: '.dlg'
+    });
+  }
+
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: LcuDataFlowModule,
+      providers: [ DataFlowJSPlumbToolkitIOService ]
+    }
+  }
+}

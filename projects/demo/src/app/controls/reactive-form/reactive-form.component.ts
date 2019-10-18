@@ -8,7 +8,7 @@ import { ReactiveFormModel } from './../../models/reactive-form.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { PasswordValidator, EmailValidator, UserNameValidator, ValidationMessages, ZipcodeValidator } from '@lcu-ide/common';
+import { PasswordValidator, EmailValidator, UserNameValidator, ValidationMessages, ZipcodeValidator } from '@lcu/common';
 import { startWith } from 'rxjs/operators';
 
 
@@ -314,7 +314,7 @@ export class ReactiveFormComponent implements OnInit {
 
    /**
     * Store registration values
-    * 
+    *
     * We need to use the state for this, but for now this will work
     */
    protected updateSessionStorage(val: ReactiveFormModel): void {
@@ -333,7 +333,7 @@ export class ReactiveFormComponent implements OnInit {
 
   /**
    * Filter state list
-   * 
+   *
    * @param val string to filter state list
    */
   protected filterStateList(val: string): Array<StatesModel> {

@@ -1,0 +1,245 @@
+:host ::ng-deep {
+  .data-flow-ide-container {
+    height: 100%;
+
+    .mat-drawer-container {
+      height: 100%;
+      background-color: transparent;
+
+      .mat-drawer-content {
+        position: relative;
+        overflow: hidden;
+
+        .mat-mini-fab {
+          margin: 0 .5rem;
+        }
+
+        .home-actions {
+          z-index: 500;
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+        }
+
+        .panel-actions {
+          z-index: 500;
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+        }
+
+        .flow-actions {
+          z-index: 500;
+          position: absolute;
+          bottom: 1rem;
+          left: 1rem;
+        }
+
+        jsplumb-miniview {
+          position: absolute;
+          bottom: 1rem;
+          right: 1rem;
+        }
+
+        jsplumb-surface {
+          display: block;
+          height: 100%;
+
+          > div {
+            height: 100% !important;
+          }
+        }
+      }
+
+      .mat-drawer {
+        width: 300px;
+        background-color: #a4bab3;
+
+        .data-flow-ide-bank-container {
+          height: 100%;
+
+          .mat-toolbar {
+            background-color: #fbfcf3;
+          }
+
+          .bank {
+            margin: 0.5rem;
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+
+  /***************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************
+  TODO:  CLean up the following stlye as they come from someone else...  Meant as a demo
+  *************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************/
+
+  /* import the styles from the non-angular flowchart demo */
+
+  /* ------------------------ dialogs ----------------------------*/
+
+  /* ----------------------- drag/drop interactions -------------- */
+
+  .drop-hover {
+    background-color: #a4bab3 !important;
+  }
+
+  /* ----------------------- node styles ------------------------- */
+
+  .flowchart-object {
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+
+    z-index: 10;
+    background: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .jtk-node svg {
+    position: absolute;
+    stroke: none;
+    fill: #4a918e;
+    left: 0;
+    top: 0;
+  }
+
+  .flowchart-object text {
+    stroke: none;
+    fill: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .flowchart-object .node-action {
+    display: none;
+    position: absolute;
+    top: 24px;
+    cursor: pointer;
+    color: #fff;
+    z-index: 10000;
+  }
+
+  .flowchart-object .drag-start {
+    cursor: pointer;
+  }
+
+  .flowchart-object .node-action:hover {
+    color: #282d35;
+  }
+
+  .flowchart-object .node-edit {
+    left: 50%;
+    margin-left: -20px;
+  }
+
+  .flowchart-object .node-delete {
+    left: 50%;
+    margin-left: 10px;
+  }
+
+  .flowchart-object.jtk-surface-selected-element .node-action {
+    display: block;
+  }
+
+  .outer {
+    fill: gray;
+    opacity: 0.3;
+    cursor: pointer;
+  }
+
+  .flowchart-object:hover .outer {
+    opacity: 0.7;
+  }
+
+  .inner {
+    cursor: move !important;
+  }
+
+  .connection-drop svg {
+    fill: #ccc;
+  }
+
+  .connection-drop text {
+    fill: black;
+  }
+
+  /* styles for drag + drop */
+
+  .jtk-surface.jtk-drag-drop-active {
+    outline: 6px dotted #67c7c5 !important;
+  }
+
+  .jtk-surface.jtk-drag-drop-hover {
+    outline: 6px solid #9cd8d7 !important;
+  }
+
+  svg.jtk-drag-drop-hover,
+  svg.jtk-drag-drop-active {
+    outline: none !important;
+  }
+
+  svg.jtk-drag-drop-active path {
+    stroke: #67c7c5;
+    stroke-width: 3px;
+    stroke-dasharray: 2 0 2 5;
+  }
+
+  svg.jtk-drag-drop-hover path {
+    stroke: #f7a45d;
+    stroke-width: 4px;
+    stroke-dasharray: 0;
+  }
+
+  .jtk-surface {
+    height: 500px;
+  }
+
+  jsplumb-controls {
+    left: 231px;
+    position: absolute;
+    color: white;
+    top: -3px;
+    z-index: 501;
+    width: 150px;
+  }
+
+  /* styles for drag + drop */
+
+  .jtk-surface.jtk-drag-drop-active {
+    outline: 6px dotted #67c7c5 !important;
+  }
+
+  .jtk-surface.jtk-drag-drop-hover {
+    outline: 6px solid #f7a45d !important;
+  }
+
+  svg.jtk-drag-drop-hover,
+  svg.jtk-drag-drop-active {
+    outline: none !important;
+  }
+
+  svg.jtk-drag-drop-active path {
+    stroke: #67c7c5;
+    stroke-width: 3px;
+    stroke-dasharray: 2 0 2 5;
+  }
+
+  svg.jtk-drag-drop-hover path {
+    stroke: #f7a45d;
+    stroke-width: 4px;
+    stroke-dasharray: 0;
+  }
+}

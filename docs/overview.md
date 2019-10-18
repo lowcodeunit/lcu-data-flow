@@ -1,10 +1,10 @@
-# DataFlowManager Overview
+# DataFlowAnalytics Overview
 
-DataFlowManager ...
+DataFlowAnalytics ...
 
-## Getting Started with DataFlowManager
+## Getting Started with DataFlowAnalytics
 
-Getting started with DataFlowManager ...
+Getting started with DataFlowAnalytics ...
 
 ### Example
 

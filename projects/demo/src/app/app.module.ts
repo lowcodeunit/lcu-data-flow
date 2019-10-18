@@ -1,12 +1,13 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 
-import { FathymSharedModule, MaterialModule } from '@lcu-ide/common';
+import { FathymSharedModule, MaterialModule, LCUServiceSettings } from '@lcu/common';
 import { TutorialsComponent } from './controls/tutorials/tutorials.component';
 import { ReactiveFormComponent } from './controls/reactive-form/reactive-form.component';
 import { FlexLayoutComponent } from './controls/flex-layout/flex-layout.component';
@@ -26,7 +27,7 @@ import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
-import { LcuDataFlowModule } from '@lowcodeunit/lcu-data-flow-common';
+import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
 
 @NgModule({
   declarations: [
@@ -49,61 +50,67 @@ import { LcuDataFlowModule } from '@lowcodeunit/lcu-data-flow-common';
     UserHasRoleDirective
   ],
   imports: [
-  BrowserAnimationsModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FlexLayoutModule,
-    FathymSharedModule,
+    FathymSharedModule.forRoot(),
     MaterialModule,
-    LcuDataFlowModule,
+    LcuDataFlowModule.forRoot(),
     FormsModule,
     ReactiveFormsModule
   ],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    },
     UsersService,
     TutorialService,
-  {
-    provide: FaviconsService, useClass: BrowserFavicons
-  },
-  {
-    provide: BROWSER_FAVICONS_CONFIG,
-    useValue: {
-      icons: {
-        'arctic-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_arctic.png'
+    {
+      provide: FaviconsService,
+      useClass: BrowserFavicons
+    },
+    {
+      provide: BROWSER_FAVICONS_CONFIG,
+      useValue: {
+        icons: {
+          'arctic-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_arctic.png'
+          },
+          'cool-candy-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_cool_candy.png'
+          },
+          'flipper-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_flipper.png'
+          },
+          'ice-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_flipper.png'
+          },
+          'white-mint-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_flipper.png'
+          },
+          'contrast-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_circle_red.png',
+            isDefault: true
+          },
+          'sea-green-theme': {
+            type: 'image/png',
+            href: './assets/images/favicons/thinky_arctic.png'
+          }
         },
-        'cool-candy-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_cool_candy.png'
-        },
-        'flipper-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_flipper.png'
-        },
-        'ice-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_flipper.png'
-        },
-        'white-mint-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_flipper.png'
-        },
-        'contrast-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_circle_red.png',
-          isDefault: true
-        },
-        'sea-green-theme': {
-          type: 'image/png',
-          href: './assets/images/favicons/thinky_arctic.png'
-        },
-      },
-       // determine whether or not a random token is auto-appended to the HREF
-      // values whenever an icon is injected into the document
-      cacheBusting: true
+        // determine whether or not a random token is auto-appended to the HREF
+        // values whenever an icon is injected into the document
+        cacheBusting: true
+      }
     }
-  }
-],
+  ],
   bootstrap: [AppComponent],
   exports: [
     LoginComponent,
@@ -111,7 +118,9 @@ import { LcuDataFlowModule } from '@lowcodeunit/lcu-data-flow-common';
     LoggedInUserComponent,
     DashboardAdminComponent,
     DashboardNonAdminComponent,
-    UserHasRoleDirective],
+    UserHasRoleDirective,
+    LcuDataFlowModule
+  ],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
-export class AppModule { }
+export class AppModule {}

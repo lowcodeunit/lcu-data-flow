@@ -1,0 +1,76 @@
+<div class="data-flow-ide-container">
+  <mat-drawer-container *ngIf="State?.ModuleOptions?.length > 0">
+    <mat-drawer-content>
+      <div class="home-actions">
+        <a mat-mini-fab color="accent" title="Data Flows Home" (click)="CancelActive()">
+          <mat-icon>home</mat-icon>
+        </a>
+      </div>
+
+      <div class="panel-actions">
+        <a mat-mini-fab color="primary" title="Toggle Modules" (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </a>
+      </div>
+
+      <div class="flow-actions">
+        <a mat-mini-fab title="Select Mode" (click)="ToggleSelectMode()">
+          <mat-icon title="Switch to Select Mode" *ngIf="SelectMode != 'select'">edit</mat-icon>
+
+          <mat-icon title="Switch to Pan Mode" *ngIf="SelectMode != 'pan'">pan_tool</mat-icon>
+        </a>
+
+        <a mat-mini-fab title="Zoom to Fit" (click)="ZoomToFit()">
+          <mat-icon>zoom_out_map</mat-icon>
+        </a>
+      </div>
+
+      <jsplumb-surface
+        [surfaceId]="State.ActiveDataFlow.Lookup"
+        [toolkitId]="State.ActiveDataFlow.Lookup"
+        [view]="View"
+        [renderParams]="RenderParams"
+      ></jsplumb-surface>
+
+      <jsplumb-miniview [surfaceId]="State.ActiveDataFlow.Lookup"></jsplumb-miniview>
+
+      <jsplumb-controls [surfaceId]="State.ActiveDataFlow.Lookup"></jsplumb-controls>
+    </mat-drawer-content>
+
+    <mat-drawer mode="side" opened position="end" #drawer>
+      <div class="data-flow-ide-bank-container">
+        <mat-toolbar>
+          <a mat-icon-button title="Save" color="primary" (click)="Save()">
+            <mat-icon>save</mat-icon>
+          </a>
+
+          <a mat-icon-button title="Deploy" color="primary" (click)="Deploy()">
+            <mat-icon>cloud_upload</mat-icon>
+          </a>
+
+          <a mat-icon-button title="Relayout" color="primary" (click)="Relayout()">
+            <mat-icon>loop</mat-icon>
+          </a>
+
+          <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
+            <mat-icon *ngIf="State.AllowCreationModules">check_box</mat-icon>
+
+            <mat-icon *ngIf="!State.AllowCreationModules">check_box_outline_blank</mat-icon>
+          </a>
+        </mat-toolbar>
+
+        <div class="bank">
+          <h3>Managing {{ State.ActiveDataFlow.Name }} Data Flow</h3>
+
+          <hr />
+
+          <lcu-data-flow-modules-bank-element
+            [displays]="State.ModuleDisplays"
+            [options]="State.ModuleOptions"
+            [data-flow-lookup]="State.ActiveDataFlow.Lookup"
+          ></lcu-data-flow-modules-bank-element>
+        </div>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+</div>

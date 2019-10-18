@@ -29,8 +29,7 @@ export class LoggedInUserComponent implements OnInit, OnDestroy {
   public State: UserStateModel;
 
   constructor(
-    protected userService: UsersService,
-    protected userCtxt: UsersStateManagerContext) { }
+    protected userService: UsersService) { }
 
   public ngOnInit(): void {
     this.currentUserSubscription = this.userService.CurrentUserChanged.subscribe((user: UserModel) => {
