@@ -10,6 +10,7 @@ import {
   LcuDataFlowDataFlowAnalyticsElementComponent,
   SelectorLcuDataFlowDataFlowAnalyticsElement
 } from '@napkin-ide/lcu-data-flow-common';
+import { Dialogs } from 'jsplumbtoolkit';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,11 @@ import {
 })
 export class AppModule implements DoBootstrap {
   //  Constructors
-  constructor(protected injector: Injector) {}
+  constructor(protected injector: Injector) {
+    Dialogs.initialize({
+      selector: '.dlg'
+    });
+  }
 
   //  Life Cycle
   public ngDoBootstrap() {
