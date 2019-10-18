@@ -139,6 +139,9 @@ export class DataFlowJSPlumbToolkitIOService {
     };
   }
 
+  /**
+   * Setup view options
+   */
   public LoadView(): AngularViewOptions {
     const view: AngularViewOptions = {
       nodes: {},
