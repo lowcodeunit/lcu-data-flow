@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -59,6 +59,7 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     FormsModule,
     ReactiveFormsModule
   ],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: LCUServiceSettings,
