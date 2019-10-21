@@ -42,6 +42,7 @@
     "@aspnet/signalr": "^1.1.4",
     "@lcu/common": "^0.57.273",
     "@lowcodeunit-devkit/ng-lcu": "^0.79.395",
+    "@lowcodeunit/lazy-element": "0.0.8",
     "@webcomponents/custom-elements": "^1.2.4",
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "copy": "^0.3.2",
