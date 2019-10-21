@@ -21,7 +21,7 @@ import { LazyElementModule } from '@lowcodeunit/lazy-element';
     FlexLayoutModule,
     FathymSharedModule.forRoot(),
     MaterialModule,
-    LcuDataFlowModule.forRoot(),
+    // LcuDataFlowModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     LazyElementModule
