@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     this.BackgroundImage = './assets/images/bg_image.jpg';
 
     this.Config = {
-      Assets: ['/assets/lcu-data-flow.lcu.js'],
+      Assets: ['https://www.fathym-int.com/_lcu/lcu-data-flow/wc/lcu-data-flow.lcu.js'],
       ElementName: 'lcu-data-flow-manager-element'
     };
   }
