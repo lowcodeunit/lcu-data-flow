@@ -7,7 +7,10 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 
 import { FathymSharedModule, MaterialModule, LCUServiceSettings } from '@lcu/common';
+import { RouterModule } from '@angular/router';
 import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
+import 'zone.js';
+import { LazyElementModule } from '@lowcodeunit/lazy-element';
 
 @NgModule({
   declarations: [
@@ -18,11 +21,12 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
     FlexLayoutModule,
     FathymSharedModule.forRoot(),
     MaterialModule,
-    LcuDataFlowModule.forRoot(),
+    // LcuDataFlowModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LazyElementModule
   ],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: LCUServiceSettings,
@@ -31,7 +35,7 @@ import { LcuDataFlowModule } from '@napkin-ide/lcu-data-flow-common';
   ],
   bootstrap: [AppComponent],
   exports: [
-    LcuDataFlowModule
+    // LcuDataFlowModule
   ],
   entryComponents: []
 })

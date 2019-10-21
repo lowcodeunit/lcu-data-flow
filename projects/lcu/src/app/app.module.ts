@@ -1,7 +1,7 @@
 import { NgModule, DoBootstrap, Injector } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createCustomElement } from '@angular/elements';
-import { FathymSharedModule } from '@lcu/common';
+import { FathymSharedModule, LCUServiceSettings } from '@lcu/common';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   LcuDataFlowModule,
@@ -11,11 +11,19 @@ import {
   SelectorLcuDataFlowDataFlowAnalyticsElement
 } from '@napkin-ide/lcu-data-flow-common';
 import { Dialogs } from 'jsplumbtoolkit';
+import 'zone.js';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [],
   imports: [BrowserModule, BrowserAnimationsModule, FathymSharedModule, LcuDataFlowModule.forRoot()],
-  exports: [LcuDataFlowModule]
+  exports: [LcuDataFlowModule],
+  providers: [
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    }
+  ]
 })
 export class AppModule implements DoBootstrap {
   //  Constructors
