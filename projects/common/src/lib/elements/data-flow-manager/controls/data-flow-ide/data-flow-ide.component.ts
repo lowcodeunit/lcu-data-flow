@@ -1,4 +1,5 @@
-import { Component, OnInit, Injector, ViewChild, OnDestroy, AfterViewInit, Input } from '@angular/core';
+import { DialogBodyComponent } from './../dialog-body/dialog-body.component';
+import { Component, OnInit, Injector, ViewChild, OnDestroy, AfterViewInit, Input, Inject } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
@@ -19,12 +20,35 @@ import {
 import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material/dialog';
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
 
 export class LcuDataFlowDataFlowIdeElementState {}
 
 export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<LcuDataFlowDataFlowIdeElementState> {}
 
 export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element';
+
+// @Component({
+//   selector: 'dialog-overview-example-dialog',
+//   templateUrl: 'dialog-overview-example-dialog.html',
+// })
+// export class DialogOverviewExampleDialog {
+
+//   constructor(
+//     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+//   onNoClick(): void {
+//     this.dialogRef.close();
+//   }
+
+// }
 
 @Component({
   selector: SelectorLcuDataFlowDataFlowIdeElement,
@@ -59,7 +83,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     protected injector: Injector,
     protected state: DataFlowManagerStateManagerContext,
     protected $jsplumb: jsPlumbService,
-    protected io: DataFlowJSPlumbToolkitIOService
+    protected io: DataFlowJSPlumbToolkitIOService,
+    protected matDialog: MatDialog
   ) {
     super(injector);
 
@@ -176,30 +201,55 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected nodeAdded(node: { type: string; data: any; callback: (data: object) => void }) {}
 
   protected nodeFactory(params: DataFlowNodeFactoryParams) {
-    Dialogs.show({
-      id: 'dlgText',
-      title: `Enter ${params.Data.type} name:`,
-      onOK: (d: any) => {
-        const data = {
-          ...params.Data,
-          name: d.text,
-          Text: d.text
-        };
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = params;
 
-        data.text = d.text;
+    const dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
-        if (data.text) {
-          if (data.text.length >= 2) {
-            data.id = jsPlumbUtil.uuid();
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value.data}`);
+      const data = {
+        ...params.Data,
+        name: value.data,
+        Text: value.data
+      };
+      data.text = value.data;
 
-            params.Callback(data);
-          } else {
-            alert(`${data.type} names must be at least 2 characters!`);
-          }
+      if (data.text) {
+        if (data.text.length >= 2) {
+          data.id = jsPlumbUtil.uuid();
+
+          params.Callback(data);
+        } else {
+          alert(`${data.type} names must be at least 2 characters!`);
         }
-        // else...do not proceed.
       }
     });
+
+    // Dialogs.show({
+    //   id: 'dlgText',
+    //   title: `Enter ${params.Data.type} name:`,
+    //   onOK: (d: any) => {
+    //     const data = {
+    //       ...params.Data,
+    //       name: d.text,
+    //       Text: d.text
+    //     };
+
+    //     data.text = d.text;
+
+    //     if (data.text) {
+    //       if (data.text.length >= 2) {
+    //         data.id = jsPlumbUtil.uuid();
+
+    //         params.Callback(data);
+    //       } else {
+    //         alert(`${data.type} names must be at least 2 characters!`);
+    //       }
+    //     }
+    //     // else...do not proceed.
+    //   }
+    // });
     // if (!node.data.Text) {
     //   Dialogs.show({
     //     id: 'dlgText',
