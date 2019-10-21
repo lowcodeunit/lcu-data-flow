@@ -68,7 +68,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   //  Life Cycle
   public async ngAfterViewInit() {
-    this.surface = this.SurfaceComponent.surface;
+    this.surface = this.SurfaceComponent ? this.SurfaceComponent.surface : null;
 
     if (this.surface) {
     this.toolkit = this.surface.getToolkit();

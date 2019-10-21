@@ -1,5 +1,5 @@
 <div class="data-flow-ide-container">
-  <mat-drawer-container *ngIf="State?.ModuleOptions?.length > 0">
+  <mat-drawer-container>
     <mat-drawer-content>
       <div class="home-actions">
         <a mat-mini-fab color="accent" title="Data Flows Home" (click)="CancelActive()">
@@ -52,11 +52,11 @@
             <mat-icon>loop</mat-icon>
           </a>
 
-          <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
+          <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
             <mat-icon *ngIf="State.AllowCreationModules">check_box</mat-icon>
 
             <mat-icon *ngIf="!State.AllowCreationModules">check_box_outline_blank</mat-icon>
-          </a>
+          </a> -->
         </mat-toolbar>
 
         <div class="bank">
