@@ -16,14 +16,14 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [],
-  imports: [BrowserModule, BrowserAnimationsModule, LcuDataFlowModule.forRoot()],
+  imports: [BrowserModule, BrowserAnimationsModule, FathymSharedModule, LcuDataFlowModule.forRoot()],
   exports: [LcuDataFlowModule],
   providers: [
-    {
-      provide: LCUServiceSettings,
-      useValue: FathymSharedModule.DefaultServiceSettings(environment)
-    }
-  ],
+    // {
+    //   provide: LCUServiceSettings,
+    //   useValue: FathymSharedModule.DefaultServiceSettings({ production: false })
+    // }
+  ]
 })
 export class AppModule implements DoBootstrap {
   //  Constructors

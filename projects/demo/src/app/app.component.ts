@@ -4,6 +4,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 
 import { Subscription } from 'rxjs';
+import { LCUServiceSettings } from '@lcu/common';
 
 @Component({
   selector: 'lcu-root',
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
 
   public title = 'demo';
 
-  constructor(protected overlayContainer: OverlayContainer) {
+  constructor(protected overlayContainer: OverlayContainer, protected settings: LCUServiceSettings) {
     this.BackgroundImage = './assets/images/bg_image.jpg';
 
     this.Config = {
