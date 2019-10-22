@@ -69,16 +69,8 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
   }
 
   public RemoveNode() {
-    if (this.Module != null) {
-      Dialogs.show({
-        id: 'dlgConfirm',
-        data: {
-          msg: `Delete '${this.Module.Text}'?`
-        },
-        onOK: () => {
-          this.toolkit.removeNode(this.obj);
-        }
-      });
+    if (this.Module != null && confirm(`Delete '${this.Module.Text}'?`)) {
+      this.toolkit.removeNode(this.obj);
     }
   }
 

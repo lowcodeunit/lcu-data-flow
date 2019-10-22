@@ -1,25 +1,19 @@
-<h2 mat-dialog-title>This is a Dialog title</h2>
+<form fxLayout="column" fxLayoutGap="10px" [formGroup]="Form" (ngSubmit)="Create()" novalidate>
+  <h2 mat-dialog-title>This is a Dialog title</h2>
 
-<mat-dialog-content>
-
-    <form
-        fxLayout="column"
-        fxLayoutGap="10px"
-        [formGroup]="Form"
-        novalidate>
-
-        <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-            <mat-icon color="primary">storage</mat-icon>
-            <mat-form-field fxFlex>
-              <input formControlName="nameControl" matInput placeholder="Name" required>
-              <!-- <mat-error *ngIf="LastNameControl.hasError('required')">
+  <mat-dialog-content>
+    <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-icon color="primary">storage</mat-icon>
+      <mat-form-field fxFlex>
+        <input formControlName="nameControl" matInput placeholder="Name" required />
+        <!-- <mat-error *ngIf="LastNameControl.hasError('required')">
                 A value is required
               </mat-error> -->
-            </mat-form-field>
-          </div>
-    </form>
-</mat-dialog-content>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
 
-<mat-dialog-actions>
-    <button class="mat-raised-button" (click)="Create()">Create</button>
-</mat-dialog-actions>
+  <mat-dialog-actions>
+    <button type="submit" class="mat-raised-button">Create</button>
+  </mat-dialog-actions>
+</form>

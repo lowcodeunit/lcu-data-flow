@@ -203,6 +203,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected nodeFactory(params: DataFlowNodeFactoryParams) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = params;
+    dialogConfig.disableClose = true;
 
     const dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
