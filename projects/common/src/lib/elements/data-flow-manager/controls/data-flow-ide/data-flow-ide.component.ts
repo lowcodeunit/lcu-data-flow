@@ -17,16 +17,14 @@ import {
   Node,
   Edge
 } from 'jsplumbtoolkit';
-import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 
 export interface DialogData {
   animal: string;
   name: string;
 }
-
 
 export class LcuDataFlowDataFlowIdeElementState {}
 
@@ -58,6 +56,8 @@ export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element'
 export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
   implements AfterViewInit, OnDestroy, OnInit {
   //  Fields
+  protected dialogRef: MatDialogRef<DialogBodyComponent>;
+
   protected drawing: DrawingTools;
 
   protected surface: Surface;
@@ -96,15 +96,15 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.surface = this.SurfaceComponent ? this.SurfaceComponent.surface : null;
 
     if (this.surface) {
-    this.toolkit = this.surface.getToolkit();
+      this.toolkit = this.surface.getToolkit();
 
-    this.drawing = new DrawingTools({
-      renderer: this.surface
-    });
+      this.drawing = new DrawingTools({
+        renderer: this.surface
+      });
 
-    this.io.SetViewNodes(this.State.ModuleOptions, this.View);
+      this.io.SetViewNodes(this.State.ModuleOptions, this.View);
 
-    await this.Relayout(true);
+      await this.Relayout(true);
     }
   }
 
@@ -205,9 +205,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     dialogConfig.data = params;
     dialogConfig.disableClose = true;
 
-    const dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
+    this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe(value => {
+    this.dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value.data}`);
       const data = {
         ...params.Data,
@@ -226,58 +226,6 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
         }
       }
     });
-
-    // Dialogs.show({
-    //   id: 'dlgText',
-    //   title: `Enter ${params.Data.type} name:`,
-    //   onOK: (d: any) => {
-    //     const data = {
-    //       ...params.Data,
-    //       name: d.text,
-    //       Text: d.text
-    //     };
-
-    //     data.text = d.text;
-
-    //     if (data.text) {
-    //       if (data.text.length >= 2) {
-    //         data.id = jsPlumbUtil.uuid();
-
-    //         params.Callback(data);
-    //       } else {
-    //         alert(`${data.type} names must be at least 2 characters!`);
-    //       }
-    //     }
-    //     // else...do not proceed.
-    //   }
-    // });
-    // if (!node.data.Text) {
-    //   Dialogs.show({
-    //     id: 'dlgText',
-    //     title: `Enter ${node.data.type} name:`,
-    //     onOK: (d: any) => {
-    //       const data = {
-    //         ...node.data,
-    //         name: d.text,
-    //         Text: d.text
-    //       };
-
-    //       if (data.name) {
-    //         if (data.name.length >= 2) {
-    //           data.id = jsPlumbUtil.uuid();
-
-    //           this.toolkit.updateNode(node, data);
-    //         } else {
-    //           alert(`${data.type} names must be at least 2 characters!`);
-
-    //           this.nodeAdded(node);
-    //         }
-    //       } else {
-    //         this.toolkit.removeNode(node);
-    //       }
-    //     }
-    //   });
-    // }
   }
 
   protected removeEdge(edge: any) {
