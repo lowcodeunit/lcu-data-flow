@@ -1,7 +1,7 @@
 import { NgModule, DoBootstrap, Injector } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createCustomElement } from '@angular/elements';
-import { FathymSharedModule, LCUServiceSettings } from '@lcu/common';
+import { FathymSharedModule, LCUServiceSettings, JSONSchema } from '@lcu/common';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   LcuDataFlowModule,
@@ -19,10 +19,10 @@ import { environment } from '../environments/environment';
   imports: [BrowserModule, BrowserAnimationsModule, FathymSharedModule, LcuDataFlowModule.forRoot()],
   exports: [LcuDataFlowModule],
   providers: [
-    {
-      provide: LCUServiceSettings,
-      useValue: FathymSharedModule.DefaultServiceSettings(environment)
-    }
+    // {
+    //   provide: LCUServiceSettings,
+    //   useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    // }
   ]
 })
 export class AppModule implements DoBootstrap {
