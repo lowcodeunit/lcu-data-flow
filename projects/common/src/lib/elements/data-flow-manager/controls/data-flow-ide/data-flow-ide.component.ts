@@ -205,6 +205,12 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     dialogConfig.data = params;
     dialogConfig.disableClose = true;
 
+    if (this.dialogRef != null){
+      this.dialogRef.close({});
+
+      this.dialogRef = null;
+    }
+
     this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
     this.dialogRef.afterClosed().subscribe(value => {
