@@ -9,10 +9,8 @@ import {
   jsPlumbToolkitOptions,
   SurfaceRenderParams
 } from 'jsplumbtoolkit';
-import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption } from '@lcu/common';
 import { isString } from 'util';
-import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
-import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
+import { AngularViewOptions, jsPlumbService, ViewNodeAngularOptions } from 'jsplumbtoolkit-angular';
 import { DataFlowNodeFactoryParams } from '../models/DataFlowNodeFactoryParams';
 
 @Injectable({
@@ -20,7 +18,7 @@ import { DataFlowNodeFactoryParams } from '../models/DataFlowNodeFactoryParams';
 })
 export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   // 	Fields
-  protected parserName: string;
+  protected ioName: string;
 
   //  Properties
   public CanvasClicked: EventEmitter<Event>;
@@ -49,11 +47,11 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
 
   // 	Constructors
   constructor(protected jsPlumb: jsPlumbService) {
-    this.parserName = this.loadParserName();
+    this.ioName = this.loadIOName();
 
-    jsPlumbToolkitIO.parsers[this.parserName] = this.parseOutput;
+    jsPlumbToolkitIO.parsers[this.ioName] = this.parseOutput;
 
-    jsPlumbToolkitIO.exporters[this.parserName] = this.exportOutput;
+    jsPlumbToolkitIO.exporters[this.ioName] = this.exportOutput;
 
     this.CanvasClicked = new EventEmitter();
 
@@ -85,7 +83,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
     const toolkit = surface.getToolkit();
 
     return <TOutput> toolkit.exportData({
-      type: this.parserName,
+      type: this.ioName,
       parameters: {}
     });
   }
@@ -121,7 +119,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
       const toolkit = surface.getToolkit();
 
       toolkit.load({
-        type: this.parserName,
+        type: this.ioName,
         data: <any> output,
         parameters: {},
         onload() {
@@ -263,9 +261,9 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   }
 
   // 	Helpers
-  protected abstract exportOutput(toolkit: jsPlumbToolkit, params: {});
+  protected abstract exportOutput(toolkit: jsPlumbToolkit, params: {}): TOutput;
 
-  protected loadDefaultLayoutSpec(type: string = 'Hierarchical') {
+  protected loadDefaultLayoutSpec(type: string = 'Hierarchical'): LayoutSpec {
     return <LayoutSpec> {
       type,
       parameters: {
@@ -275,7 +273,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
     };
   }
 
-  protected loadParentNode() {
+  protected loadParentNode(): ViewNodeAngularOptions {
     return {
       events: {
         tap: (params: any) => this.NodeTapped.emit(params)
@@ -283,7 +281,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
     };
   }
 
-  protected abstract loadParserName();
+  protected abstract loadIOName(): string;
 
-  protected abstract parseOutput(output: DataFlowOutput, toolkit: jsPlumbToolkit, params: {});
+  protected abstract parseOutput(output: TOutput, toolkit: jsPlumbToolkit, params: {}): void;
 }

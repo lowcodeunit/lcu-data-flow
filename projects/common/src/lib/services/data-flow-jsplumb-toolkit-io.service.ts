@@ -120,7 +120,7 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
     return output;
   }
 
-  protected loadParserName() {
+  protected loadIOName() {
     return 'data-flow-output';
   }
 
