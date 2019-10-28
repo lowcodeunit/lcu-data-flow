@@ -265,12 +265,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
       this.nodeFactory(params);
     });
 
-    this.io.ToggleSelection.subscribe(params => {
-      this.toggleSelection(params.node);
+    this.io.NodeTapped.subscribe(params => {
+      this.toolkit.toggleSelection(params.node);
     });
-  }
-
-  protected toggleSelection(node: any) {
-    this.toolkit.toggleSelection(node);
   }
 }

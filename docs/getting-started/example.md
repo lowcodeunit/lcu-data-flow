@@ -1,3 +1,0 @@
-# Getting Started - DataFlowAnalytics
-
-DataFlowAnalytics Documentation ...

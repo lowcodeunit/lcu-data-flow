@@ -8,7 +8,9 @@ import {
   LcuDataFlowDataFlowManagerElementComponent,
   SelectorLcuDataFlowDataFlowManagerElement,
   LcuDataFlowDataFlowAnalyticsElementComponent,
-  SelectorLcuDataFlowDataFlowAnalyticsElement
+  SelectorLcuDataFlowDataFlowAnalyticsElement,
+  LcuDataFlowDataFlowMapElementComponent,
+  SelectorLcuDataFlowDataFlowMapElement
 } from '@napkin-ide/lcu-data-flow-common';
 import { Dialogs } from 'jsplumbtoolkit';
 import 'zone.js';
@@ -42,5 +44,9 @@ export class AppModule implements DoBootstrap {
     const dfMgr = createCustomElement(LcuDataFlowDataFlowManagerElementComponent, { injector: this.injector });
 
     customElements.define(SelectorLcuDataFlowDataFlowManagerElement, dfMgr);
+
+    const dfmMgr = createCustomElement(LcuDataFlowDataFlowMapElementComponent, { injector: this.injector });
+
+    customElements.define(SelectorLcuDataFlowDataFlowMapElement, dfmMgr);
   }
 }
