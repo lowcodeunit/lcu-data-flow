@@ -10,14 +10,12 @@ import { LcuDataFlowDataFlowManagerElementComponent } from './elements/data-flow
 import { LcuDataFlowDataFlowListElementComponent } from './elements/data-flow-manager/controls/data-flow-list/data-flow-list.component';
 import { LcuDataFlowDataFlowIdeElementComponent } from './elements/data-flow-manager/controls/data-flow-ide/data-flow-ide.component';
 import { LcuDataFlowDataFlowModulesBankElementComponent } from './elements/data-flow-manager/controls/data-flow-modules-bank/data-flow-modules-bank.component';
-import {
-  QuestionNodeComponent,
-  ActionNodeComponent,
-  StartNodeComponent,
-  OutputNodeComponent,
-  DataFlowModuleComponent
-} from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
+import { DataFlowModuleComponent } from './elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-toolkit-io.service';
+import { LcuDataFlowDataFlowAnalyticsElementComponent } from './elements/data-flow-analytics/data-flow-analytics.component';
+import { DialogBodyComponent } from './elements/data-flow-manager/controls/dialog-body/dialog-body.component';
+import { LcuDataFlowDataFlowMapElementComponent } from './elements/data-flow-map/data-flow-map.component';
+import { DataFlowMapJSPlumbToolkitIOService } from './services/data-flow-map-jsplumb-toolkit-io.service';
 
 @NgModule({
   declarations: [
@@ -25,33 +23,30 @@ import { DataFlowJSPlumbToolkitIOService } from './services/data-flow-jsplumb-to
     LcuDataFlowDataFlowListElementComponent,
     LcuDataFlowDataFlowIdeElementComponent,
     LcuDataFlowDataFlowModulesBankElementComponent,
-    QuestionNodeComponent,
-    ActionNodeComponent,
-    StartNodeComponent,
-    OutputNodeComponent,
-    DataFlowModuleComponent
+    LcuDataFlowDataFlowAnalyticsElementComponent,
+    LcuDataFlowDataFlowMapElementComponent,
+    DataFlowModuleComponent,
+    DialogBodyComponent
   ],
   entryComponents: [
     LcuDataFlowDataFlowManagerElementComponent,
     LcuDataFlowDataFlowListElementComponent,
     LcuDataFlowDataFlowIdeElementComponent,
     LcuDataFlowDataFlowModulesBankElementComponent,
-    QuestionNodeComponent,
-    ActionNodeComponent,
-    StartNodeComponent,
-    OutputNodeComponent,
-    DataFlowModuleComponent
+    LcuDataFlowDataFlowAnalyticsElementComponent,
+    LcuDataFlowDataFlowMapElementComponent,
+    DataFlowModuleComponent,
+    DialogBodyComponent
   ],
   exports: [
     LcuDataFlowDataFlowManagerElementComponent,
     LcuDataFlowDataFlowListElementComponent,
     LcuDataFlowDataFlowIdeElementComponent,
     LcuDataFlowDataFlowModulesBankElementComponent,
-    QuestionNodeComponent,
-    ActionNodeComponent,
-    StartNodeComponent,
-    OutputNodeComponent,
-    DataFlowModuleComponent
+    LcuDataFlowDataFlowAnalyticsElementComponent,
+    LcuDataFlowDataFlowMapElementComponent,
+    DataFlowModuleComponent,
+    DialogBodyComponent
   ],
   imports: [
     FathymSharedModule,
@@ -74,7 +69,7 @@ export class LcuDataFlowModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: LcuDataFlowModule,
-      providers: [ DataFlowJSPlumbToolkitIOService ]
-    }
+      providers: [DataFlowJSPlumbToolkitIOService, DataFlowMapJSPlumbToolkitIOService]
+    };
   }
 }

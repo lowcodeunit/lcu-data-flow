@@ -51,6 +51,13 @@ export class DataFlowManagerStateManagerContext extends StateManagerContext<Data
     });
   }
 
+  public ToggleCreationModules() {
+    this.Execute({
+      Arguments: {},
+      Type: 'ToggleCreationModules'
+    });
+  }
+
   public ToggleIsCreating() {
     this.Execute({
       Arguments: {},

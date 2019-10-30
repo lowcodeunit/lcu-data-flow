@@ -40,17 +40,23 @@
     <mat-drawer mode="side" opened position="end" #drawer>
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
-          <a mat-icon-button color="primary" (click)="Save()">
+          <a mat-icon-button title="Save" color="primary" (click)="Save()">
             <mat-icon>save</mat-icon>
           </a>
 
-          <a mat-icon-button color="primary" (click)="Deploy()">
+          <a mat-icon-button title="Deploy" color="primary" (click)="Deploy()">
             <mat-icon>cloud_upload</mat-icon>
           </a>
 
-          <a mat-icon-button color="primary" (click)="Relayout()">
+          <a mat-icon-button title="Relayout" color="primary" (click)="Relayout()">
             <mat-icon>loop</mat-icon>
           </a>
+
+          <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
+            <mat-icon *ngIf="State.AllowCreationModules">check_box</mat-icon>
+
+            <mat-icon *ngIf="!State.AllowCreationModules">check_box_outline_blank</mat-icon>
+          </a> -->
         </mat-toolbar>
 
         <div class="bank">

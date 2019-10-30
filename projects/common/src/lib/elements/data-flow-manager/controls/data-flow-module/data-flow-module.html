@@ -7,12 +7,15 @@
     <div title="Configure Node" class="node-configure node-action" (click)="ManageModule(Module)">
       <i class="fa fa-gear"></i>
     </div>
+
     <div title="Edit Node Name" class="node-edit node-action">
       <i class="fa fa-pencil-square-o"></i>
     </div>
-    <div title="Delete Node" class="node-delete node-action">
+
+    <a mat-icon-button title="Delete Node" class="node-delete node-action" (click)="RemoveNode()">
       <i class="fa fa-times"></i>
-    </div>
+    </a>
+
     <div
       *ngIf="Module.Status && Module.Status.Code == 0"
       title="Successfully provisioned"
@@ -21,6 +24,7 @@
     >
       <i class="fa fa-check fa-3x"></i>
     </div>
+
     <div
       *ngIf="!Module.Status || (Module.Status && Module.Status.Code != 0 && Module.Status.Code != 100 && Module.Status.Code != -100)"
       title="Provisioned resource not located"
@@ -29,6 +33,7 @@
     >
       <i class="fa fa-exclamation-triangle fa-3x"></i>
     </div>
+
     <div
       *ngIf="Module.Status && Module.Status.Code == -100"
       title="Not yet provisioned"
@@ -37,6 +42,7 @@
     >
       <i class="fa fa-exclamation-triangle fa-3x"></i>
     </div>
+
     <div
       *ngIf="Module.Status && Module.Status.Code == 100"
       title="Provisioning unavailable"

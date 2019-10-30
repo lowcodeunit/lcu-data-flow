@@ -11,9 +11,20 @@
 <body>
   <lcu-root></lcu-root>
 
-<!-- Comment this out, *if* using differential loading or es2015 as a target in Angular 8+ -->
-<script src="./assets/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+  <script type="jtk" class="dlg" id="dlgText" title="Enter Text">
+    <input type="text" size="50" jtk-focus jtk-att="text" value="${text}" jtk-commit="true"/>
+  </script>
+  
+  <script type="jtk" class="dlg" id="dlgConfirm" title="Please Confirm">
+    ${msg}?
+  </script>
+  
+  <script type="jtk" class="dlg" id="dlgMessage" title="Message" cancel="false">
+    ${msg}
+  </script>
 
+<!-- Comment this out, *if* using differential loading or es2015 as a target in Angular 8+ -->
+<!-- <script src="./assets/webcomponentsjs/custom-elements-es5-adapter.js"></script> -->
 
 </body>
 </html>

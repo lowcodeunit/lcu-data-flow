@@ -61,16 +61,25 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
 
   //  API Methods
   public DataGenerator(el: Element) {
+    const moduleType = el.getAttribute('module-type');
+
+    const display: DataFlowModuleDisplay = JSON.parse(el.getAttribute('module-display'));
+
     return {
-      name: el.getAttribute('module-type'),
-      type: el.getAttribute('module-type'),
-      w: parseInt(el.getAttribute('module-width'), 10),
-      h: parseInt(el.getAttribute('module-height'), 10)
+      name: moduleType,
+      type: moduleType,
+      w: display.Width,
+      h: display.Height,
+      Display: display
     };
   }
 
   public GetDisplay(moduleType: string) {
     return this.Displays.find(d => d.ModuleType === moduleType);
+  }
+
+  public GetObjString(obj: any) {
+    return JSON.stringify(obj);
   }
 
   public GetOptions(category: string) {

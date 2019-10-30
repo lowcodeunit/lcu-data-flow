@@ -11,24 +11,6 @@ function isNode(obj: any): obj is Node {
  * This is the base class for editable nodes in this demo. It extends `BaseNodeComponent`
  */
 export class BaseDataFlowModuleComponent extends BaseNodeComponent {
-  public removeNode() {
-    const obj = this.getNode();
-
-    if (obj != null) {
-      if (isNode(obj)) {
-        Dialogs.show({
-          id: 'dlgConfirm',
-          data: {
-            msg: "Delete '" + obj.data.text + "'"
-          },
-          onOK: () => {
-            this.toolkit.removeNode(obj); // <Node> obj);
-          }
-        });
-      }
-    }
-  }
-
   public editNode() {
     const obj = this.getNode();
     Dialogs.show({
@@ -45,26 +27,6 @@ export class BaseDataFlowModuleComponent extends BaseNodeComponent {
     });
   }
 }
-
-// ----------------- question node -------------------------------
-
-@Component({ templateUrl: 'question.html' })
-export class QuestionNodeComponent extends BaseDataFlowModuleComponent {}
-
-// ----------------- action node -------------------------------
-
-@Component({ templateUrl: 'action.html' })
-export class ActionNodeComponent extends BaseDataFlowModuleComponent {}
-
-// ----------------- start node -------------------------------
-
-@Component({ templateUrl: 'start.html' })
-export class StartNodeComponent extends BaseDataFlowModuleComponent {}
-
-// ----------------- output node -------------------------------
-
-@Component({ templateUrl: 'output.html' })
-export class OutputNodeComponent extends BaseDataFlowModuleComponent {}
 
 // -------------- /node components ------------------------------------
 
@@ -93,8 +55,7 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
   }
 
   // 	Runtime
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   // 	API Methods
   public Abs(input: number) {
@@ -105,6 +66,12 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
     this.ManageEvent.emit({
       ...this.Module
     });
+  }
+
+  public RemoveNode() {
+    if (this.Module != null && confirm(`Delete '${this.Module.Text}'?`)) {
+      this.toolkit.removeNode(this.obj);
+    }
   }
 
   // 	Helpers

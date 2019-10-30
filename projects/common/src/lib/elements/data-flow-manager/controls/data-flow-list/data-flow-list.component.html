@@ -42,20 +42,19 @@
       </div>
 
       <div>
-        <mat-form-field style="width: 90%;float:left;">
+        <mat-form-field style="width: 100%">
           <input type="text" matInput placeholder="Lookup" formControlName="lookup" required maxlength="4" />
+          <i matSuffix
+            matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating"
+            class="fa fa-info-circle"
+          ></i>
         </mat-form-field>
-        <i
-          style="float:right;color:grey;width:10%;margin-top:10px;cursor:pointer;"
-          matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating"
-          class="fa fa-info-circle"
-        ></i>
       </div>
 
       <div>
         <button mat-raised-button color="primary" type="submit" [disabled]="!CreateNewDataFlowForm.valid">Create Data Flow</button>
 
-        <a mat-raised-button color="warn" (click)="ToggleIsCreating()"><mat-icon>delete</mat-icon> Cacnel</a>
+        <a mat-raised-button color="warn" (click)="ToggleIsCreating()"><mat-icon>delete</mat-icon> Cancel</a>
       </div>
     </form>
   </ng-container>

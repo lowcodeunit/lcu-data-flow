@@ -23,12 +23,12 @@
             <div class="option">
               <a
                 fxFlex
+                fxLayoutAlign="start center"
                 mat-raised-button
                 color="accent"
                 class="bank-module flow-option"
-                [attr.module-height]="display.Height"
+                [attr.module-display]="GetObjString(display)"
                 [attr.module-type]="option.ModuleType"
-                [attr.module-width]="display.Width"
                 title="Drag to add new"
               >
                 <mat-icon>{{ display.Icon?.Icon }}</mat-icon>
