@@ -1,5 +1,18 @@
 <div class="data-flow-manager-container">
   <ng-container *ngIf="!State.Loading">
+    <!-- <div class="spread" *ngIf="!State.ModuleOptions || State.ModuleOptions.length <= 2">
+      <h2 class="mat-headline">Unable to Detect IoT Infrastructure</h2>
+
+      <p class="mat-body-2 spread">
+        We are unable to detect any IoT infrastructure to use with the Data Flow tool. If you have already clicked the button below, wait a
+        bit longer and refresh the page. If you have not clicked to add IoT infrastructure, then do so now.
+      </p>
+
+      <div class="spread">
+        <a mat-raised-button color="primary" (click)="AddIoT()">Add IoT Infrastructure</a>
+      </div>
+    </div> -->
+
     <div *ngIf="!State.ActiveDataFlow" class="spread">
       <h2 class="mat-headline">Data Flow Management</h2>
 

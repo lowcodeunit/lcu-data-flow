@@ -15,6 +15,13 @@ export class DataFlowManagerStateManagerContext extends StateManagerContext<Data
   }
 
   //  API Methods
+  public AddIoTInfrastructure() {
+    this.Execute({
+      Arguments: {},
+      Type: 'AddIoTInfrastructure'
+    });
+  }
+
   public DeleteDataFlow(dataFlowLookup: string) {
     this.Execute({
       Arguments: {

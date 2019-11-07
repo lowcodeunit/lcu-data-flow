@@ -38,6 +38,11 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   }
 
   //  API Methods
+  public AddIoT() {
+    this.State.Loading = true;
+
+    this.state.AddIoTInfrastructure();
+  }
 
   //  Helpers
   protected handleStateChanged() {
