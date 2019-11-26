@@ -1,10 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders } from '@angular/core';
+import {
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ModuleWithProviders
+} from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
-import { Dialogs } from 'jsplumbtoolkit';
 import { jsPlumbToolkitModule } from 'jsplumbtoolkit-angular';
 import { jsPlumbToolkitDragDropModule } from 'jsplumbtoolkit-angular-drop';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartsModule } from 'ng2-charts';
 
 import { LcuDataFlowDataFlowManagerElementComponent } from './elements/data-flow-manager/data-flow-manager.component';
 import { LcuDataFlowDataFlowListElementComponent } from './elements/data-flow-manager/controls/data-flow-list/data-flow-list.component';
@@ -55,21 +60,22 @@ import { DataFlowMapJSPlumbToolkitIOService } from './services/data-flow-map-jsp
     ReactiveFormsModule,
     FormsModule,
     jsPlumbToolkitModule,
-    jsPlumbToolkitDragDropModule
+    jsPlumbToolkitDragDropModule,
+    NgxChartsModule,
+    ChartsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LcuDataFlowModule {
-  constructor() {
-    Dialogs.initialize({
-      selector: '.dlg'
-    });
-  }
+  constructor() {}
 
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: LcuDataFlowModule,
-      providers: [DataFlowJSPlumbToolkitIOService, DataFlowMapJSPlumbToolkitIOService]
+      providers: [
+        DataFlowJSPlumbToolkitIOService,
+        DataFlowMapJSPlumbToolkitIOService
+      ]
     };
   }
 }

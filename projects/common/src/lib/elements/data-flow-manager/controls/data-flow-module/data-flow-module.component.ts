@@ -1,7 +1,27 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  AfterViewInit
+} from '@angular/core';
 import { BaseNodeComponent } from 'jsplumbtoolkit-angular';
-import { Dialogs, jsPlumbToolkit, Surface } from 'jsplumbtoolkit';
-import { DataFlowModuleShapeTypes, DataFlowActionEvent, DataFlow, DataFlowModule } from '@lcu/common';
+import { jsPlumbToolkit, Surface } from 'jsplumbtoolkit';
+import {
+  DataFlowModuleShapeTypes,
+  DataFlowActionEvent,
+  DataFlow,
+  DataFlowModule
+} from '@lcu/common';
+import {
+  MatDialogRef,
+  MatDialogConfig,
+  MatDialog
+} from '@angular/material/dialog';
+import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
+import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
+import { ChartOptions } from 'chart.js';
+import { Label, Color } from 'ng2-charts';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';
@@ -10,33 +30,82 @@ function isNode(obj: any): obj is Node {
 /**
  * This is the base class for editable nodes in this demo. It extends `BaseNodeComponent`
  */
-export class BaseDataFlowModuleComponent extends BaseNodeComponent {
-  public editNode() {
-    const obj = this.getNode();
-    Dialogs.show({
-      id: 'dlgText',
-      data: obj.data,
-      title: 'Edit ' + obj.data.type + ' name',
-      onOK: (data: any) => {
-        if (data.text && data.text.length > 2) {
-          // if name is at least 2 chars long, update the underlying data and
-          // update the UI.
-          this.toolkit.updateNode(obj, data);
-        }
-      }
-    });
-  }
-}
+export class BaseDataFlowModuleComponent extends BaseNodeComponent {}
 
 // -------------- /node components ------------------------------------
 
 @Component({
   templateUrl: './data-flow-module.html'
 })
-export class DataFlowModuleComponent extends BaseDataFlowModuleComponent implements OnInit {
+export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
+  implements AfterViewInit, OnInit {
   // 	Fields
+  protected dialogRef: MatDialogRef<DialogBodyComponent>;
 
   // 	Properties
+  public _tempResults = [
+    { data: [10, 8, 12, 14, 9, 10, 1], label: 'Success' },
+    { data: [0, 0, 1, 0, 0, 2, 0], label: 'Error' }
+  ];
+  public lineChartColors: Color[] = [
+    { // dark grey
+      backgroundColor: 'rgba(77,83,96,0.2)',
+      borderColor: 'rgba(77,83,96,1)',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    },
+    { // red
+      backgroundColor: 'rgba(255,0,0,0.3)',
+      borderColor: 'red',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+  public lineChartLabels: Label[] = [
+    '1pm',
+    '2pm',
+    '3pm',
+    '4pm',
+    '5pm',
+    '6pm',
+    '7pm'
+  ];
+  public lineChartOptions: ChartOptions & { annotation: any } = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      // We use this empty structure as a placeholder for dynamic theming.
+      xAxes: [{}],
+      yAxes: [
+        {
+          id: 'y-axis-0',
+          position: 'left'
+        }
+      ]
+    },
+    annotation: {
+      annotations: [
+        {
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: 'March',
+          borderColor: 'orange',
+          borderWidth: 2,
+          label: {
+            enabled: true,
+            fontColor: 'orange',
+            content: 'LineAnno'
+          }
+        }
+      ]
+    }
+  };
+
   public get Module(): DataFlowModule {
     //  this.obj is managed by BasePortComponent
     return this.obj;
@@ -47,14 +116,76 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
   @Output('manage')
   public ManageEvent: EventEmitter<DataFlowModule>;
 
+  public get StatusColor(): string {
+    if (
+      !this.Module.Status ||
+      (this.Module.Status &&
+        this.Module.Status.Code !== 0 &&
+        this.Module.Status.Code !== 100 &&
+        this.Module.Status.Code !== -100)
+    ) {
+      return 'red';
+    } else if (this.Module.Status && this.Module.Status.Code === -100) {
+      return 'yellow';
+    } else if (this.Module.Status && this.Module.Status.Code === 0) {
+      return 'green';
+    } else if (this.Module.Status && this.Module.Status.Code === 100) {
+      return 'gray';
+    }
+  }
+
+  public get StatusIconClass(): any {
+    if (
+      !this.Module.Status ||
+      (this.Module.Status &&
+        this.Module.Status.Code !== 0 &&
+        this.Module.Status.Code !== 100 &&
+        this.Module.Status.Code !== -100)
+    ) {
+      return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+    } else if (this.Module.Status && this.Module.Status.Code === -100) {
+      return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+    } else if (this.Module.Status && this.Module.Status.Code === 0) {
+      return { 'fa-check': true, 'fa-5x': !this.ViewDetails };
+    } else if (this.Module.Status && this.Module.Status.Code === 100) {
+      return { 'fa-circle-o-notch fa-spin': true, 'fa-5x': !this.ViewDetails };
+    }
+  }
+
+  public get StatusText(): string {
+    if (
+      !this.Module.Status ||
+      (this.Module.Status &&
+        this.Module.Status.Code !== 0 &&
+        this.Module.Status.Code !== 100 &&
+        this.Module.Status.Code !== -100)
+    ) {
+      return 'Provisioned resource not located';
+    } else if (this.Module.Status && this.Module.Status.Code === -100) {
+      return 'Not yet provisioned';
+    } else if (this.Module.Status && this.Module.Status.Code === 0) {
+      return 'Successfully provisioned';
+    } else if (this.Module.Status && this.Module.Status.Code === 100) {
+      return 'Provisioning unavailable';
+    }
+  }
+
+  public ViewDetails: boolean;
+
   // 	Constructors
-  constructor() {
+  constructor(protected matDialog: MatDialog) {
     super();
 
     this.ManageEvent = new EventEmitter();
   }
 
   // 	Runtime
+  public ngAfterViewInit() {
+    setTimeout(() => {
+      this._tempResults = [...this._tempResults];
+    }, 1000);
+  }
+
   public ngOnInit() {}
 
   // 	API Methods
@@ -62,16 +193,51 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent impleme
     return Math.abs(input);
   }
 
-  public ManageModule(node: any) {
+  public EditNodeName() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = this.Module;
+    dialogConfig.disableClose = true;
+
+    if (this.dialogRef != null) {
+      this.dialogRef.close({});
+
+      this.dialogRef = null;
+    }
+
+    this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
+
+    this.dialogRef.afterClosed().subscribe(value => {
+      const mdul = {
+        ...this.Module,
+        Text: value.data,
+        Name: value.data,
+        name: value.data
+      };
+
+      if (mdul.Text && mdul.Text.length > 2) {
+        this.toolkit.updateNode(this.obj, mdul);
+      }
+    });
+  }
+
+  public ManageModule() {
     this.ManageEvent.emit({
       ...this.Module
     });
+  }
+
+  public OpenModuleQuickView() {
+    this.ToggleViewDetails();
   }
 
   public RemoveNode() {
     if (this.Module != null && confirm(`Delete '${this.Module.Text}'?`)) {
       this.toolkit.removeNode(this.obj);
     }
+  }
+
+  public ToggleViewDetails() {
+    this.ViewDetails = !this.ViewDetails;
   }
 
   // 	Helpers
