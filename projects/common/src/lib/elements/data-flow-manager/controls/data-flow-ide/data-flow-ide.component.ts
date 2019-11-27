@@ -261,18 +261,16 @@ export class LcuDataFlowDataFlowIdeElementComponent
       console.log(`Dialog sent: ${value.data}`);
       const data = {
         ...params.Data,
-        name: value.data,
         Text: value.data
       };
-      data.text = value.data;
 
-      if (data.text) {
-        if (data.text.length >= 2) {
+      if (data.Text) {
+        if (data.Text.length >= 2) {
           data.id = jsPlumbUtil.uuid();
 
           params.Callback(data);
         } else {
-          alert(`${data.type} names must be at least 2 characters!`);
+          alert(`${data.Display.ModuleType} names must be at least 2 characters!`);
         }
       }
     });

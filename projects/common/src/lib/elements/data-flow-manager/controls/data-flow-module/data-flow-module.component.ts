@@ -19,9 +19,9 @@ import {
   MatDialog
 } from '@angular/material/dialog';
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
-import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
 import { ChartOptions } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
+import { DialogModuleConfigureComponent } from '../dialog-module-configure/dialog-module-configure.component';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';
@@ -40,7 +40,9 @@ export class BaseDataFlowModuleComponent extends BaseNodeComponent {}
 export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
   implements AfterViewInit, OnInit {
   // 	Fields
-  protected dialogRef: MatDialogRef<DialogBodyComponent>;
+  protected editNameDialogRef: MatDialogRef<DialogBodyComponent>;
+
+  protected configureDialogRef: MatDialogRef<DialogModuleConfigureComponent>;
 
   // 	Properties
   public _tempResults = [
@@ -48,7 +50,8 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
     { data: [0, 0, 1, 0, 0, 2, 0], label: 'Error' }
   ];
   public lineChartColors: Color[] = [
-    { // dark grey
+    {
+      // dark grey
       backgroundColor: 'rgba(77,83,96,0.2)',
       borderColor: 'rgba(77,83,96,1)',
       pointBackgroundColor: 'rgba(77,83,96,1)',
@@ -56,7 +59,8 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(77,83,96,1)'
     },
-    { // red
+    {
+      // red
       backgroundColor: 'rgba(255,0,0,0.3)',
       borderColor: 'red',
       pointBackgroundColor: 'rgba(148,159,177,1)',
@@ -112,9 +116,6 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
   }
 
   public ModuleShapes = DataFlowModuleShapeTypes;
-
-  @Output('manage')
-  public ManageEvent: EventEmitter<DataFlowModule>;
 
   public get StatusColor(): string {
     if (
@@ -175,8 +176,6 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
   // 	Constructors
   constructor(protected matDialog: MatDialog) {
     super();
-
-    this.ManageEvent = new EventEmitter();
   }
 
   // 	Runtime
@@ -198,20 +197,21 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
     dialogConfig.data = this.Module;
     dialogConfig.disableClose = true;
 
-    if (this.dialogRef != null) {
-      this.dialogRef.close({});
+    if (this.editNameDialogRef != null) {
+      this.editNameDialogRef.close({});
 
-      this.dialogRef = null;
+      this.editNameDialogRef = null;
     }
 
-    this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
+    this.editNameDialogRef = this.matDialog.open(
+      DialogBodyComponent,
+      dialogConfig
+    );
 
-    this.dialogRef.afterClosed().subscribe(value => {
+    this.editNameDialogRef.afterClosed().subscribe(value => {
       const mdul = {
         ...this.Module,
-        Text: value.data,
-        Name: value.data,
-        name: value.data
+        Text: value.data
       };
 
       if (mdul.Text && mdul.Text.length > 2) {
@@ -221,8 +221,32 @@ export class DataFlowModuleComponent extends BaseDataFlowModuleComponent
   }
 
   public ManageModule() {
-    this.ManageEvent.emit({
-      ...this.Module
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      Module: this.Module
+    };
+
+    // dialogConfig.disableClose = true;
+
+    if (this.configureDialogRef != null) {
+      this.configureDialogRef.close({});
+
+      this.configureDialogRef = null;
+    }
+
+    this.configureDialogRef = this.matDialog.open(
+      DialogModuleConfigureComponent,
+      dialogConfig
+    );
+
+    this.configureDialogRef.afterClosed().subscribe(value => {
+      const mdul = {
+        ...value
+      };
+
+      if (mdul) {
+        this.toolkit.updateNode(this.obj, mdul);
+      }
     });
   }
 

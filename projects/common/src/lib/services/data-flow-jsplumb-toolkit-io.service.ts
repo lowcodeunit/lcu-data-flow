@@ -90,9 +90,10 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
     nodes.forEach(item => {
       const mdl: DataFlowModule = {
         ID: item.id,
-        Text: item.data.name,
+        Text: item.data.Text,
         Display: item.data.Display,
         Deleted: item.data.Deleted,
+        Settings: item.data.Settings,
         Status: item.data.Status
       };
 
@@ -133,7 +134,6 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
         const jspItem = {
           ...item,
           id: item.ID,
-          name: item.Text,
           type: item.Display.ModuleType,
           left: item.Display.Left,
           top: item.Display.Top,
