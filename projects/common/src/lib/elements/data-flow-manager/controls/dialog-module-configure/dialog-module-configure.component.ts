@@ -1,6 +1,10 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { DataFlowModule, DataFlowModulePack } from "@lcu/common";
+import {
+  DataFlowModule,
+  DataFlowModulePack,
+  LCUElementContext
+} from "@lcu/common";
 import { LazyElementConfig } from "@lowcodeunit/lazy-element";
 
 export class DialogModuleConfigureSettings {
@@ -20,13 +24,9 @@ export class DialogModuleConfigureComponent implements OnInit {
   //  Properties
   public Config: LazyElementConfig;
 
-  public get Module(): DataFlowModule {
-    return this.data.Module;
-  }
+  public Context: LCUElementContext<any>;
 
-  public get Settings(): any {
-    return this.data.Module.Settings;
-  }
+  public Module: DataFlowModule;
 
   //  Constructors
   constructor(
@@ -40,10 +40,18 @@ export class DialogModuleConfigureComponent implements OnInit {
       Assets: [this.data.Module.Display.Toolkit],
       ElementName: this.data.Module.Display.Element
     };
+
+    this.Context = { State: this.data.Module.Settings || {} };
+
+    this.Module = { ...this.data.Module };
   }
 
   //  API Methods
+  public Cancel(): void {
+    this.dialogRef.close({ ...this.data.Module });
+  }
+
   public Save(): void {
-    this.dialogRef.close(this.data.Module);
+    this.dialogRef.close({ ...this.Module });
   }
 }

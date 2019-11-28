@@ -1,1 +1,11 @@
-<lcu-lazy-element [config]="Config" [context]="Settings"></lcu-lazy-element>
+<h1 mat-dialog-title>Managing {{ Module.Text }}</h1>
+
+<div mat-dialog-content>
+  <lcu-lazy-element [config]="Config" [context]="Context"></lcu-lazy-element>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="Save()">Save</button>
+
+  <button mat-button (click)="Cancel()">Cacnel</button>
+</div>
