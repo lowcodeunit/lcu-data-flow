@@ -11,7 +11,13 @@
       </ng-container>
     </div> -->
 
-  <div *ngSwitchCase="ViewTypes.List" jsplumb-surface-drop selector="a" [surfaceId]="DataFlowLookup" [dataGenerator]="DataGenerator">
+  <div
+    *ngSwitchCase="ViewTypes.List"
+    jsplumb-surface-drop
+    selector="a"
+    [surfaceId]="DataFlowLookup"
+    [dataGenerator]="DataGenerator"
+  >
     <ng-container *ngFor="let category of Categories">
       <div class="category">
         <h4 class="mat-subheading-2">
@@ -28,6 +34,7 @@
                 color="accent"
                 class="bank-module flow-option"
                 [attr.module-display]="GetObjString(display)"
+                [attr.module-settings]="GetObjString(option.Settings)"
                 [attr.module-type]="option.ModuleType"
                 title="Drag to add new"
               >

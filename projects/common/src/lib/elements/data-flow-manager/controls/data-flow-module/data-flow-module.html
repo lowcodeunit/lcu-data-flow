@@ -27,8 +27,11 @@
             title="Module Quick View"
             class="node-quick-view"
             (click)="OpenModuleQuickView()"
-            >
-              <i class="fa" [ngClass]="{'fa-eye': !ViewDetails, 'fa-eye-slash': ViewDetails}"></i>
+          >
+            <i
+              class="fa"
+              [ngClass]="{'fa-eye': !ViewDetails, 'fa-eye-slash': ViewDetails}"
+            ></i>
           </a>
 
           <a title="Rename Module" class="node-edit" (click)="EditNodeName()">
@@ -67,16 +70,16 @@
             <span *ngIf="ViewDetails">{{StatusText}}</span>
           </div>
 
-          <div class="module-status-chart">
+          <div class="module-status-chart" *ngIf="QuickView && QuickView.Chart">
             <canvas
               baseChart
               *ngIf="ViewDetails"
               chartType="line"
               [legend]="false"
-              [options]="lineChartOptions"
-              [labels]="lineChartLabels"
-              [colors]="lineChartColors"
-              [datasets]="_tempResults"
+              [options]="QuickView.Chart.Options"
+              [labels]="QuickView.Chart.Labels"
+              [colors]="QuickView.Chart.Colors"
+              [datasets]="QuickView.Chart.Results"
             ></canvas>
           </div>
         </div>

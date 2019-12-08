@@ -258,7 +258,6 @@ export class LcuDataFlowDataFlowIdeElementComponent
     this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
     this.dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value.data}`);
       const data = {
         ...params.Data,
         Text: value.data

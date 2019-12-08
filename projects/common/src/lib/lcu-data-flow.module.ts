@@ -8,7 +8,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
 import { jsPlumbToolkitModule } from 'jsplumbtoolkit-angular';
 import { jsPlumbToolkitDragDropModule } from 'jsplumbtoolkit-angular-drop';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartsModule } from 'ng2-charts';
 import { LazyElementModule } from '@lowcodeunit/lazy-element';
 
@@ -66,7 +65,6 @@ import { DialogModuleConfigureComponent } from './elements/data-flow-manager/con
     FormsModule,
     jsPlumbToolkitModule,
     jsPlumbToolkitDragDropModule,
-    NgxChartsModule,
     ChartsModule,
     LazyElementModule
   ],

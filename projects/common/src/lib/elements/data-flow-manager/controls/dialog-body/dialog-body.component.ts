@@ -28,7 +28,6 @@ export class DialogBodyComponent implements OnInit {
   constructor(
     protected dialogRef: MatDialogRef<DialogBodyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('data', data);
   }
 
   ngOnInit() {
