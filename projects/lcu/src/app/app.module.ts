@@ -12,7 +12,6 @@ import {
   LcuDataFlowDataFlowMapElementComponent,
   SelectorLcuDataFlowDataFlowMapElement
 } from '@napkin-ide/lcu-data-flow-common';
-import { Dialogs } from 'jsplumbtoolkit';
 import 'zone.js';
 import { environment } from '../environments/environment';
 
@@ -30,9 +29,6 @@ import { environment } from '../environments/environment';
 export class AppModule implements DoBootstrap {
   //  Constructors
   constructor(protected injector: Injector) {
-    Dialogs.initialize({
-      selector: '.dlg'
-    });
   }
 
   //  Life Cycle

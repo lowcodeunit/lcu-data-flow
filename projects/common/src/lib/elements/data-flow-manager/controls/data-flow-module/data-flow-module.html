@@ -3,55 +3,142 @@
   [style.height]="Abs(Module.Display.Height) + 'px'"
   class="flowchart-object flowchart-{{ Module.Display.ModuleType }}"
 >
-  <div>
-    <div title="Configure Node" class="node-configure node-action" (click)="ManageModule(Module)">
-      <i class="fa fa-gear"></i>
-    </div>
+  <div style="width: calc(100%); height: calc(100%);">
+    <mat-card style="width: 100%; height: 100%;" class="outer">
+      <mat-card-header class="inner">
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
 
-    <div title="Edit Node Name" class="node-edit node-action">
-      <i class="fa fa-pencil-square-o"></i>
-    </div>
+        <mat-card-title>
+          <mat-icon *ngIf="Module.Display.Icon?.Icon"
+            >{{Module.Display.Icon?.Icon}}</mat-icon
+          >
 
-    <a mat-icon-button title="Delete Node" class="node-delete node-action" (click)="RemoveNode()">
-      <i class="fa fa-times"></i>
-    </a>
+          {{ Module.Text }}
+        </mat-card-title>
 
-    <div
-      *ngIf="Module.Status && Module.Status.Code == 0"
-      title="Successfully provisioned"
-      class="node-action node-status"
-      style="color:green;"
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+
+      <mat-card-content class="inner">
+        <mat-toolbar class="node-actions">
+          <span class="filler"></span>
+
+          <a
+            title="Module Quick View"
+            class="node-quick-view"
+            (click)="OpenModuleQuickView()"
+          >
+            <i
+              class="fa"
+              [ngClass]="{'fa-eye': !ViewDetails, 'fa-eye-slash': ViewDetails}"
+            ></i>
+          </a>
+
+          <a title="Rename Module" class="node-edit" (click)="EditNodeName()">
+            <i class="fa fa-pencil"></i>
+          </a>
+
+          <a
+            title="Configure Module"
+            class="node-configure"
+            (click)="ManageModule()"
+          >
+            <i class="fa fa-gear"></i>
+          </a>
+
+          <a title="Delete Module" class="node-delete" (click)="RemoveNode()">
+            <i class="fa fa-times"></i>
+          </a>
+
+          <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
+            <mat-icon *ngIf="State.AllowCreationModules">check_box</mat-icon>
+
+            <mat-icon *ngIf="!State.AllowCreationModules">check_box_outline_blank</mat-icon>
+          </a> -->
+
+          <span class="filler"></span>
+        </mat-toolbar>
+
+        <div class="module-details" [ngClass]="{'hide-details': !ViewDetails}">
+          <div
+            class="module-status-check"
+            [matTooltip]="StatusText"
+            [ngStyle]="{color: StatusColor}"
+          >
+            <i [ngClass]="StatusIconClass" class="fa"></i>
+
+            <span *ngIf="ViewDetails">{{StatusText}}</span>
+          </div>
+
+          <div class="module-status-chart" *ngIf="QuickView && QuickView.Chart">
+            <canvas
+              baseChart
+              *ngIf="ViewDetails"
+              chartType="line"
+              [legend]="false"
+              [options]="QuickView.Chart.Options"
+              [labels]="QuickView.Chart.Labels"
+              [colors]="QuickView.Chart.Colors"
+              [datasets]="QuickView.Chart.Results"
+            ></canvas>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- <svg
+      [attr.width]="Abs(Module.Display.Width)"
+      [attr.height]="Abs(Module.Display.Height)"
+      [fxShow]="Module.Display.Shape == ModuleShapes.Custom"
     >
-      <i class="fa fa-check fa-3x"></i>
-    </div>
+      <path
+        [attr.d]="
+          'M ' +
+          Abs(Module.Display.Width) / 2 +
+          ' 0 L ' +
+          Abs(Module.Display.Width) +
+          ' ' +
+          Abs(Module.Display.Height) / 2 +
+          ' L ' +
+          Abs(Module.Display.Width) / 2 +
+          ' ' +
+          Abs(Module.Display.Height) +
+          ' L 0 ' +
+          Abs(Module.Display.Height) / 2 +
+          ' Z'
+        "
+        class="outer"
+      />
+      <path
+        [attr.d]="
+          'M ' +
+          Abs(Module.Display.Width) / 2 +
+          ' 10 L ' +
+          Abs(Module.Display.Width - 10) +
+          ' ' +
+          Abs(Module.Display.Height) / 2 +
+          ' L ' +
+          Abs(Module.Display.Width) / 2 +
+          ' ' +
+          Abs(Module.Display.Height - 10) +
+          ' L 10 ' +
+          Abs(Module.Display.Height) / 2 +
+          ' Z'
+        "
+        class="inner"
+      />
 
-    <div
-      *ngIf="!Module.Status || (Module.Status && Module.Status.Code != 0 && Module.Status.Code != 100 && Module.Status.Code != -100)"
-      title="Provisioned resource not located"
-      class="node-action node-status"
-      style="color:red;"
-    >
-      <i class="fa fa-exclamation-triangle fa-3x"></i>
-    </div>
+      <text
+        text-anchor="middle"
+        [attr.x]="Abs(Module.Display.Width) / 2"
+        [attr.y]="Abs(Module.Display.Height) / 2"
+        dominant-baseline="central"
+      >
+        {{ Module.Text }}
+      </text>
+    </svg> -->
 
-    <div
-      *ngIf="Module.Status && Module.Status.Code == -100"
-      title="Not yet provisioned"
-      class="node-action node-status"
-      style="color:yellow;"
-    >
-      <i class="fa fa-exclamation-triangle fa-3x"></i>
-    </div>
-
-    <div
-      *ngIf="Module.Status && Module.Status.Code == 100"
-      title="Provisioning unavailable"
-      class="node-action node-status"
-      style="color:gray;"
-    >
-      <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
-    </div>
-
+    <!--
     <svg
       [attr.width]="Abs(Module.Display.Width)"
       [attr.height]="Abs(Module.Display.Height)"
@@ -123,59 +210,7 @@
       >
         {{ Module.Text }}
       </text>
-    </svg>
-
-    <svg
-      [attr.width]="Abs(Module.Display.Width)"
-      [attr.height]="Abs(Module.Display.Height)"
-      [fxShow]="Module.Display.Shape == ModuleShapes.Custom"
-    >
-      <path
-        [attr.d]="
-          'M ' +
-          Abs(Module.Display.Width) / 2 +
-          ' 0 L ' +
-          Abs(Module.Display.Width) +
-          ' ' +
-          Abs(Module.Display.Height) / 2 +
-          ' L ' +
-          Abs(Module.Display.Width) / 2 +
-          ' ' +
-          Abs(Module.Display.Height) +
-          ' L 0 ' +
-          Abs(Module.Display.Height) / 2 +
-          ' Z'
-        "
-        class="outer"
-      />
-      <path
-        [attr.d]="
-          'M ' +
-          Abs(Module.Display.Width) / 2 +
-          ' 10 L ' +
-          Abs(Module.Display.Width - 10) +
-          ' ' +
-          Abs(Module.Display.Height) / 2 +
-          ' L ' +
-          Abs(Module.Display.Width) / 2 +
-          ' ' +
-          Abs(Module.Display.Height - 10) +
-          ' L 10 ' +
-          Abs(Module.Display.Height) / 2 +
-          ' Z'
-        "
-        class="inner"
-      />
-
-      <text
-        text-anchor="middle"
-        [attr.x]="Abs(Module.Display.Width) / 2"
-        [attr.y]="Abs(Module.Display.Height) / 2"
-        dominant-baseline="central"
-      >
-        {{ Module.Text }}
-      </text>
-    </svg>
+    </svg> -->
   </div>
 
   <jtk-target port-type="target"></jtk-target>

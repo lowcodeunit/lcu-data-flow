@@ -11,7 +11,7 @@
         overflow: hidden;
 
         .mat-mini-fab {
-          margin: 0 .5rem;
+          margin: 0 0.5rem;
         }
 
         .home-actions {
@@ -93,6 +93,14 @@
 
   /* ----------------------- node styles ------------------------- */
 
+  .jtk-node svg {
+    position: absolute;
+    stroke: none;
+    fill: #4a918e;
+    left: 0;
+    top: 0;
+  }
+
   .flowchart-object {
     position: absolute;
     text-align: center;
@@ -105,67 +113,124 @@
     border-radius: 0;
     min-width: 0;
     min-height: 0;
-  }
 
-  .jtk-node svg {
-    position: absolute;
-    stroke: none;
-    fill: #4a918e;
-    left: 0;
-    top: 0;
-  }
+    text {
+      stroke: none;
+      fill: #fff;
+      font-family: "Open Sans", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+    }
 
-  .flowchart-object text {
-    stroke: none;
-    fill: #fff;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-  }
+    .node-actions {
+      height: auto;
+      padding: 0.1em;
 
-  .flowchart-object .node-action {
-    display: none;
-    position: absolute;
-    top: 24px;
-    cursor: pointer;
-    color: #fff;
-    z-index: 10000;
-  }
+      a {
+        cursor: pointer;
+        margin: 0 0.5em;
+        color: #fff;
+        font-size: 12px;
+        line-height: 15px;
 
-  .flowchart-object .drag-start {
-    cursor: pointer;
-  }
-
-  .flowchart-object .node-action:hover {
-    color: #282d35;
-  }
-
-  .flowchart-object .node-edit {
-    left: 50%;
-    margin-left: -20px;
-  }
-
-  .flowchart-object .node-delete {
-    left: 50%;
-    margin-left: 10px;
-  }
-
-  .flowchart-object.jtk-surface-selected-element .node-action {
-    display: block;
+        &:hover {
+          color: #282d35;
+        }
+      }
+    }
   }
 
   .outer {
-    fill: gray;
-    opacity: 0.3;
+    padding: 0;
+    opacity: 0.6;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0.5em;
+    background-color: #92aba3;
     cursor: pointer;
-  }
 
-  .flowchart-object:hover .outer {
-    opacity: 0.7;
+    .mat-card-header-text {
+      margin: 0 0.5em;
+    }
+
+    & > :first-child {
+      margin-top: 0.5em;
+    }
+
+    & > :last-child {
+      margin-bottom: 0.5em;
+    }
+
+    & > * {
+      margin: 0.5em;
+    }
   }
 
   .inner {
+    opacity: 0.8;
+    border-radius: 0.5em;
+    background-color: #b2c4be;
     cursor: move !important;
+
+    .mat-toolbar {
+      opacity: 0.5;
+      background-color: #4a918e;
+    }
+
+    .module-details {
+      margin: 0.5em;
+      text-align: left;
+      height: calc(100% - 15px - 1em);
+      position: relative;
+
+      .module-status-check {
+        font-size: 11px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .module-status-chart {
+        position: relative;
+        height: calc(100% - 13px);
+
+        canvas {
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      &.hide-details {
+        margin-top: 2.5em;
+        text-align: center;
+
+        .module-status-chart {
+          display: none;
+        }
+      }
+    }
+
+    &.mat-card-header {
+      height: 24px;
+    }
+
+    &.mat-card-content {
+      height: calc(100% - 24px - 1.5em);
+    }
+  }
+
+  .flowchart-object:hover {
+    .outer {
+      opacity: 0.8;
+    }
+
+    .inner {
+      opacity: 0.9;
+
+      .mat-toolbar {
+        opacity: 0.8;
+      }
+    }
   }
 
   .connection-drop svg {

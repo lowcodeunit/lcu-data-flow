@@ -1,13 +1,25 @@
 import { DialogBodyComponent } from './../dialog-body/dialog-body.component';
-import { Component, OnInit, Injector, ViewChild, OnDestroy, AfterViewInit, Input, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Injector,
+  ViewChild,
+  OnDestroy,
+  AfterViewInit,
+  Input,
+  Inject
+} from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
-import { jsPlumbSurfaceComponent, AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
+import {
+  jsPlumbSurfaceComponent,
+  AngularViewOptions,
+  jsPlumbService
+} from 'jsplumbtoolkit-angular';
 import {
   Surface,
   jsPlumbToolkit,
-  Dialogs,
   DrawingTools,
   jsPlumbUtil,
   LayoutSpec,
@@ -19,7 +31,13 @@ import {
 } from 'jsplumbtoolkit';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogConfig
+} from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 export interface DialogData {
   animal: string;
@@ -28,9 +46,12 @@ export interface DialogData {
 
 export class LcuDataFlowDataFlowIdeElementState {}
 
-export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<LcuDataFlowDataFlowIdeElementState> {}
+export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<
+  LcuDataFlowDataFlowIdeElementState
+> {}
 
-export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element';
+export const SelectorLcuDataFlowDataFlowIdeElement =
+  'lcu-data-flow-ide-element';
 
 // @Component({
 //   selector: 'dialog-overview-example-dialog',
@@ -53,12 +74,15 @@ export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element'
   templateUrl: './data-flow-ide.component.html',
   styleUrls: ['./data-flow-ide.component.scss']
 })
-export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
+export class LcuDataFlowDataFlowIdeElementComponent
+  extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
   implements AfterViewInit, OnDestroy, OnInit {
   //  Fields
   protected dialogRef: MatDialogRef<DialogBodyComponent>;
 
   protected drawing: DrawingTools;
+
+  protected subscriptions: { [key: string]: Subscription };
 
   protected surface: Surface;
 
@@ -89,6 +113,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     super(injector);
 
     this.SelectMode = 'pan';
+
+    this.subscriptions = {};
   }
 
   //  Life Cycle
@@ -109,9 +135,13 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   public ngOnDestroy() {
-    console.log('flowchart being destroyed');
+    for (const key in this.subscriptions) {
+      if (this.subscriptions[key]) {
+        this.subscriptions[key].unsubscribe();
 
-    //  TODO: Destroy all subscription, like state sub
+        delete this.subscriptions[key];
+      }
+    }
   }
 
   public ngOnInit() {
@@ -141,14 +171,20 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   public async Relayout(refreshOutput: boolean = false) {
     if (this.surface && this.State.ActiveDataFlow) {
-      await this.io.LoadOntoSurface(this.surface, this.State.ActiveDataFlow.Output, refreshOutput);
+      await this.io.LoadOntoSurface(
+        this.surface,
+        this.State.ActiveDataFlow.Output,
+        refreshOutput
+      );
     }
   }
 
   public async Save() {
     this.State.Loading = true;
 
-    this.State.ActiveDataFlow.Output = await this.io.ExportFromSurface(this.surface);
+    this.State.ActiveDataFlow.Output = await this.io.ExportFromSurface(
+      this.surface
+    );
 
     this.state.SaveDataFlow(this.State.ActiveDataFlow);
   }
@@ -177,20 +213,24 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   protected editLabel(edge: Edge) {
-    Dialogs.show({
-      id: 'dlgText',
-      data: {
-        text: edge.data.label || ''
-      },
-      onOK: (data: any) => {
-        this.toolkit.updateEdge(edge, { label: data.text });
-      }
-    });
+    //  TODO:  REplace with Material dialogs
+    // Dialogs.show({
+    //   id: 'dlgText',
+    //   data: {
+    //     text: edge.data.label || ''
+    //   },
+    //   onOK: (data: any) => {
+    //     this.toolkit.updateEdge(edge, { label: data.text });
+    //   }
+    // });
   }
 
   protected async handleStateChanged() {
     if (this.State.ActiveDataFlow) {
-      this.toolkit = this.$jsplumb.getToolkit(this.State.ActiveDataFlow.Lookup, this.ToolkitParams);
+      this.toolkit = this.$jsplumb.getToolkit(
+        this.State.ActiveDataFlow.Lookup,
+        this.ToolkitParams
+      );
 
       this.io.SetViewNodes(this.State.ModuleOptions, this.View);
     }
@@ -198,14 +238,18 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     await this.Relayout(true);
   }
 
-  protected nodeAdded(node: { type: string; data: any; callback: (data: object) => void }) {}
+  protected nodeAdded(node: {
+    type: string;
+    data: any;
+    callback: (data: object) => void;
+  }) {}
 
   protected nodeFactory(params: DataFlowNodeFactoryParams) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = params;
     dialogConfig.disableClose = true;
 
-    if (this.dialogRef != null){
+    if (this.dialogRef != null) {
       this.dialogRef.close({});
 
       this.dialogRef = null;
@@ -214,21 +258,18 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
     this.dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value.data}`);
       const data = {
         ...params.Data,
-        name: value.data,
         Text: value.data
       };
-      data.text = value.data;
 
-      if (data.text) {
-        if (data.text.length >= 2) {
+      if (data.Text) {
+        if (data.Text.length >= 2) {
           data.id = jsPlumbUtil.uuid();
 
           params.Callback(data);
         } else {
-          alert(`${data.type} names must be at least 2 characters!`);
+          alert(`${data.Display.ModuleType} names must be at least 2 characters!`);
         }
       }
     });
@@ -245,28 +286,46 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
     this.View = this.io.LoadView();
 
-    this.io.EdgeAdded.subscribe(params => {
-      this.edgeAdded(params);
-    });
+    if (!this.subscriptions.EdgeAdded) {
+      this.subscriptions.EdgeAdded = this.io.EdgeAdded.subscribe(params => {
+        this.edgeAdded(params);
+      });
+    }
 
-    this.io.EdgeDoubleClicked.subscribe(params => {
-      this.removeEdge(params.edge);
-    });
+    if (!this.subscriptions.EdgeDoubleClicked) {
+      this.subscriptions.EdgeDoubleClicked = this.io.EdgeDoubleClicked.subscribe(
+        params => {
+          this.removeEdge(params.edge);
+        }
+      );
+    }
 
-    this.io.EdgeLabelClicked.subscribe(params => {
-      this.editLabel(params.edge);
-    });
+    if (!this.subscriptions.EdgeLabelClicked) {
+      this.subscriptions.EdgeLabelClicked = this.io.EdgeLabelClicked.subscribe(
+        params => {
+          this.editLabel(params.edge);
+        }
+      );
+    }
 
-    this.io.NodeAdded.subscribe(params => {
-      this.nodeAdded(params.node);
-    });
+    if (!this.subscriptions.NodeAdded) {
+      this.subscriptions.NodeAdded = this.io.NodeAdded.subscribe(params => {
+        this.nodeAdded(params.node);
+      });
+    }
 
-    this.io.NodeFactoried.subscribe(params => {
-      this.nodeFactory(params);
-    });
+    if (!this.subscriptions.NodeFactoried) {
+      this.subscriptions.NodeFactoried = this.io.NodeFactoried.subscribe(
+        params => {
+          this.nodeFactory(params);
+        }
+      );
+    }
 
-    this.io.NodeTapped.subscribe(params => {
-      this.toolkit.toggleSelection(params.node);
-    });
+    if (!this.subscriptions.NodeTapped) {
+      this.subscriptions.NodeTapped = this.io.NodeTapped.subscribe(params => {
+        // this.toolkit.toggleSelection(params.node);
+      });
+    }
   }
 }

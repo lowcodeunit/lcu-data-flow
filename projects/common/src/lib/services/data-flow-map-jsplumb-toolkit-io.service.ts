@@ -4,7 +4,6 @@ import {
   Surface,
   LayoutSpec,
   jsPlumbToolkit,
-  Dialogs,
   jsPlumbUtil,
   jsPlumbToolkitOptions,
   SurfaceRenderParams

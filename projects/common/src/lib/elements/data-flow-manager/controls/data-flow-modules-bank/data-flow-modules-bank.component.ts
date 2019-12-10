@@ -65,12 +65,15 @@ export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementCo
 
     const display: DataFlowModuleDisplay = JSON.parse(el.getAttribute('module-display'));
 
+    const settings: any = JSON.parse(el.getAttribute('module-settings'));
+
     return {
       name: moduleType,
       type: moduleType,
       w: display.Width,
       h: display.Height,
-      Display: display
+      Display: display,
+      Settings: settings
     };
   }
 

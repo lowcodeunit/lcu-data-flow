@@ -28,7 +28,6 @@ export class DialogBodyComponent implements OnInit {
   constructor(
     protected dialogRef: MatDialogRef<DialogBodyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('data', data);
   }
 
   ngOnInit() {
@@ -37,7 +36,7 @@ export class DialogBodyComponent implements OnInit {
 
   protected setupForm(): void {
     this.Form = new FormGroup({
-      nameControl: new FormControl('', Validators.compose([Validators.required])),
+      nameControl: new FormControl(this.data.Text, Validators.compose([Validators.required])),
     });
 
     this.onChanges();
