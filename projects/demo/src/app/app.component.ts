@@ -4,6 +4,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 
 import { Subscription } from 'rxjs';
 import { LCUServiceSettings } from '@lcu/common';
+import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 
 @Component({
   selector: 'lcu-root',
@@ -13,10 +14,17 @@ import { LCUServiceSettings } from '@lcu/common';
 export class AppComponent implements OnInit {
   public BackgroundImage: string;
 
+  public LazyConfig: LazyElementConfig;
+
   public SelectedTheme: string;
 
   constructor(protected overlayContainer: OverlayContainer, protected settings: LCUServiceSettings) {
     this.BackgroundImage = './assets/images/bg_image.jpg';
+
+    this.LazyConfig = {
+      Assets: ['/assets/wc/lcu-data-flow.lcu.js'],
+      ElementName: 'lcu-data-flow-manager-element'
+    };
   }
 
   public ngOnInit(): void {}

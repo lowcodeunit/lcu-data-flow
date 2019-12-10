@@ -20,10 +20,10 @@ import { environment } from '../environments/environment';
   imports: [BrowserModule, BrowserAnimationsModule, FathymSharedModule, LcuDataFlowModule.forRoot()],
   exports: [LcuDataFlowModule],
   providers: [
-    // {
-    //   provide: LCUServiceSettings,
-    //   useValue: FathymSharedModule.DefaultServiceSettings(environment)
-    // }
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    }
   ]
 })
 export class AppModule implements DoBootstrap {
