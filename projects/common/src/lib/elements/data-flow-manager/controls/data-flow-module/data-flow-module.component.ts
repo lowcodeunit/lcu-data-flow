@@ -82,13 +82,17 @@ export class DataFlowModuleComponent extends BaseNodeComponent
         this.Module.Status.Code !== 100 &&
         this.Module.Status.Code !== -100)
     ) {
-      return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+      // return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+      return 'warning';
     } else if (this.Module.Status && this.Module.Status.Code === -100) {
-      return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+      // return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+      return 'warning';
     } else if (this.Module.Status && this.Module.Status.Code === 0) {
-      return { 'fa-check': true, 'fa-5x': !this.ViewDetails };
+      // return { 'fa-check': true, 'fa-5x': !this.ViewDetails };
+      return 'check';
     } else if (this.Module.Status && this.Module.Status.Code === 100) {
-      return { 'fa-circle-o-notch fa-spin': true, 'fa-5x': !this.ViewDetails };
+      // return { 'fa-circle-o-notch fa-spin': true, 'fa-5x': !this.ViewDetails };
+      return 'sync'; // TODO: Loading spinner here
     }
   }
 

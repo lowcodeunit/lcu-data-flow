@@ -60,12 +60,11 @@
         </mat-toolbar>
 
         <div class="module-details" [ngClass]="{'hide-details': !ViewDetails}">
-          <div
-            class="module-status-check"
+          <div class="module-status-check"
             [matTooltip]="StatusText"
-            [ngStyle]="{color: StatusColor}"
-          >
-            <i [ngClass]="StatusIconClass" class="fa"></i>
+            [ngStyle]="{color: StatusColor}">
+            <!-- <i [ngClass]="StatusIconClass" class="fa"></i> -->
+            <mat-icon>{{StatusIconClass}}</mat-icon>
 
             <span *ngIf="ViewDetails">{{StatusText}}</span>
           </div>
