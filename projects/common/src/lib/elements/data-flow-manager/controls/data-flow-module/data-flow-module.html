@@ -1,8 +1,6 @@
-<div
-  [style.width]="Abs(Module.Display.Width) + 'px'"
+<div [style.width]="Abs(Module.Display.Width) + 'px'"
   [style.height]="Abs(Module.Display.Height) + 'px'"
-  class="flowchart-object flowchart-{{ Module.Display.ModuleType }}"
->
+  class="flowchart-object flowchart-{{ Module.Display.ModuleType }}">
   <div style="width: calc(100%); height: calc(100%);">
     <mat-card style="width: 100%; height: 100%;" class="outer">
       <mat-card-header class="inner">
@@ -10,8 +8,8 @@
 
         <mat-card-title>
           <mat-icon *ngIf="Module.Display.Icon?.Icon"
-            >{{Module.Display.Icon?.Icon}}</mat-icon
-          >
+            >{{Module.Display.Icon?.Icon}}
+          </mat-icon>
 
           {{ Module.Text }}
         </mat-card-title>
@@ -26,28 +24,22 @@
           <a title="Module Quick View"
             class="node-quick-view"
             (click)="OpenModuleQuickView()">
-            <!-- <i class="fa"
-              [ngClass]="{'fa-eye': !ViewDetails, 'fa-eye-slash': ViewDetails}"
-            ></i> -->
-            <mat-icon>visibility</mat-icon>
-            <!-- <mat-icon>visibility_off</mat-icon> -->
+            <mat-icon *ngIf="!ViewDetails" class="module-status-icon-sm">visibility</mat-icon>
+            <mat-icon *ngIf="ViewDetails" class="module-status-icon-sm">visibility_off</mat-icon>
           </a>
 
           <a title="Rename Module" class="node-edit" (click)="EditNodeName()">
-            <!-- <i class="fa fa-pencil"></i> -->
-            <mat-icon>edit</mat-icon>
+            <mat-icon class="module-status-icon-sm">edit</mat-icon>
           </a>
 
           <a title="Configure Module"
             class="node-configure"
             (click)="ManageModule()">
-            <!-- <i class="fa fa-gear"></i> -->
-            <mat-icon>settings_applications</mat-icon>
+            <mat-icon class="module-status-icon-sm">settings</mat-icon>
           </a>
 
           <a title="Delete Module" class="node-delete" (click)="RemoveNode()">
-            <!-- <i class="fa fa-times"></i> -->
-            <mat-icon>close</mat-icon>
+            <mat-icon class="module-status-icon-sm">close</mat-icon>
           </a>
 
           <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
@@ -63,8 +55,14 @@
           <div class="module-status-check"
             [matTooltip]="StatusText"
             [ngStyle]="{color: StatusColor}">
-            <!-- <i [ngClass]="StatusIconClass" class="fa"></i> -->
-            <mat-icon>{{StatusIconClass}}</mat-icon>
+
+            <mat-icon *ngIf="StatusIconClass !== 'sync'" [ngClass]="{'module-status-icon-lg': !ViewDetails, 'module-status-icon-sm': ViewDetails}">{{StatusIconClass}}</mat-icon>
+
+            <mat-progress-spinner *ngIf="StatusIconClass === 'sync'"
+              mode="indeterminate"
+              style="display: inline-flex;"
+              [diameter]="StatusDiameter">
+            </mat-progress-spinner>
 
             <span *ngIf="ViewDetails">{{StatusText}}</span>
           </div>
