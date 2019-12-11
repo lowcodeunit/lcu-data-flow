@@ -23,31 +23,31 @@
         <mat-toolbar class="node-actions">
           <span class="filler"></span>
 
-          <a
-            title="Module Quick View"
+          <a title="Module Quick View"
             class="node-quick-view"
-            (click)="OpenModuleQuickView()"
-          >
-            <i
-              class="fa"
+            (click)="OpenModuleQuickView()">
+            <!-- <i class="fa"
               [ngClass]="{'fa-eye': !ViewDetails, 'fa-eye-slash': ViewDetails}"
-            ></i>
+            ></i> -->
+            <mat-icon>visibility</mat-icon>
+            <!-- <mat-icon>visibility_off</mat-icon> -->
           </a>
 
           <a title="Rename Module" class="node-edit" (click)="EditNodeName()">
-            <i class="fa fa-pencil"></i>
+            <!-- <i class="fa fa-pencil"></i> -->
+            <mat-icon>edit</mat-icon>
           </a>
 
-          <a
-            title="Configure Module"
+          <a title="Configure Module"
             class="node-configure"
-            (click)="ManageModule()"
-          >
-            <i class="fa fa-gear"></i>
+            (click)="ManageModule()">
+            <!-- <i class="fa fa-gear"></i> -->
+            <mat-icon>settings_applications</mat-icon>
           </a>
 
           <a title="Delete Module" class="node-delete" (click)="RemoveNode()">
-            <i class="fa fa-times"></i>
+            <!-- <i class="fa fa-times"></i> -->
+            <mat-icon>close</mat-icon>
           </a>
 
           <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
