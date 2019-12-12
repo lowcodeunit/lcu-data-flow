@@ -1,13 +1,6 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit
-} from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { BaseNodeComponent } from 'jsplumbtoolkit-angular';
-import {
-  DataFlowModuleShapeTypes,
-  DataFlowModule
-} from '@lcu/common';
+import { DataFlowModuleShapeTypes, DataFlowModule } from '@lcu/common';
 import {
   MatDialogRef,
   MatDialogConfig,
@@ -17,18 +10,14 @@ import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
 import { ChartOptions } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { DialogModuleConfigureComponent } from '../dialog-module-configure/dialog-module-configure.component';
+import { LCUChart } from '../../../../models/chart';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';
 }
 
 export class DataFlowModuleQuickView {
-  public Chart: {
-    Results: any[];
-    Colors: Color[];
-    Labels: Label[];
-    Options: ChartOptions & { annotation: any };
-  };
+  public Chart: LCUChart;
 }
 
 @Component({
@@ -131,9 +120,10 @@ export class DataFlowModuleComponent extends BaseNodeComponent
   }
 
   public EditNodeName() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = this.Module;
-    dialogConfig.disableClose = true;
+    const dialogConfig: MatDialogConfig = {
+      data: this.Module,
+      disableClose: true
+    };
 
     if (this.editNameDialogRef != null) {
       this.editNameDialogRef.close({});
@@ -159,9 +149,12 @@ export class DataFlowModuleComponent extends BaseNodeComponent
   }
 
   public ManageModule() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = {
-      Module: this.Module
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        Module: this.Module
+      },
+      height: '95%',
+      width: '95%'
     };
 
     // dialogConfig.disableClose = true;
@@ -204,10 +197,10 @@ export class DataFlowModuleComponent extends BaseNodeComponent
 
   // 	Helpers
   protected setQuickView() {
-    const status = <any> this.Module.Status;
+    const status = <any>this.Module.Status;
 
     if (status && status.QuickView && status.QuickView.Chart) {
-      this.QuickView = <DataFlowModuleQuickView> status.QuickView;
+      this.QuickView = <DataFlowModuleQuickView>status.QuickView;
     } else {
       this.QuickView = null;
     }

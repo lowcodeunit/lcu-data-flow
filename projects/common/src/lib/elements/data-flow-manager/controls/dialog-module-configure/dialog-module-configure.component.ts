@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   DataFlowModule,
   DataFlowModulePack,
   LCUElementContext
-} from "@lcu/common";
-import { LazyElementConfig } from "@lowcodeunit/lazy-element";
+} from '@lcu/common';
+import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 
 export class DialogModuleConfigureSettings {
   public Pack: DataFlowModulePack;
@@ -14,9 +14,9 @@ export class DialogModuleConfigureSettings {
 }
 
 @Component({
-  selector: "lcu-dialog-module-configure",
-  templateUrl: "./dialog-module-configure.component.html",
-  styleUrls: ["./dialog-module-configure.component.scss"]
+  selector: 'lcu-dialog-module-configure',
+  templateUrl: './dialog-module-configure.component.html',
+  styleUrls: ['./dialog-module-configure.component.scss']
 })
 export class DialogModuleConfigureComponent implements OnInit {
   //  Helpers
@@ -36,14 +36,22 @@ export class DialogModuleConfigureComponent implements OnInit {
 
   //  Life Cycle
   public ngOnInit() {
+    this.Module = { ...this.data.Module };
+
     this.Config = {
-      Assets: [this.data.Module.Display.Toolkit],
-      ElementName: this.data.Module.Display.Element
+      Assets: [this.Module.Display.Toolkit],
+      ElementName: this.Module.Display.Element
     };
 
-    this.Context = { State: this.data.Module.Settings || {} };
+    const settings = this.Module.Settings || {};
 
-    this.Module = { ...this.data.Module };
+    const status: any = this.Module.Status || {};
+
+    const quickView: any = status.QuickView || {};
+
+    const state = {...settings, Chart: quickView.Chart };
+
+    this.Context = { State: state };
   }
 
   //  API Methods
