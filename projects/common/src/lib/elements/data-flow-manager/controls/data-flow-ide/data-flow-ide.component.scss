@@ -210,6 +210,18 @@
       }
     }
 
+    .module-status-icon-lg {
+      font-size: 50px;
+      height: 50px;
+      width: 50px;
+    }
+
+    .module-status-icon-sm {
+      font-size: 12px;
+      height: 12px;
+      width: 12px;
+    }
+
     &.mat-card-header {
       height: 24px;
     }

@@ -44,10 +44,10 @@
       <div>
         <mat-form-field style="width: 100%">
           <input type="text" matInput placeholder="Lookup" formControlName="lookup" required maxlength="4" />
-          <i matSuffix
-            matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating"
-            class="fa fa-info-circle"
-          ></i>
+          <mat-icon matSuffix
+            matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating">
+            info
+          </mat-icon>
         </mat-form-field>
       </div>
 

@@ -1,16 +1,11 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   AfterViewInit
 } from '@angular/core';
 import { BaseNodeComponent } from 'jsplumbtoolkit-angular';
-import { jsPlumbToolkit, Surface } from 'jsplumbtoolkit';
 import {
   DataFlowModuleShapeTypes,
-  DataFlowActionEvent,
-  DataFlow,
   DataFlowModule
 } from '@lcu/common';
 import {
@@ -74,6 +69,10 @@ export class DataFlowModuleComponent extends BaseNodeComponent
     }
   }
 
+  public get StatusDiameter(): number {
+    return !this.ViewDetails ? 50 : 12;
+  }
+
   public get StatusIconClass(): any {
     if (
       !this.Module.Status ||
@@ -82,13 +81,13 @@ export class DataFlowModuleComponent extends BaseNodeComponent
         this.Module.Status.Code !== 100 &&
         this.Module.Status.Code !== -100)
     ) {
-      return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+      return 'warning';
     } else if (this.Module.Status && this.Module.Status.Code === -100) {
-      return { 'fa-exclamation-triangle': true, 'fa-5x': !this.ViewDetails };
+      return 'warning';
     } else if (this.Module.Status && this.Module.Status.Code === 0) {
-      return { 'fa-check': true, 'fa-5x': !this.ViewDetails };
+      return 'check';
     } else if (this.Module.Status && this.Module.Status.Code === 100) {
-      return { 'fa-circle-o-notch fa-spin': true, 'fa-5x': !this.ViewDetails };
+      return 'sync';
     }
   }
 
