@@ -1,25 +1,7 @@
 <h1 mat-dialog-title>Managing {{ Module.Text }}</h1>
 
-<div mat-dialog-content (click)="$event.stopPropagation();">
+<div mat-dialog-content>
   <lcu-lazy-element [config]="Config" [context]="Context"></lcu-lazy-element>
-
-  <hr>
-
-  <ng-container>
-    <mat-tab-group>
-      <mat-tab label="Test 1">
-        <h1>Test 1 Content</h1>
-      </mat-tab>
-
-      <mat-tab label="Test 2">
-        <h1>Test 2 Content</h1>
-      </mat-tab>
-
-      <mat-tab label="Test 3">
-        <h1>Test 3 Content</h1>
-      </mat-tab>
-    </mat-tab-group>
-  </ng-container>
 </div>
 
 <div mat-dialog-actions>
