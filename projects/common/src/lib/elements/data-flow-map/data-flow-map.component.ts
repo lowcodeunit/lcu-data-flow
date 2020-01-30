@@ -1,5 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
+import { DataFlowManagerState } from '../../core/data-flow-manager-state.model';
+import { DataFlowManagerStateManagerContext } from '../../core/data-flow-manager-state-manager.context';
 
 export class LcuDataFlowDataFlowMapElementState {}
 
@@ -16,18 +18,32 @@ export class LcuDataFlowDataFlowMapElementComponent extends LcuElementComponent<
   //  Fields
 
   //  Properties
+  public State: DataFlowManagerState;
 
   //  Constructors
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, protected state: DataFlowManagerStateManagerContext) {
     super(injector);
+    console.log('aksljdflasjdflkjasdlfkjadslfkjdlds');
+    debugger;
   }
 
   //  Life Cycle
   public ngOnInit() {
     super.ngOnInit();
+
+    this.state.Context.subscribe(async state => {
+      this.State = state;
+
+      await this.handleStateChanged();
+    });
   }
 
   //  API Methods
 
   //  Helpers
+  protected async handleStateChanged() {
+    if (this.State) {
+     console.log('state', this.State);
+    }
+  }
 }
