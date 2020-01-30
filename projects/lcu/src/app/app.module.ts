@@ -10,7 +10,7 @@ import {
   LcuDataFlowDataFlowAnalyticsElementComponent,
   SelectorLcuDataFlowDataFlowAnalyticsElement,
   LcuDataFlowDataFlowMapElementComponent,
-  SelectorLcuDataFlowDataFlowMapElement
+  SelectorLcuDataFlowDataFlowMapElement,
 } from '@napkin-ide/lcu-data-flow-common';
 import 'zone.js';
 import { environment } from '../environments/environment';

@@ -4,3 +4,30 @@
     max-height: 100%;
   }
 }
+
+@mixin dialog-module-component-theme($theme) {
+  .even { 
+    background-color: mat-color(map-get($theme, primary), 700) !important; 
+  }
+
+  .odd { 
+    background-color: mat-color(map-get($theme, accent), 700) !important; 
+  }
+
+  .clipboard-icon {
+    color: mat-color(map-get($theme, primary), A700) !important; 
+  }
+}
+
+.rotate-180 {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.word-break-all {
+  word-break: break-all
+}
+
