@@ -14,6 +14,8 @@ import {
 } from '@napkin-ide/lcu-data-flow-common';
 import 'zone.js';
 import { environment } from '../environments/environment';
+import { LcuDataFlowDataFlowSchemaMapElementComponent } from '@lowcodeunit/lcu-data-flow-common';
+import { SELECTOR_LCU_DATA_FLOW_DATA_FLOW_SCHEMA_MAP_ELEMENT } from '@lowcodeunit/lcu-data-flow-common';
 
 @NgModule({
   declarations: [],
@@ -44,5 +46,9 @@ export class AppModule implements DoBootstrap {
     const dfmMgr = createCustomElement(LcuDataFlowDataFlowMapElementComponent, { injector: this.injector });
 
     customElements.define(SelectorLcuDataFlowDataFlowMapElement, dfmMgr);
-  }
+  
+		const dataFlowSchemaMap = createCustomElement(LcuDataFlowDataFlowSchemaMapElementComponent, { injector: this.injector });
+
+		customElements.define(SELECTOR_LCU_DATA_FLOW_DATA_FLOW_SCHEMA_MAP_ELEMENT, dataFlowSchemaMap);
+	}
 }

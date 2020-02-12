@@ -1,7 +1,13 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu/common';
+import { LCUElementContext, LcuElementComponent, JSONSchema } from '@lcu/common';
+import { SchemaFunctionDefinition } from '../../models/DataFlowModuleSchemaConfig';
 
-export class LcuDataFlowDataFlowMapElementState {}
+export class LcuDataFlowDataFlowMapElementState {
+  public AvailableSchemaFunctions: SchemaFunctionDefinition[];
+
+  public Schemas: JSONSchema[];
+
+}
 
 export class LcuDataFlowDataFlowMapContext extends LCUElementContext<LcuDataFlowDataFlowMapElementState> {}
 
