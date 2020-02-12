@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   public SelectedTheme: string;
 
-  public ShowMap: boolean;
+  public ShowMap: boolean = true;
 
   constructor(protected overlayContainer: OverlayContainer, protected settings: LCUServiceSettings) {
     this.BackgroundImage = './assets/images/bg_image.jpg';
@@ -30,4 +30,8 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {}
+
+  public Toggle(): void {
+    this.ShowMap = !this.ShowMap;
+  }
 }

@@ -44,13 +44,13 @@ export interface DialogData {
   name: string;
 }
 
-export class LcuDataFlowDataFlowIdeElementState {}
+export class LcuDataFlowIdeElementState {}
 
-export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<
-  LcuDataFlowDataFlowIdeElementState
+export class LcuDataFlowIdeContext extends LCUElementContext<
+  LcuDataFlowIdeElementState
 > {}
 
-export const SelectorLcuDataFlowDataFlowIdeElement =
+export const SelectorLcuDataFlowIdeElement =
   'lcu-data-flow-ide-element';
 
 // @Component({
@@ -70,12 +70,12 @@ export const SelectorLcuDataFlowDataFlowIdeElement =
 // }
 
 @Component({
-  selector: SelectorLcuDataFlowDataFlowIdeElement,
+  selector: SelectorLcuDataFlowIdeElement,
   templateUrl: './data-flow-ide.component.html',
   styleUrls: ['./data-flow-ide.component.scss']
 })
-export class LcuDataFlowDataFlowIdeElementComponent
-  extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
+export class LcuDataFlowIdeElementComponent
+  extends LcuElementComponent<LcuDataFlowIdeContext>
   implements AfterViewInit, OnDestroy, OnInit {
   //  Fields
   protected dialogRef: MatDialogRef<DialogBodyComponent>;

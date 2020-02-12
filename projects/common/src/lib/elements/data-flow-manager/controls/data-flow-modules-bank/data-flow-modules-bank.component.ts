@@ -7,18 +7,18 @@ export enum DataFlowModulesBankViewTypes {
   List
 }
 
-export class LcuDataFlowDataFlowModulesBankElementState {}
+export class LcuDataFlowModulesBankElementState {}
 
-export class LcuDataFlowDataFlowModulesBankContext extends LCUElementContext<LcuDataFlowDataFlowModulesBankElementState> {}
+export class LcuDataFlowModulesBankContext extends LCUElementContext<LcuDataFlowModulesBankElementState> {}
 
-export const SelectorLcuDataFlowDataFlowModulesBankElement = 'lcu-data-flow-modules-bank-element';
+export const SelectorLcuDataFlowModulesBankElement = 'lcu-data-flow-modules-bank-element';
 
 @Component({
-  selector: SelectorLcuDataFlowDataFlowModulesBankElement,
+  selector: SelectorLcuDataFlowModulesBankElement,
   templateUrl: './data-flow-modules-bank.component.html',
   styleUrls: ['./data-flow-modules-bank.component.scss']
 })
-export class LcuDataFlowDataFlowModulesBankElementComponent extends LcuElementComponent<LcuDataFlowDataFlowModulesBankContext>
+export class LcuDataFlowModulesBankElementComponent extends LcuElementComponent<LcuDataFlowModulesBankContext>
   implements OnInit {
   //  Fields
 

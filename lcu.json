@@ -16,7 +16,10 @@
 				"element": "lcu-data-flow-map-element"
 			},
 			"data-flow-analytics": {
-				"element": "lcu-data-flow-data-flow-analytics-element"
+				"element": "lcu-data-flow-analytics-element"
+			},
+			"data-flow-schema-map": {
+				"element": "lcu-data-flow-schema-map-element"
 			}
 		},
 		"elements": {},

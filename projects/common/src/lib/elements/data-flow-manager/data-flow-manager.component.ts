@@ -1,21 +1,21 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
-import { LcuDataFlowDataFlowListContext } from './controls/data-flow-list/data-flow-list.component';
+import { LcuDataFlowListContext } from './controls/data-flow-list/data-flow-list.component';
 import { DataFlowManagerStateManagerContext } from '../../core/data-flow-manager-state-manager.context';
 import { DataFlowManagerState } from '../../core/data-flow-manager-state.model';
 
-export class LcuDataFlowDataFlowManagerElementState {}
+export class LcuDataFlowManagerElementState {}
 
-export class LcuDataFlowDataFlowManagerContext extends LCUElementContext<LcuDataFlowDataFlowManagerElementState> {}
+export class LcuDataFlowManagerContext extends LCUElementContext<LcuDataFlowManagerElementState> {}
 
-export const SelectorLcuDataFlowDataFlowManagerElement = 'lcu-data-flow-manager-element';
+export const SelectorLcuDataFlowManagerElement = 'lcu-data-flow-manager-element';
 
 @Component({
-  selector: SelectorLcuDataFlowDataFlowManagerElement,
+  selector: SelectorLcuDataFlowManagerElement,
   templateUrl: './data-flow-manager.component.html',
   styleUrls: ['./data-flow-manager.component.scss']
 })
-export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementComponent<LcuDataFlowDataFlowManagerContext> implements OnInit {
+export class LcuDataFlowManagerElementComponent extends LcuElementComponent<LcuDataFlowManagerContext> implements OnInit {
   //  Fields
 
   //  Properties

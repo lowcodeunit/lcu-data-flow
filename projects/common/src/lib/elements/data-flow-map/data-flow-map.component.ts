@@ -2,23 +2,24 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { LCUElementContext, LcuElementComponent, JSONSchema } from '@lcu/common';
 import { SchemaFunctionDefinition } from '../../models/DataFlowModuleSchemaConfig';
 
-export class LcuDataFlowDataFlowMapElementState {
+export class LcuDataFlowMapElementState {
   public AvailableSchemaFunctions: SchemaFunctionDefinition[];
 
-  public Schemas: JSONSchema[];
+  public MapID: string;
 
+  public Schemas: JSONSchema[];
 }
 
-export class LcuDataFlowDataFlowMapContext extends LCUElementContext<LcuDataFlowDataFlowMapElementState> {}
+export class LcuDataFlowMapContext extends LCUElementContext<LcuDataFlowMapElementState> {}
 
-export const SelectorLcuDataFlowDataFlowMapElement = 'lcu-data-flow-data-flow-map-element';
+export const SelectorLcuDataFlowMapElement = 'lcu-data-flow-map-element';
 
 @Component({
-  selector: SelectorLcuDataFlowDataFlowMapElement,
+  selector: SelectorLcuDataFlowMapElement,
   templateUrl: './data-flow-map.component.html',
   styleUrls: ['./data-flow-map.component.scss']
 })
-export class LcuDataFlowDataFlowMapElementComponent extends LcuElementComponent<LcuDataFlowDataFlowMapContext> implements OnInit {
+export class LcuDataFlowMapElementComponent extends LcuElementComponent<LcuDataFlowMapContext> implements OnInit {
   //  Fields
 
   //  Properties

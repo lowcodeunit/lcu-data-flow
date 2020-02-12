@@ -4,20 +4,20 @@ import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.m
 import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-export class LcuDataFlowDataFlowListElementState {
+export class LcuDataFlowListElementState {
   public DataFlows: DataFlow[];
 }
 
-export class LcuDataFlowDataFlowListContext extends LCUElementContext<LcuDataFlowDataFlowListElementState> {}
+export class LcuDataFlowListContext extends LCUElementContext<LcuDataFlowListElementState> {}
 
-export const SelectorLcuDataFlowDataFlowListElement = 'lcu-data-flow-list-element';
+export const SelectorLcuDataFlowListElement = 'lcu-data-flow-list-element';
 
 @Component({
-  selector: SelectorLcuDataFlowDataFlowListElement,
+  selector: SelectorLcuDataFlowListElement,
   templateUrl: './data-flow-list.component.html',
   styleUrls: ['./data-flow-list.component.scss']
 })
-export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent<LcuDataFlowDataFlowListContext> implements OnInit {
+export class LcuDataFlowListElementComponent extends LcuElementComponent<LcuDataFlowListContext> implements OnInit {
   //  Fields
 
   //  Properties

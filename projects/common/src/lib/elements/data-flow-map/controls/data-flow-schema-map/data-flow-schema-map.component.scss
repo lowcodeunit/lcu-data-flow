@@ -1,0 +1,254 @@
+:host ::ng-deep {
+  .data-flow-schema-map-container {
+    height: 100%;
+  }
+
+  /***************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************
+  TODO:  CLean up the following stlye as they come from someone else...  Meant as a demo
+  *************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************
+  *************************************************************************************************************/
+
+  /* import the styles from the non-angular flowchart demo */
+
+  /* ------------------------ dialogs ----------------------------*/
+
+  /* ----------------------- drag/drop interactions -------------- */
+
+  .drop-hover {
+    background-color: #a4bab3 !important;
+  }
+
+  /* ----------------------- node styles ------------------------- */
+
+  .jtk-node svg {
+    position: absolute;
+    stroke: none;
+    fill: #4a918e;
+    left: 0;
+    top: 0;
+  }
+
+  .flowchart-object {
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+
+    z-index: 10;
+    background: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    min-width: 0;
+    min-height: 0;
+
+    text {
+      stroke: none;
+      fill: #fff;
+      font-family: "Open Sans", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .node-actions {
+      height: auto;
+      padding: 0.1em;
+
+      a {
+        cursor: pointer;
+        margin: 0 0.5em;
+        color: #fff;
+        font-size: 12px;
+        line-height: 15px;
+
+        &:hover {
+          color: #282d35;
+        }
+      }
+    }
+  }
+
+  .outer {
+    padding: 0;
+    opacity: 0.6;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0.5em;
+    background-color: #92aba3;
+    cursor: pointer;
+
+    .mat-card-header-text {
+      margin: 0 0.5em;
+    }
+
+    & > :first-child {
+      margin-top: 0.5em;
+    }
+
+    & > :last-child {
+      margin-bottom: 0.5em;
+    }
+
+    & > * {
+      margin: 0.5em;
+    }
+  }
+
+  .inner {
+    opacity: 0.8;
+    border-radius: 0.5em;
+    background-color: #b2c4be;
+    cursor: move !important;
+
+    .mat-toolbar {
+      opacity: 0.5;
+      background-color: #4a918e;
+    }
+
+    .module-details {
+      margin: 0.5em;
+      text-align: left;
+      height: calc(100% - 15px - 1em);
+      position: relative;
+
+      .module-status-check {
+        font-size: 11px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .module-status-chart {
+        position: relative;
+        height: calc(100% - 13px);
+
+        canvas {
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      &.hide-details {
+        margin-top: 2.5em;
+        text-align: center;
+
+        .module-status-chart {
+          display: none;
+        }
+      }
+    }
+
+    .module-status-icon-lg {
+      font-size: 50px;
+      height: 50px;
+      width: 50px;
+    }
+
+    .module-status-icon-sm {
+      font-size: 12px;
+      height: 12px;
+      width: 12px;
+    }
+
+    &.mat-card-header {
+      height: 24px;
+    }
+
+    &.mat-card-content {
+      height: calc(100% - 24px - 1.5em);
+    }
+  }
+
+  .flowchart-object:hover {
+    .outer {
+      opacity: 0.8;
+    }
+
+    .inner {
+      opacity: 0.9;
+
+      .mat-toolbar {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .connection-drop svg {
+    fill: #ccc;
+  }
+
+  .connection-drop text {
+    fill: black;
+  }
+
+  /* styles for drag + drop */
+
+  .jtk-surface.jtk-drag-drop-active {
+    outline: 6px dotted #67c7c5 !important;
+  }
+
+  .jtk-surface.jtk-drag-drop-hover {
+    outline: 6px solid #9cd8d7 !important;
+  }
+
+  svg.jtk-drag-drop-hover,
+  svg.jtk-drag-drop-active {
+    outline: none !important;
+  }
+
+  svg.jtk-drag-drop-active path {
+    stroke: #67c7c5;
+    stroke-width: 3px;
+    stroke-dasharray: 2 0 2 5;
+  }
+
+  svg.jtk-drag-drop-hover path {
+    stroke: #f7a45d;
+    stroke-width: 4px;
+    stroke-dasharray: 0;
+  }
+
+  .jtk-surface {
+    height: 500px;
+  }
+
+  jsplumb-controls {
+    left: 231px;
+    position: absolute;
+    color: white;
+    top: -3px;
+    z-index: 501;
+    width: 150px;
+  }
+
+  /* styles for drag + drop */
+
+  .jtk-surface.jtk-drag-drop-active {
+    outline: 6px dotted #67c7c5 !important;
+  }
+
+  .jtk-surface.jtk-drag-drop-hover {
+    outline: 6px solid #f7a45d !important;
+  }
+
+  svg.jtk-drag-drop-hover,
+  svg.jtk-drag-drop-active {
+    outline: none !important;
+  }
+
+  svg.jtk-drag-drop-active path {
+    stroke: #67c7c5;
+    stroke-width: 3px;
+    stroke-dasharray: 2 0 2 5;
+  }
+
+  svg.jtk-drag-drop-hover path {
+    stroke: #f7a45d;
+    stroke-width: 4px;
+    stroke-dasharray: 0;
+  }
+}
