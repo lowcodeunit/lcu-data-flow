@@ -6,10 +6,12 @@
   </ng-container>
 
   <ng-container *ngIf="ShowMap">
-    <lcu-data-flow-map-element></lcu-data-flow-map-element>
+    <lcu-data-flow-map-element [context]="MapContext" (schema-mapped)="SchemaMapped($event)"></lcu-data-flow-map-element>
   </ng-container>
 
-  <button (click)="Toggle()" style="position: absolute; bottom: 0; right: 0;">Toggle</button>
+  <button (click)="Toggle()" style="position: absolute; bottom: 0; right: 0;">
+    Toggle
+  </button>
 
-  <img class="bg-image" [src]="BackgroundImage" alt="">
+  <img class="bg-image" [src]="BackgroundImage" alt="" />
 </div>

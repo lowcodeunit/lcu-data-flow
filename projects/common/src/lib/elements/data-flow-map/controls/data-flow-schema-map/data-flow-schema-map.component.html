@@ -1,4 +1,5 @@
 <div class="data-flow-schema-map-container">
+  {{ context.State | json }}
   <jsplumb-toolkit
     id="jsPlumbSurface"
     class="jtk-demo-canvas jtk-surface jtk-droppable"
@@ -10,33 +11,4 @@
     [toolkitParams]="ToolkitParams"
   ></jsplumb-toolkit>
   <!-- [nodeResolver]="NodeResolver" -->
-<!--
-  <button
-    mat-mini-fab
-    class="flow-module-add-schema"
-    (click)="ShowSchemaOptions($event)"
-    [fxShow]="!SchemaOptionsVisible"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-
-  <div [fxShow]="SchemaOptionsVisible">
-    <mat-select
-      #schemaOptions
-      class="flow-module-schema-options"
-      (openedChange)="HideSchemaOptions()"
-      (selectionChange)="SchemaSelected($event)"
-    >
-      <mat-option
-        [fxShow]="!SingleSchemaInput || IncommingSchemaCount == 0"
-        value="incomming"
-        >New Incomming Schema</mat-option
-      >
-      <mat-option
-        [fxShow]="!SingleSchemaOutput || OutgoingSchemaCount == 0"
-        value="outgoing"
-        >New Outgoing Schema</mat-option
-      >
-    </mat-select>
-  </div> -->
 </div>

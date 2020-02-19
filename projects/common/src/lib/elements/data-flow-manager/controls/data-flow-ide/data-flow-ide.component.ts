@@ -38,6 +38,7 @@ import {
   MatDialogConfig
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { DataFlowModuleComponent } from '../data-flow-module/data-flow-module.component';
 
 export interface DialogData {
   animal: string;
@@ -50,8 +51,7 @@ export class LcuDataFlowIdeContext extends LCUElementContext<
   LcuDataFlowIdeElementState
 > {}
 
-export const SelectorLcuDataFlowIdeElement =
-  'lcu-data-flow-ide-element';
+export const SelectorLcuDataFlowIdeElement = 'lcu-data-flow-ide-element';
 
 // @Component({
 //   selector: 'dialog-overview-example-dialog',
@@ -128,7 +128,7 @@ export class LcuDataFlowIdeElementComponent
         renderer: this.surface
       });
 
-      this.io.SetViewNodes(this.State.ModuleOptions, this.View);
+      this.setupViewNodes();
 
       await this.Relayout(true);
     }
@@ -232,7 +232,7 @@ export class LcuDataFlowIdeElementComponent
         this.ToolkitParams
       );
 
-      this.io.SetViewNodes(this.State.ModuleOptions, this.View);
+      this.setupViewNodes();
     }
 
     await this.Relayout(true);
@@ -269,7 +269,9 @@ export class LcuDataFlowIdeElementComponent
 
           params.Callback(data);
         } else {
-          alert(`${data.Display.ModuleType} names must be at least 2 characters!`);
+          alert(
+            `${data.Display.ModuleType} names must be at least 2 characters!`
+          );
         }
       }
     });
@@ -327,5 +329,11 @@ export class LcuDataFlowIdeElementComponent
         // this.toolkit.toggleSelection(params.node);
       });
     }
+  }
+
+  protected setupViewNodes() {
+    const moduleTypes = this.State.ModuleOptions.map(mo => mo.ModuleType);
+
+    this.io.SetViewNodes(moduleTypes, this.View, DataFlowModuleComponent);
   }
 }

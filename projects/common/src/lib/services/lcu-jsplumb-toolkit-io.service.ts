@@ -259,6 +259,22 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
     return view;
   }
 
+  public SetViewNodes(options: string[], view: AngularViewOptions, comp: any) {
+    if (options && view) {
+      view.nodes = {
+        parent: this.loadParentNode()
+      };
+
+      if (options) {
+        options.forEach(option => {
+          view.nodes[option] = {
+            parent: 'parent',
+            component: comp
+          };
+        });
+      }
+    }
+  }
   // 	Helpers
   protected abstract exportOutput(toolkit: jsPlumbToolkit, params: {}): TOutput;
 

@@ -32,6 +32,7 @@ import {
   SchemaFunctionProperty,
   SchemaNode
 } from '../models/DataFlowModuleSchemaConfig';
+import { DataFlowTableComponent } from '../elements/data-flow-map/controls/data-flow-table/data-flow-table';
 
 @Injectable({
   providedIn: 'root'
@@ -121,7 +122,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
   // public SetViewNodes(
   //   options: any[],
   //   view: AngularViewOptions,
-  //   comp: any = DataFlowModuleComponent
+  //   comp: any = DataFlowTableComponent
   // ) {
   //   if (options && view) {
   //     view.nodes = {
@@ -129,12 +130,12 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
   //     };
 
   //     if (options) {
-  //       // options.forEach(option => {
-  //       //   view.nodes[option.ModuleType] = {
-  //       //     parent: 'parent',
-  //       //     component: comp
-  //       //   };
-  //       // });
+  //       options.forEach(option => {
+  //         view.nodes[option.ModuleType] = {
+  //           parent: 'parent',
+  //           component: comp
+  //         };
+  //       });
   //     }
   //   }
   // }

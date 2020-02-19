@@ -1,3 +1,99 @@
-<div class="data-flow-map-container">
-  <lcu-data-flow-schema-map-element [context]="{ State: context?.State }"></lcu-data-flow-schema-map-element>
+<div class="data-flow-map-container" *ngIf="context?.State">
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    class="mapping-contents"
+  >
+    <div fxFlex="100%">
+      <mat-card class="spread">
+        <lcu-data-flow-schema-map-element
+          [context]="SchemaMapContext"
+        ></lcu-data-flow-schema-map-element>
+      </mat-card>
+    </div>
+
+    <div fxFlex="50%">
+      <mat-card class="spread">
+        <mat-card-header>
+          <mat-card-title>Inputs</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list class="spread">
+            <ng-container *ngFor="let input of context.State.InputModules">
+              <mat-list-item>
+                <div matLine fxLayout="row" fxLayoutAlign="center center">
+                  <div fxFlex="70%">
+                    <h3>{{ input.Text }}</h3>
+                  </div>
+
+                  <div fxFlex="30%">
+                    <mat-form-field style="display: inline-block">
+                      <mat-select
+                        [id]="input.ID"
+                        placeholder="Input Schema"
+                        [value]="context.State.SchemaMap?.Input[input.ID]"
+                        (selectionChange)="SchemaSelected($event, 'Input')"
+                      >
+                        <mat-option
+                          [value]="schema.$id"
+                          *ngFor="let schema of context.State.Schemas"
+                        >
+                          {{ schema.title }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-list-item>
+
+              <mat-divider></mat-divider>
+            </ng-container>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div fxFlex="50%">
+      <mat-card class="spread">
+        <mat-card-header>
+          <mat-card-title>Outputs</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-list class="spread">
+            <ng-container *ngFor="let output of context.State.OutputModules">
+              <mat-list-item>
+                <div matLine fxLayout="row" fxLayoutAlign="center center">
+                  <div fxFlex="70%">
+                    <h3>{{ output.Text }}</h3>
+                  </div>
+
+                  <div fxFlex="30%">
+                    <mat-form-field style="display: inline-block">
+                      <mat-select
+                        [id]="output.ID"
+                        placeholder="Output Schema"
+                        [value]="context.State.SchemaMap?.Output[output.ID]"
+                        (selectionChange)="SchemaSelected($event, 'Output')"
+                      >
+                        <mat-option
+                          [value]="schema.$id"
+                          *ngFor="let schema of context.State.Schemas"
+                        >
+                          {{ schema.title }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-list-item>
+
+              <mat-divider></mat-divider>
+            </ng-container>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>

@@ -55,22 +55,22 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
     return view;
   }
 
-  public SetViewNodes(options: DataFlowModuleOption[], view: AngularViewOptions, comp: any = DataFlowModuleComponent) {
-    if (options && view) {
-      view.nodes = {
-        parent: this.loadParentNode()
-      };
+  // public SetViewNodes(options: DataFlowModuleOption[], view: AngularViewOptions, comp: any = DataFlowModuleComponent) {
+  //   if (options && view) {
+  //     view.nodes = {
+  //       parent: this.loadParentNode()
+  //     };
 
-      if (options) {
-        options.forEach(option => {
-          view.nodes[option.ModuleType] = {
-            parent: 'parent',
-            component: comp
-          };
-        });
-      }
-    }
-  }
+  //     if (options) {
+  //       options.forEach(option => {
+  //         view.nodes[option.ModuleType] = {
+  //           parent: 'parent',
+  //           component: comp
+  //         };
+  //       });
+  //     }
+  //   }
+  // }
 
   // 	Helpers
   protected beforeStartConnect(node: any, edgeType: string) {

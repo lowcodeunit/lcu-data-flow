@@ -28,15 +28,17 @@ import {
 } from 'jsplumbtoolkit-angular';
 import { DataFlowMapJSPlumbToolkitIOService } from './../../../../services/data-flow-map-jsplumb-toolkit-io.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SchemaFunctionDefinition } from '../../../../models/DataFlowModuleSchemaConfig';
+import { SchemaFunctionDefinition, DataFlowModuleSchemaConfig } from '../../../../models/DataFlowModuleSchemaConfig';
 import { DataFlowTableComponent } from '../data-flow-table/data-flow-table';
 
 export class LcuDataFlowSchemaMapElementState {
-  public AvailableSchemaFunctions: SchemaFunctionDefinition[];
+  public AvailableSchemaFunctions?: SchemaFunctionDefinition[];
 
-  public MapID: string;
+  public InputSchemas?: JSONSchema[];
 
-  public Schemas: JSONSchema[];
+  public DataMapID?: string;
+
+  public OutputSchemas?: JSONSchema[];
 }
 
 export class LcuDataFlowSchemaMapContext extends LCUElementContext<
@@ -67,9 +69,6 @@ export class LcuDataFlowSchemaMapElementComponent
 
   //  Properties
   public RenderParams: SurfaceRenderParams;
-
-  @ViewChild('schemaOptions', { static: true })
-  public SchemaOptions: MatSelect;
 
   // public SelectMode: SurfaceMode;
 
@@ -105,9 +104,9 @@ export class LcuDataFlowSchemaMapElementComponent
         renderer: this.surface
       });
 
-      // this.io.SetViewNodes(this.State.ModuleOptions, this.View);
+      this.io.SetViewNodes(['data-table'], this.View, DataFlowTableComponent);
 
-      // await this.Relayout(true);
+      await this.Relayout(true);
     }
   }
 
@@ -134,7 +133,7 @@ export class LcuDataFlowSchemaMapElementComponent
       {
         id: '',
         SchemaType: schemaType,
-        // IncommingModules: this.IncommingModules,
+        IncommingModules: this.context.State,
         // OutgoingModules: this.OutgoingModules
       },
       (node: any) => {
@@ -206,14 +205,26 @@ export class LcuDataFlowSchemaMapElementComponent
     //   );
   }
 
-  public NodeResolver(typeId: string) {
-    return DataFlowTableComponent;
-  }
+  public async Relayout(refreshOutput: boolean = false) {
+    if (this.surface && this.context.State) {
+      await this.io.LoadOntoSurface(
+        this.surface,
+        <DataFlowModuleSchemaConfig> {
+          SchemaFunctions: [],
+          SchemaMaps: [
+            {
 
-  public SchemaSelected(ev: MatSelectChange) {
-    this.AddNode(ev.value);
+            }
+          ],
+          SchemaNodes: [
+            {
 
-    this.SchemaOptions.writeValue('');
+            }
+          ]
+        },
+        refreshOutput
+      );
+    }
   }
 
   //  Helpers
