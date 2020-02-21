@@ -1,185 +1,188 @@
-import { JSONSchema } from '@lcu/common';
+// import { JSONSchema } from '@lcu/common';
 
-export class DataFlowModuleSchemaConfig {
-  public SchemaFunctions: SchemaFunctionRef[];
+// export class DataFlowModuleSchemaConfig {
+// }
 
-  public SchemaMaps: DataFlowSchemaMap[];
+// export class DataFlowModuleSchemaConfig {
+//   public SchemaFunctions: SchemaFunctionRef[];
 
-  public SchemaNodes: SchemaNode[];
+//   public SchemaMaps: DataFlowSchemaMap[];
 
-  public SchemaFunctionReturns: SchemaFunctionReturn[];
+//   public SchemaNodes: SchemaNode[];
 
-  public HasErrors: boolean;
-}
+//   public SchemaFunctionReturns: SchemaFunctionReturn[];
 
-export class DataFlowSchemaMap {
-  public Active: boolean;
+//   public HasErrors: boolean;
+// }
 
-  public Data: any;
+// export class DataFlowSchemaMap {
+//   public Active: boolean;
 
-  public Description: string;
+//   public Data: any;
 
-  public ID: string;
+//   public Description: string;
 
-  public IncommingSchemaID: string;
+//   public ID: string;
 
-  public IncommingPropertyID: string;
+//   public IncommingSchemaID: string;
 
-  public Lookup: string;
+//   public IncommingPropertyID: string;
 
-  public Name: string;
+//   public Lookup: string;
 
-  public OutgoingSchemaID: string;
+//   public Name: string;
 
-  public OutgoingPropertyID: string;
+//   public OutgoingSchemaID: string;
 
-  public Schema: JSONSchema;
-}
+//   public OutgoingPropertyID: string;
 
-export class SchemaFunctionReturn {
-  public ExternalSchemaID: string;
+//   public Schema: JSONSchema;
+// }
 
-  public NodeID: string;
+// export class SchemaFunctionReturn {
+//   public ExternalSchemaID: string;
 
-  public PropertyID: string;
+//   public NodeID: string;
 
-  public SchemaFunctionsReturnSourceID: string;
+//   public PropertyID: string;
 
-  public SchemaFunctionsReturnSource: string;
+//   public SchemaFunctionsReturnSourceID: string;
 
-  public SchemaFunctionsReturnValue: string;
+//   public SchemaFunctionsReturnSource: string;
 
-  public SchemaFunctionsReturnValueType: string;
+//   public SchemaFunctionsReturnValue: string;
 
-  public Type: string;
-}
+//   public SchemaFunctionsReturnValueType: string;
 
-export class SchemaNode {
-  public ID: string;
+//   public Type: string;
+// }
 
-  public Data: any;
+// export class SchemaNode {
+//   public ID: string;
 
-  public DisableSchemaEdit: boolean;
+//   public Data: any;
 
-  public Groups: string[];
+//   public DisableSchemaEdit: boolean;
 
-  public IncommingModuleID: string;
+//   public Groups: string[];
 
-  public JoinRelationships: any[];
+//   public IncommingModuleID: string;
 
-  public JSONSchemaID: string;
+//   public JoinRelationships: any[];
 
-  public OutgoingModuleIDs: string[];
+//   public JSONSchemaID: string;
 
-  public Timestamp: string;
+//   public OutgoingModuleIDs: string[];
 
-  public TumblingWindow: boolean;
+//   public Timestamp: string;
 
-  public TumblingInterval: string;
+//   public TumblingWindow: boolean;
 
-  public TumblingIntervalValue: number;
-}
+//   public TumblingInterval: string;
 
-export class SchemaFunctionDefinition {
-  public AllowedIncommingTypes: string[];
+//   public TumblingIntervalValue: number;
+// }
 
-  public AllowDifferentIncommingTypes: boolean;
+// export class SchemaFunctionDefinition {
+//   public AllowedIncommingTypes: string[];
 
-  public AllowMultipleIncomming: boolean;
+//   public AllowDifferentIncommingTypes: boolean;
 
-  public Description: string;
+//   public AllowMultipleIncomming: boolean;
 
-  public FunctionType: string;
+//   public Description: string;
 
-  public ID: string;
+//   public FunctionType: string;
 
-  public Lookup: string;
+//   public ID: string;
 
-  public MaxProperties: number;
+//   public Lookup: string;
 
-  public MinProperties: number;
+//   public MaxProperties: number;
 
-  public Name: string;
+//   public MinProperties: number;
 
-  public ReturnType: string;
-}
+//   public Name: string;
 
-export class SchemaFunctionProperty {
-  public FullPropertyName?: string;
+//   public ReturnType: string;
+// }
 
-  public Order: number;
+// export class SchemaFunctionProperty {
+//   public FullPropertyName?: string;
 
-  public Property: JSONSchema;
+//   public Order: number;
 
-  public SchemaID?: string;
+//   public Property: JSONSchema;
 
-  public NodeID: string;
+//   public SchemaID?: string;
 
-  public Source: string;
+//   public NodeID: string;
 
-  public StaticValue?: any;
+//   public Source: string;
 
-  public StaticValueType?: string;
-}
+//   public StaticValue?: any;
 
-export class SchemaFunction {
-  public ID: string;
+//   public StaticValueType?: string;
+// }
 
-  public ExtraData: any;
+// export class SchemaFunction {
+//   public ID: string;
 
-  public Function: SchemaFunctionDefinition;
+//   public ExtraData: any;
 
-  public Name: string;
+//   public Function: SchemaFunctionDefinition;
 
-  public Order: number;
+//   public Name: string;
 
-  public Properties: SchemaFunctionProperty[];
+//   public Order: number;
 
-  public ReturnTrueSource: string;
+//   public Properties: SchemaFunctionProperty[];
 
-  public ReturnTrueSourceID: string;
+//   public ReturnTrueSource: string;
 
-  public ReturnTrueValue: string;
+//   public ReturnTrueSourceID: string;
 
-  public ReturnFalseSource: string;
+//   public ReturnTrueValue: string;
 
-  public ReturnFalseSourceID: string;
+//   public ReturnFalseSource: string;
 
-  public ReturnFalseValue: string;
+//   public ReturnFalseSourceID: string;
 
-  public ReturnValueType: string;
-}
+//   public ReturnFalseValue: string;
 
-export class SchemaFunctionRef {
-  public ExtraData: any;
+//   public ReturnValueType: string;
+// }
 
-  public FunctionID: string;
+// export class SchemaFunctionRef {
+//   public ExtraData: any;
 
-  public ID: string;
+//   public FunctionID: string;
 
-  public Name: string;
+//   public ID: string;
 
-  public Order: number;
+//   public Name: string;
 
-  public Properties: any[];
+//   public Order: number;
 
-  public ResultPropertyID: string;
+//   public Properties: any[];
 
-  public ResultNodeID: string;
+//   public ResultPropertyID: string;
 
-  public ReturnFalseSource: string;
+//   public ResultNodeID: string;
 
-  public ReturnFalseSourceID: string;
+//   public ReturnFalseSource: string;
 
-  public ReturnFalseValue: string;
+//   public ReturnFalseSourceID: string;
 
-  public ReturnTrueSource: string;
+//   public ReturnFalseValue: string;
 
-  public ReturnTrueSourceID: string;
+//   public ReturnTrueSource: string;
 
-  public ReturnTrueValue: string;
+//   public ReturnTrueSourceID: string;
 
-  public ReturnValueType: string;
+//   public ReturnTrueValue: string;
 
-  public Type: string;
-}
+//   public ReturnValueType: string;
+
+//   public Type: string;
+// }

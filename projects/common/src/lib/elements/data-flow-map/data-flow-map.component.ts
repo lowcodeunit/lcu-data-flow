@@ -21,7 +21,6 @@ import {
   LcuDataFlowSchemaMapElementComponent,
   LcuDataFlowSchemaMapContext
 } from './controls/data-flow-schema-map/data-flow-schema-map.component';
-import { SchemaFunctionDefinition } from './../../models/DataFlowModuleSchemaConfig';
 import { MatSelectChange } from '@angular/material';
 
 export class DataFlowInOutSchemaMap {
@@ -31,7 +30,7 @@ export class DataFlowInOutSchemaMap {
 }
 
 export class LcuDataFlowMapElementState {
-  public AvailableSchemaFunctions?: SchemaFunctionDefinition[];
+  // public AvailableSchemaFunctions?: SchemaFunctionDefinition[];
 
   public DataMapID?: string;
 
@@ -144,10 +143,12 @@ export class LcuDataFlowMapElementComponent
 
       this.SchemaMapContext = {
         State: {
-          AvailableSchemaFunctions: this.context.State.AvailableSchemaFunctions,
-          DataMapID: '',
-          InputSchemas: inputSchemas,
-          OutputSchemas: outputSchemas
+          DataMap: {
+            InputSchemas: inputSchemas,
+            OutputSchemas: outputSchemas,
+            // AvailableSchemaFunctions: this.context.State.AvailableSchemaFunctions,
+            ID: this.context.State.DataMapID
+          }
         }
       };
 

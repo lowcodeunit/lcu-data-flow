@@ -1,14 +1,12 @@
-<div class="data-flow-schema-map-container">
+<div class="data-flow-schema-map-container" *ngIf="context?.State?.DataMap">
   {{ context.State | json }}
   <jsplumb-toolkit
-    id="jsPlumbSurface"
     class="jtk-demo-canvas jtk-surface jtk-droppable"
-    #toolkit
-    surfaceId="flowchartSurface"
-    jtkId="flowchart"
+    [surfaceId]="context.State.DataMap.ID"
     [view]="View"
     [renderParams]="RenderParams"
     [toolkitParams]="ToolkitParams"
   ></jsplumb-toolkit>
   <!-- [nodeResolver]="NodeResolver" -->
+  <jsplumb-miniview [surfaceId]="context.State.DataMap.ID"></jsplumb-miniview>
 </div>

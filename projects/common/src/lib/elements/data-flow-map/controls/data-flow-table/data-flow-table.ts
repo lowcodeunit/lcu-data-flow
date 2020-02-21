@@ -40,9 +40,9 @@ export class DataFlowTableComponent implements OnInit {
     const edges = this.toolkit
       .getNode(this.obj.id)
       .getPorts()
-      .filter((port) => {
+      .filter(port => {
         return (
-          this.toolkit.getAllEdgesFor(port).filter((edge) => {
+          this.toolkit.getAllEdgesFor(port).filter(edge => {
             return edge.target.id === port.id;
           }).length > 0
         );
@@ -54,9 +54,9 @@ export class DataFlowTableComponent implements OnInit {
       this.obj.JoinFunctionNeeded ||
       (this.obj.SchemaType === 'outgoing' && edges.length === 0) ||
       (this.obj.SchemaType === 'incomming' && !this.obj.IncommingModuleID) ||
-        (this.obj.SchemaType === 'outgoing' &&
-          this.obj.OutgoingModuleIDs.length === 0) ||
-        this.obj.TimestampError
+      (this.obj.SchemaType === 'outgoing' &&
+        this.obj.OutgoingModuleIDs.length === 0) ||
+      this.obj.TimestampError
     );
   }
 
@@ -68,9 +68,9 @@ export class DataFlowTableComponent implements OnInit {
     const edges = this.toolkit
       .getNode(this.obj.id)
       .getPorts()
-      .filter((port) => {
+      .filter(port => {
         return (
-          this.toolkit.getAllEdgesFor(port).filter((edge) => {
+          this.toolkit.getAllEdgesFor(port).filter(edge => {
             return edge.target.id === port.id;
           }).length > 0
         );

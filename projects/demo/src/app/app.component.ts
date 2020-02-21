@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { LCUServiceSettings, JSONSchema, DataFlowModule } from '@lcu/common';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 import {
-  SchemaFunctionDefinition,
+  // SchemaFunctionDefinition,
   LcuDataFlowMapElementComponent,
   LcuDataFlowMapContext,
   DataFlowInOutSchemaMap
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public Schemas: JSONSchema[];
 
-  public SchemaFunctionDefs: SchemaFunctionDefinition[];
+  // public SchemaFunctionDefs: SchemaFunctionDefinition[];
 
   public SelectedTheme: string;
 
@@ -58,8 +58,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit() {
     this.MapContext = {
       State: {
+        DataMapID: 'test-data-map',
         Schemas: this.Schemas,
-        AvailableSchemaFunctions: this.SchemaFunctionDefs,
+        // AvailableSchemaFunctions: this.SchemaFunctionDefs,
         InputModules: [
           <DataFlowModule>{
             ID: '1234567890',
@@ -118,29 +119,29 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     ];
 
-    this.SchemaFunctionDefs = [
-      {
-        // AllowMany: true,
-        Description: 'Concatenation Function',
-        // EnterpriseID: '51eb2185-dd6c-47a3-bec0-19da4bd6a408',
-        // EnterpriseTypeKey: '51eb2185-dd6c-47a3-bec0-19da4bd6a408|SchemaFunctionDefinition',
-        FunctionType: 'Standard',
-        MinProperties: 2,
-        MaxProperties: 5,
-        Name: 'Concat',
-        // Type: 'SchemaFunctionDefinition',
-        ID: 'b3e56e96-80de-431d-933f-243c2cc2c2b8',
-        // Active: true,
-        Lookup: 'Function_Concat',
-        // Created: null,
-        // Modified: null,
-        AllowedIncommingTypes: ['string'],
-        AllowDifferentIncommingTypes: false,
-        AllowMultipleIncomming: true,
-        ReturnType: 'string'
-        // SQL: 'CONCAT({N},)'
-      }
-    ];
+    // this.SchemaFunctionDefs = [
+    //   {
+    //     // AllowMany: true,
+    //     Description: 'Concatenation Function',
+    //     // EnterpriseID: '51eb2185-dd6c-47a3-bec0-19da4bd6a408',
+    //     // EnterpriseTypeKey: '51eb2185-dd6c-47a3-bec0-19da4bd6a408|SchemaFunctionDefinition',
+    //     FunctionType: 'Standard',
+    //     MinProperties: 2,
+    //     MaxProperties: 5,
+    //     Name: 'Concat',
+    //     // Type: 'SchemaFunctionDefinition',
+    //     ID: 'b3e56e96-80de-431d-933f-243c2cc2c2b8',
+    //     // Active: true,
+    //     Lookup: 'Function_Concat',
+    //     // Created: null,
+    //     // Modified: null,
+    //     AllowedIncommingTypes: ['string'],
+    //     AllowDifferentIncommingTypes: false,
+    //     AllowMultipleIncomming: true,
+    //     ReturnType: 'string'
+    //     // SQL: 'CONCAT({N},)'
+    //   }
+    // ];
   }
 
   public SchemaMapped(map: DataFlowInOutSchemaMap) {

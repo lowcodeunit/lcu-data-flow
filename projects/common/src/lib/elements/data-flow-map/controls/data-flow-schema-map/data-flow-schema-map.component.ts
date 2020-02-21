@@ -28,17 +28,11 @@ import {
 } from 'jsplumbtoolkit-angular';
 import { DataFlowMapJSPlumbToolkitIOService } from './../../../../services/data-flow-map-jsplumb-toolkit-io.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SchemaFunctionDefinition, DataFlowModuleSchemaConfig } from '../../../../models/DataFlowModuleSchemaConfig';
 import { DataFlowTableComponent } from '../data-flow-table/data-flow-table';
+import { DataFlowSchemaMap } from '../../../../models/data-flow-schema-map';
 
 export class LcuDataFlowSchemaMapElementState {
-  public AvailableSchemaFunctions?: SchemaFunctionDefinition[];
-
-  public InputSchemas?: JSONSchema[];
-
-  public DataMapID?: string;
-
-  public OutputSchemas?: JSONSchema[];
+  public DataMap?: DataFlowSchemaMap;
 }
 
 export class LcuDataFlowSchemaMapContext extends LCUElementContext<
@@ -209,19 +203,7 @@ export class LcuDataFlowSchemaMapElementComponent
     if (this.surface && this.context.State) {
       await this.io.LoadOntoSurface(
         this.surface,
-        <DataFlowModuleSchemaConfig> {
-          SchemaFunctions: [],
-          SchemaMaps: [
-            {
-
-            }
-          ],
-          SchemaNodes: [
-            {
-
-            }
-          ]
-        },
+        this.context.State.DataMap,
         refreshOutput
       );
     }
