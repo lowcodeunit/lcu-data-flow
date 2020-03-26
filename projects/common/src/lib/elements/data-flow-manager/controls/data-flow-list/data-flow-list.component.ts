@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { DataFlow, LCUElementContext, LcuElementComponent } from '@lcu/common';
-import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
-import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
+import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
+import { DataFlowManagementStateContext } from '../../../../core/data-flow-management-state.context';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class LcuDataFlowDataFlowListElementState {
@@ -23,10 +23,10 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   //  Properties
   public CreateNewDataFlowForm: FormGroup;
 
-  public State: DataFlowManagerState;
+  public State: DataFlowManagementState;
 
   //  Constructors
-  constructor(protected injector: Injector, protected formBldr: FormBuilder, protected state: DataFlowManagerStateManagerContext) {
+  constructor(protected injector: Injector, protected formBldr: FormBuilder, protected state: DataFlowManagementStateContext) {
     super(injector);
   }
 

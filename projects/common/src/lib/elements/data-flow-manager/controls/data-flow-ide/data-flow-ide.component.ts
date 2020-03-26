@@ -10,8 +10,8 @@ import {
   Inject
 } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
-import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
-import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
+import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
+import { DataFlowManagementStateContext } from '../../../../core/data-flow-management-state.context';
 import {
   jsPlumbSurfaceComponent,
   AngularViewOptions,
@@ -96,7 +96,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
   @ViewChild(jsPlumbSurfaceComponent)
   public SurfaceComponent: jsPlumbSurfaceComponent;
 
-  public State: DataFlowManagerState;
+  public State: DataFlowManagementState;
 
   public ToolkitParams: jsPlumbToolkitOptions;
 
@@ -105,7 +105,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
   //  Constructors
   constructor(
     protected injector: Injector,
-    protected state: DataFlowManagerStateManagerContext,
+    protected state: DataFlowManagementStateContext,
     protected $jsplumb: jsPlumbService,
     protected io: DataFlowJSPlumbToolkitIOService,
     protected matDialog: MatDialog
