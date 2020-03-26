@@ -93,7 +93,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
   public SelectMode: SurfaceMode;
 
-  @ViewChild(jsPlumbSurfaceComponent, { static: false })
+  @ViewChild(jsPlumbSurfaceComponent)
   public SurfaceComponent: jsPlumbSurfaceComponent;
 
   public State: DataFlowManagerState;
