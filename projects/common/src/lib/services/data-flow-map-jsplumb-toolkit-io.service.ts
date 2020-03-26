@@ -103,7 +103,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
           cssClass: 'delete-relationship',
           label: '<i class=\'fa fa-times\'></i>',
           events: {
-            tap: params => {
+            tap: (params: any) => {
               this.EdgeTapped.emit(params.edge);
             }
           },
@@ -231,7 +231,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
           returnObj.SchemaFunctionReturns.push(functionReturn);
         }
 
-        item.data.Functions.forEach(func => {
+        item.data.Functions.forEach((func: any) => {
           if (func.ExtraData && func.ExtraData.HasErrors) {
             returnObj.HasErrors = true;
           }
@@ -255,7 +255,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
             Type: 'filter'
           };
 
-          func.Properties.forEach(prop => {
+          func.Properties.forEach((prop: any) => {
             newFunc.Properties.push({
               id: prop.Property ? prop.Property.id : null,
               StaticValue: prop.StaticValue,
@@ -304,7 +304,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
             returnObj.SchemaFunctionReturns.push(functionReturn);
           }
           if (nodeRel.Functions) {
-            nodeRel.Functions.forEach(func => {
+            nodeRel.Functions.forEach((func: any) => {
               if (func.ExtraData && func.ExtraData.HasErrors) {
                 returnObj.HasErrors = true;
               }
@@ -328,7 +328,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
                 Type: 'join'
               };
 
-              func.Properties.forEach(prop => {
+              func.Properties.forEach((prop: any) => {
                 newFunc.Properties.push({
                   id: prop.Property ? prop.Property.id : null,
                   StaticValue: prop.StaticValue,
@@ -417,7 +417,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
             returnObj.SchemaFunctionReturns.push(functionReturn);
           }
 
-          port.data.Functions.forEach(func => {
+          port.data.Functions.forEach((func: any) => {
             if (func.ExtraData && func.ExtraData.HasErrors) {
               returnObj.HasErrors = true;
             }
@@ -441,7 +441,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
               Type: 'mapping'
             };
 
-            func.Properties.forEach(prop => {
+            func.Properties.forEach((prop: any) => {
               newFunc.Properties.push({
                 id: prop.Property ? prop.Property.id : null,
                 StaticValue: prop.StaticValue,
@@ -520,7 +520,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
     const keys = Object.keys(schema.properties);
 
-    let found = null;
+    let found: any = null;
 
     keys.forEach(key => {
       if (schema.properties[key].$id === id) {
@@ -704,7 +704,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
               newFunc.Properties.push(newStatic);
             } else {
-              let newProp = null;
+              let newProp: any = null;
 
               if (prop.id) {
                 newProp = this.recurseJSONSchemaToFindProperty(
