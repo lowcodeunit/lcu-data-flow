@@ -1,12 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
-import { StateManagerContext, Application, DAFViewApplicationConfig } from '@lcu/common';
-import { DataFlowManagerState } from './data-flow-manager-state.model';
+import { StateContext, Application, DAFViewApplicationConfig } from '@lcu/common';
+import { DataFlowManagementState } from './data-flow-management.state';
 import { DataFlow } from '@lcu/common';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataFlowManagerStateManagerContext extends StateManagerContext<DataFlowManagerState> {
+export class DataFlowManagementStateContext extends StateContext<DataFlowManagementState> {
   //  Properties
 
   //  Constructors
@@ -74,14 +74,14 @@ export class DataFlowManagerStateManagerContext extends StateManagerContext<Data
 
   //  Helpers
   protected defaultValue() {
-    return <DataFlowManagerState>{ Loading: true };
+    return <DataFlowManagementState>{ Loading: true };
   }
 
-  protected async loadStateKey() {
+  protected loadStateKey() {
     return 'main';
   }
 
-  protected async loadStateName() {
-    return 'data-flow-manager';
+  protected loadStateName() {
+    return 'dataflowmanagement';
   }
 }

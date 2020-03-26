@@ -73,7 +73,7 @@ import { DialogModuleConfigureComponent } from './elements/data-flow-manager/con
 export class LcuDataFlowModule {
   constructor() {}
 
-  public static forRoot(): ModuleWithProviders {
+  public static forRoot(): ModuleWithProviders<LcuDataFlowModule> {
     return {
       ngModule: LcuDataFlowModule,
       providers: [

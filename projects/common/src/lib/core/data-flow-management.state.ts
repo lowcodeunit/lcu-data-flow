@@ -1,6 +1,6 @@
 import { DataFlow, DataFlowModuleDisplay, DataFlowModuleOption, DataFlowModulePack } from '@lcu/common';
 
-export class DataFlowManagerState {
+export class DataFlowManagementState {
   public ActiveDataFlow?: DataFlow;
 
   public AllowCreationModules?: boolean;

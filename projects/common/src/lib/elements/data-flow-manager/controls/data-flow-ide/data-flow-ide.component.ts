@@ -10,8 +10,8 @@ import {
   Inject
 } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
-import { DataFlowManagerState } from '../../../../core/data-flow-manager-state.model';
-import { DataFlowManagerStateManagerContext } from '../../../../core/data-flow-manager-state-manager.context';
+import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
+import { DataFlowManagementStateContext } from '../../../../core/data-flow-management-state.context';
 import {
   jsPlumbSurfaceComponent,
   AngularViewOptions,
@@ -93,10 +93,10 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
   public SelectMode: SurfaceMode;
 
-  @ViewChild(jsPlumbSurfaceComponent, { static: false })
+  @ViewChild(jsPlumbSurfaceComponent)
   public SurfaceComponent: jsPlumbSurfaceComponent;
 
-  public State: DataFlowManagerState;
+  public State: DataFlowManagementState;
 
   public ToolkitParams: jsPlumbToolkitOptions;
 
@@ -105,7 +105,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
   //  Constructors
   constructor(
     protected injector: Injector,
-    protected state: DataFlowManagerStateManagerContext,
+    protected state: DataFlowManagementStateContext,
     protected $jsplumb: jsPlumbService,
     protected io: DataFlowJSPlumbToolkitIOService,
     protected matDialog: MatDialog
@@ -287,14 +287,16 @@ export class LcuDataFlowDataFlowIdeElementComponent
     this.View = this.io.LoadView();
 
     if (!this.subscriptions.EdgeAdded) {
-      this.subscriptions.EdgeAdded = this.io.EdgeAdded.subscribe(params => {
-        this.edgeAdded(params);
-      });
+      this.subscriptions.EdgeAdded = this.io.EdgeAdded.subscribe(
+        (params: any) => {
+          this.edgeAdded(params);
+        }
+      );
     }
 
     if (!this.subscriptions.EdgeDoubleClicked) {
       this.subscriptions.EdgeDoubleClicked = this.io.EdgeDoubleClicked.subscribe(
-        params => {
+        (params: any) => {
           this.removeEdge(params.edge);
         }
       );
@@ -302,30 +304,34 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
     if (!this.subscriptions.EdgeLabelClicked) {
       this.subscriptions.EdgeLabelClicked = this.io.EdgeLabelClicked.subscribe(
-        params => {
+        (params: any) => {
           this.editLabel(params.edge);
         }
       );
     }
 
     if (!this.subscriptions.NodeAdded) {
-      this.subscriptions.NodeAdded = this.io.NodeAdded.subscribe(params => {
-        this.nodeAdded(params.node);
-      });
+      this.subscriptions.NodeAdded = this.io.NodeAdded.subscribe(
+        (params: any) => {
+          this.nodeAdded(params.node);
+        }
+      );
     }
 
     if (!this.subscriptions.NodeFactoried) {
       this.subscriptions.NodeFactoried = this.io.NodeFactoried.subscribe(
-        params => {
+        (params: any) => {
           this.nodeFactory(params);
         }
       );
     }
 
     if (!this.subscriptions.NodeTapped) {
-      this.subscriptions.NodeTapped = this.io.NodeTapped.subscribe(params => {
-        // this.toolkit.toggleSelection(params.node);
-      });
+      this.subscriptions.NodeTapped = this.io.NodeTapped.subscribe(
+        (params: any) => {
+          // this.toolkit.toggleSelection(params.node);
+        }
+      );
     }
   }
 }
