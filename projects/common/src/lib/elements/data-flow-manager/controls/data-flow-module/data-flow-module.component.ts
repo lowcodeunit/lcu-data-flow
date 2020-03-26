@@ -21,7 +21,7 @@ export class DataFlowModuleQuickView {
 }
 
 @Component({
-  templateUrl: './data-flow-module.html'
+  templateUrl: './data-flow-module.component.html'
 })
 export class DataFlowModuleComponent extends BaseNodeComponent
   implements AfterViewInit, OnInit {
