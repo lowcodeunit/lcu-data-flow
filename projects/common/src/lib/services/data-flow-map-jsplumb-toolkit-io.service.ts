@@ -6,37 +6,62 @@ import {
   jsPlumbToolkit,
   jsPlumbUtil,
   jsPlumbToolkitOptions,
-  SurfaceRenderParams
+  SurfaceRenderParams,
+  Edge,
+  Node
 } from 'jsplumbtoolkit';
-import { DataFlow, DataFlowOutput, DataFlowModule, DataFlowModuleOption, JSONSchema } from '@lcu/common';
+import {
+  DataFlow,
+  DataFlowOutput,
+  DataFlowModule,
+  DataFlowModuleOption,
+  JSONSchema
+} from '@lcu/common';
 import { isString } from 'util';
 import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
 import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/data-flow-module/data-flow-module.component';
 import { DataFlowNodeFactoryParams } from '../models/DataFlowNodeFactoryParams';
 import { LCUJSPlumbToolkitIOService } from './lcu-jsplumb-toolkit-io.service';
 import {
+  SchemaFunctionDefinition,
   DataFlowModuleSchemaConfig,
   SchemaFunctionReturn,
   SchemaFunctionRef,
-  DataFlowSchemaMap
+  DataFlowSchemaMap,
+  SchemaFunction,
+  SchemaFunctionProperty,
+  SchemaNode
 } from '../models/DataFlowModuleSchemaConfig';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<DataFlowModuleSchemaConfig> {
+export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
+  DataFlowModuleSchemaConfig
+> {
   // 	Fields
 
   //  Properties
+  public EdgeTapped: EventEmitter<Edge>;
 
   // 	Constructors
   constructor(protected jsPlumb: jsPlumbService) {
     super(jsPlumb);
+
+    this.EdgeTapped = new EventEmitter();
   }
 
   // 	API Methods
   public LoadRenderParams(layoutType: string = 'Spring'): SurfaceRenderParams {
     const renderParams = super.LoadRenderParams();
+
+    renderParams.layout = {
+      type: 'Absolute',
+      parameters: {
+        padding: [150],
+        orientation: 'vertical'
+      }
+    };
 
     return renderParams;
   }
@@ -57,25 +82,62 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
   public LoadView(): AngularViewOptions {
     const view = super.LoadView();
 
+    delete view.edges.default.endpoint;
+    delete view.edges.default.anchor;
+    delete view.edges.default.hoverPaintStyle;
+    delete view.edges.default.overlays;
+
+    view.edges.default.endpoints = [
+      'Blank',
+      ['Image', <any> { src: '/img/gear.png' }]
+    ];
+
+    view.edges.default.anchors = ['Right', 'Left'];
+
+    view.ports.target.endpoint = ['Image', <any> { src: '/img/gear.png' }];
+
+    view.edges.default.overlays = [
+      [
+        'Label',
+        {
+          cssClass: 'delete-relationship',
+          label: '<i class=\'fa fa-times\'></i>',
+          events: {
+            tap: (params: any) => {
+              this.EdgeTapped.emit(params.edge);
+            }
+          },
+          location: 0.1
+        }
+      ]
+    ];
+
+    view.edges.default.paintStyle.strokeWidth = 1;
+    view.edges.default.paintStyle.outlineWidth = 1;
+
     return view;
   }
 
-  public SetViewNodes(options: any[], view: AngularViewOptions, comp: any = DataFlowModuleComponent) {
-    if (options && view) {
-      view.nodes = {
-        parent: this.loadParentNode()
-      };
+  // public SetViewNodes(
+  //   options: any[],
+  //   view: AngularViewOptions,
+  //   comp: any = DataFlowModuleComponent
+  // ) {
+  //   if (options && view) {
+  //     view.nodes = {
+  //       parent: this.loadParentNode()
+  //     };
 
-      if (options) {
-        // options.forEach(option => {
-        //   view.nodes[option.ModuleType] = {
-        //     parent: 'parent',
-        //     component: comp
-        //   };
-        // });
-      }
-    }
-  }
+  //     if (options) {
+  //       // options.forEach(option => {
+  //       //   view.nodes[option.ModuleType] = {
+  //       //     parent: 'parent',
+  //       //     component: comp
+  //       //   };
+  //       // });
+  //     }
+  //   }
+  // }
 
   // 	Helpers
   protected beforeStartConnect(node: any, edgeType: string) {
@@ -84,19 +146,16 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
   protected exportOutput(toolkit: jsPlumbToolkit, params: {}) {
     const nodes = toolkit.getNodes();
-
     const edges = toolkit.getAllEdges();
-
-    const schemaCfg: DataFlowModuleSchemaConfig = {
-      SchemaMaps: [],
-      SchemaNodes: [],
-      SchemaFunctions: [],
-      SchemaFunctionReturns: [],
-      HasErrors: false
-    };
+    const returnObj: DataFlowModuleSchemaConfig = new DataFlowModuleSchemaConfig();
+    returnObj.SchemaMaps = new Array<DataFlowSchemaMap>();
+    returnObj.SchemaNodes = new Array<SchemaNode>();
+    returnObj.SchemaFunctions = new Array<SchemaFunctionRef>();
+    returnObj.SchemaFunctionReturns = new Array<SchemaFunctionReturn>();
+    returnObj.HasErrors = false;
 
     nodes.forEach(item => {
-      const schemaNode = {
+      const schemaNode: SchemaNode = {
         ID: item.id,
         Data: {},
         JSONSchemaID: item.data.Schema.id,
@@ -113,7 +172,10 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
       if (item.data.SchemaType === 'incomming' && item.data.IncommingModuleID) {
         schemaNode.IncommingModuleID = item.data.IncommingModuleID;
-      } else if (item.data.SchemaType === 'outgoing' && item.data.OutgoingModuleIDs) {
+      } else if (
+        item.data.SchemaType === 'outgoing' &&
+        item.data.OutgoingModuleIDs
+      ) {
         schemaNode.OutgoingModuleIDs = item.data.OutgoingModuleIDs;
       }
 
@@ -151,23 +213,27 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
       if (item.data.Functions && item.data.Functions.length > 0) {
         if (item.data.SchemaFunctionsReturnSourceID) {
-          const functionReturn: SchemaFunctionReturn = {
-            PropertyID: item.id,
-            NodeID: item.data.id,
-            SchemaFunctionsReturnSource: item.data.SchemaFunctionsReturnSource,
-            SchemaFunctionsReturnSourceID: item.data.SchemaFunctionsReturnSourceID,
-            SchemaFunctionsReturnValue: item.data.SchemaFunctionsReturnValue,
-            SchemaFunctionsReturnValueType: item.data.SchemaFunctionsReturnValueType,
-            Type: 'filter',
-            ExternalSchemaID: ''
-          };
+          const functionReturn = new SchemaFunctionReturn();
 
-          schemaCfg.SchemaFunctionReturns.push(functionReturn);
+          functionReturn.PropertyID = item.id;
+          functionReturn.NodeID = item.data.id;
+          functionReturn.SchemaFunctionsReturnSource =
+            item.data.SchemaFunctionsReturnSource;
+          functionReturn.SchemaFunctionsReturnSourceID =
+            item.data.SchemaFunctionsReturnSourceID;
+          functionReturn.SchemaFunctionsReturnValue =
+            item.data.SchemaFunctionsReturnValue;
+          functionReturn.SchemaFunctionsReturnValueType =
+            item.data.SchemaFunctionsReturnValueType;
+          functionReturn.Type = 'filter';
+          functionReturn.ExternalSchemaID = '';
+
+          returnObj.SchemaFunctionReturns.push(functionReturn);
         }
 
-        item.data.Functions.forEach(func => {
+        item.data.Functions.forEach((func: any) => {
           if (func.ExtraData && func.ExtraData.HasErrors) {
-            schemaCfg.HasErrors = true;
+            returnObj.HasErrors = true;
           }
 
           const newFunc: SchemaFunctionRef = {
@@ -189,7 +255,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
             Type: 'filter'
           };
 
-          func.Properties.forEach(prop => {
+          func.Properties.forEach((prop: any) => {
             newFunc.Properties.push({
               id: prop.Property ? prop.Property.id : null,
               StaticValue: prop.StaticValue,
@@ -201,36 +267,46 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
             });
           });
 
-          schemaCfg.SchemaFunctions.push(newFunc);
+          returnObj.SchemaFunctions.push(newFunc);
         });
       }
 
-      if (item.data.JoinRelationships && Object.keys(item.data.JoinRelationships).length > 0) {
+      if (
+        item.data.JoinRelationships &&
+        Object.keys(item.data.JoinRelationships).length > 0
+      ) {
         schemaNode.JoinRelationships = [];
 
         Object.keys(item.data.JoinRelationships).forEach(key => {
           const nodeRel = item.data.JoinRelationships[key];
-          const rel = { Key: key, Object: { Relationship: nodeRel.Relationship, Order: nodeRel.Order } };
+          const rel = {
+            Key: key,
+            Object: { Relationship: nodeRel.Relationship, Order: nodeRel.Order }
+          };
           schemaNode.JoinRelationships.push(rel);
 
           if (nodeRel.SchemaFunctionsReturnSourceID) {
-            const functionReturn: SchemaFunctionReturn = {
-              PropertyID: item.id,
-              NodeID: item.data.id,
-              SchemaFunctionsReturnSource: nodeRel.SchemaFunctionsReturnSource,
-              SchemaFunctionsReturnSourceID: nodeRel.SchemaFunctionsReturnSourceID,
-              SchemaFunctionsReturnValue: nodeRel.SchemaFunctionsReturnValue,
-              SchemaFunctionsReturnValueType: nodeRel.SchemaFunctionsReturnValueType,
-              Type: 'join',
-              ExternalSchemaID: key
-            };
+            const functionReturn = new SchemaFunctionReturn();
 
-            schemaCfg.SchemaFunctionReturns.push(functionReturn);
+            functionReturn.PropertyID = item.id;
+            functionReturn.NodeID = item.data.id;
+            functionReturn.SchemaFunctionsReturnSource =
+              nodeRel.SchemaFunctionsReturnSource;
+            functionReturn.SchemaFunctionsReturnSourceID =
+              nodeRel.SchemaFunctionsReturnSourceID;
+            functionReturn.SchemaFunctionsReturnValue =
+              nodeRel.SchemaFunctionsReturnValue;
+            functionReturn.SchemaFunctionsReturnValueType =
+              nodeRel.SchemaFunctionsReturnValueType;
+            functionReturn.Type = 'join';
+            functionReturn.ExternalSchemaID = key;
+
+            returnObj.SchemaFunctionReturns.push(functionReturn);
           }
           if (nodeRel.Functions) {
-            nodeRel.Functions.forEach(func => {
+            nodeRel.Functions.forEach((func: any) => {
               if (func.ExtraData && func.ExtraData.HasErrors) {
-                schemaCfg.HasErrors = true;
+                returnObj.HasErrors = true;
               }
 
               const newFunc: SchemaFunctionRef = {
@@ -252,7 +328,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
                 Type: 'join'
               };
 
-              func.Properties.forEach(prop => {
+              func.Properties.forEach((prop: any) => {
                 newFunc.Properties.push({
                   id: prop.Property ? prop.Property.id : null,
                   StaticValue: prop.StaticValue,
@@ -264,14 +340,14 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
                 });
               });
 
-              schemaCfg.SchemaFunctions.push(newFunc);
+              returnObj.SchemaFunctions.push(newFunc);
             });
           }
         });
       }
 
       if (item.data.JoinFunctionNeeded) {
-        schemaCfg.HasErrors = true;
+        returnObj.HasErrors = true;
       }
 
       if (item.data.Timestamp) {
@@ -290,51 +366,60 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
       const portEdges = item.getPorts().filter(port => {
         return (
-          port.getSourceEdges().filter(edge => {
-            //  TODO:  Used to be .getAllEdges()
+          toolkit.getAllEdgesFor(port).filter(edge => {
             return edge.target.id === port.id;
           }).length > 0
         );
       });
 
-      if (portEdges.length === 0 && item.data.SchemaType === 'outgoing') {
-        schemaCfg.HasErrors = true;
+      if (edges.length === 0 && item.data.SchemaType === 'outgoing') {
+        returnObj.HasErrors = true;
       }
 
-      if (item.data.SchemaType === 'outgoing' && (!item.data.OutgoingModuleIDs || item.data.OutgoingModuleIDs.length === 0)) {
-        schemaCfg.HasErrors = true;
+      if (
+        item.data.SchemaType === 'outgoing' &&
+        (!item.data.OutgoingModuleIDs ||
+          item.data.OutgoingModuleIDs.length === 0)
+      ) {
+        returnObj.HasErrors = true;
       }
 
-      if (item.data.SchemaType === 'incomming' && !item.data.IncommingModuleID) {
-        schemaCfg.HasErrors = true;
+      if (
+        item.data.SchemaType === 'incomming' &&
+        !item.data.IncommingModuleID
+      ) {
+        returnObj.HasErrors = true;
       }
 
-      schemaCfg.SchemaNodes.push(schemaNode);
+      returnObj.SchemaNodes.push(schemaNode);
 
       item.getPorts().forEach(port => {
         if (port.data.MappingFunctionNeeded) {
-          schemaCfg.HasErrors = true;
+          returnObj.HasErrors = true;
         }
-
         if (port.data.Functions && port.data.Functions.length > 0) {
           if (port.data.SchemaFunctionsReturnSourceID) {
             const functionReturn = new SchemaFunctionReturn();
 
             functionReturn.PropertyID = port.id;
             functionReturn.NodeID = item.data.id;
-            functionReturn.SchemaFunctionsReturnSource = port.data.SchemaFunctionsReturnSource;
-            functionReturn.SchemaFunctionsReturnSourceID = port.data.SchemaFunctionsReturnSourceID;
-            functionReturn.SchemaFunctionsReturnValue = port.data.SchemaFunctionsReturnValue;
-            functionReturn.SchemaFunctionsReturnValueType = port.data.SchemaFunctionsReturnValueType;
+            functionReturn.SchemaFunctionsReturnSource =
+              port.data.SchemaFunctionsReturnSource;
+            functionReturn.SchemaFunctionsReturnSourceID =
+              port.data.SchemaFunctionsReturnSourceID;
+            functionReturn.SchemaFunctionsReturnValue =
+              port.data.SchemaFunctionsReturnValue;
+            functionReturn.SchemaFunctionsReturnValueType =
+              port.data.SchemaFunctionsReturnValueType;
             functionReturn.Type = 'mapping';
             functionReturn.ExternalSchemaID = '';
 
-            schemaCfg.SchemaFunctionReturns.push(functionReturn);
+            returnObj.SchemaFunctionReturns.push(functionReturn);
           }
 
-          port.data.Functions.forEach(func => {
+          port.data.Functions.forEach((func: any) => {
             if (func.ExtraData && func.ExtraData.HasErrors) {
-              schemaCfg.HasErrors = true;
+              returnObj.HasErrors = true;
             }
 
             const newFunc: SchemaFunctionRef = {
@@ -356,7 +441,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
               Type: 'mapping'
             };
 
-            func.Properties.forEach(prop => {
+            func.Properties.forEach((prop: any) => {
               newFunc.Properties.push({
                 id: prop.Property ? prop.Property.id : null,
                 StaticValue: prop.StaticValue,
@@ -368,7 +453,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
               });
             });
 
-            schemaCfg.SchemaFunctions.push(newFunc);
+            returnObj.SchemaFunctions.push(newFunc);
           });
         }
       });
@@ -377,19 +462,19 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
     edges.forEach(item => {
       const edgeData = item.data;
 
-      const schemaMap = <DataFlowSchemaMap>{
+      const schemaMap = <DataFlowSchemaMap> {
         ID: item.data.id,
-        // IncommingSchemaID: item.source.getNode().id,
-        // OutgoingSchemaID: item.target.getNode().id,
+        IncommingSchemaID: item.source.id,
+        OutgoingSchemaID: item.target.id,
         Data: edgeData,
         IncommingPropertyID: item.source.id,
         OutgoingPropertyID: item.target.id
       };
 
-      schemaCfg.SchemaMaps.push(schemaMap);
+      returnObj.SchemaMaps.push(schemaMap);
     });
 
-    return schemaCfg;
+    return returnObj;
   }
 
   protected loadIOName() {
@@ -412,7 +497,7 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
 
     keys.forEach(key => {
       node.addPort({
-        id: schema.properties[key].id,
+        id: schema.properties[key].$id,
         DataType: schema.properties[key].type,
         Text: schema.properties[key].title,
         type: portType,
@@ -425,315 +510,367 @@ export class DataFlowMapJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOServi
     });
   }
 
-  protected recurseJSONSchemaToFindProperty(schema: JSONSchema, id: string): boolean {
+  protected recurseJSONSchemaToFindProperty(
+    schema: JSONSchema,
+    id: string
+  ): boolean {
     if (!schema.properties) {
       return;
     }
 
     const keys = Object.keys(schema.properties);
 
-    let found = null;
+    let found: any = null;
 
     keys.forEach(key => {
-      if (schema.properties[key].id === id) {
+      if (schema.properties[key].$id === id) {
         found = schema.properties[key];
       } else if (!found && schema.properties[key].type === 'object') {
-        found = this.recurseJSONSchemaToFindProperty(schema.properties[key].oneOf[0], id);
+        found = this.recurseJSONSchemaToFindProperty(
+          schema.properties[key].oneOf[0],
+          id
+        );
       }
     });
 
     return found;
   }
 
-  protected parseOutput(output: DataFlowModuleSchemaConfig, toolkit: jsPlumbToolkit, params: { Schemas: JSONSchema[] }) {
-    // if (output) {
-    //   toolkit.clear();
+  protected parseOutput(
+    output: DataFlowModuleSchemaConfig,
+    toolkit: jsPlumbToolkit,
+    params: {
+      Schemas: JSONSchema[];
+      AvailableSchemaFunctions: SchemaFunctionDefinition[];
+      IsJoinFunctionNeeded: (edge: Edge) => boolean;
+      IsJoinPresent: (node: Node) => boolean;
+      IsMappingFunctionNeeded: (edge: Edge) => boolean;
+      IsGroupNeeded: (
+        node: any,
+        currentFunction: any,
+        currentFunctionPort: any
+      ) => boolean;
+    }
+  ) {
+    if (output.SchemaNodes) {
+      output.SchemaNodes.forEach(item => {
+        const node = item.Data;
 
-    //   const self = this;
+        const schemaList = params.Schemas.filter(obj => {
+          return obj.$id === item.JSONSchemaID;
+        });
 
-    //   if (output.SchemaNodes) {
-    //     output.SchemaNodes.forEach((item) => {
-    //       const node = item.Data;
+        if (schemaList && schemaList.length > 0) {
+          node.Schema = JSON.parse(JSON.stringify(schemaList[0]));
+        }
 
-    //       const schemaList = params.Schemas.filter((obj) => {
-    //         return obj.id === item.JSONSchemaID;
-    //       });
+        node.FilterFunctionError = false;
 
-    //       if (schemaList && schemaList.length > 0) {
-    //         node.Schema = JSON.parse(JSON.stringify(schemaList[0]));
-    //       }
+        if (item.IncommingModuleID) {
+          node.IncommingModuleID = item.IncommingModuleID;
+        }
 
-    //       node.FilterFunctionError = false;
+        if (item.OutgoingModuleIDs) {
+          node.OutgoingModuleIDs = item.OutgoingModuleIDs;
+        }
 
-    //       if (item.IncommingModuleID) {
-    //         node.IncommingModuleID = item.IncommingModuleID;
-    //       }
+        if (item.DisableSchemaEdit) {
+          node.DisableSchemaEdit = item.DisableSchemaEdit;
+        }
 
-    //       if (item.OutgoingModuleIDs) {
-    //         node.OutgoingModuleIDs = item.OutgoingModuleIDs;
-    //       }
+        if (item.DisableSchemaEdit) {
+          node.Schema.sourceTitle = item.Data.Name; // JSON.parse(JSON.stringify(node.Schema.title));
+          // node.Schema.title = JSON.parse(JSON.stringify(item.Data.Name));
+        }
 
-    //       if (item.DisableSchemaEdit) {
-    //         node.DisableSchemaEdit = item.DisableSchemaEdit;
-    //       }
+        if (item.Groups) {
+          node.Groups = item.Groups;
+        }
 
-    //       if (item.DisableSchemaEdit) {
-    //         node.Schema.sourceTitle = item.Data.Name; // JSON.parse(JSON.stringify(node.Schema.title));
-    //         // node.Schema.title = JSON.parse(JSON.stringify(item.Data.Name));
-    //       }
+        if (item.Timestamp) {
+          node.Timestamp = item.Timestamp;
+        }
 
-    //       if (item.Groups) {
-    //         node.Groups = item.Groups;
-    //       }
+        if (item.TumblingWindow) {
+          node.TumblingWindow = item.TumblingWindow;
+          node.TumblingInterval = item.TumblingInterval;
+          node.TumblingIntervalValue = item.TumblingIntervalValue;
+        }
 
-    //       if (item.Timestamp) {
-    //         node.Timestamp = item.Timestamp;
-    //       }
+        if (item.JoinRelationships && item.JoinRelationships.length > 0) {
+          node.JoinRelationships = {};
 
-    //       if (item.TumblingWindow) {
-    //         node.TumblingWindow = item.TumblingWindow;
-    //         node.TumblingInterval = item.TumblingInterval;
-    //         node.TumblingIntervalValue = item.TumblingIntervalValue;
-    //       }
+          item.JoinRelationships.forEach(rel => {
+            node.JoinRelationships[rel.Key] = {};
+            node.JoinRelationships[rel.Key].Relationship =
+              rel.Object.Relationship;
+            node.JoinRelationships[rel.Key].Order = rel.Object.Order;
+            node.JoinRelationships[rel.Key].JoinFunctionError = false;
+          });
+        }
 
-    //       if (item.JoinRelationships && item.JoinRelationships.length > 0) {
-    //         node.JoinRelationships = {};
+        const newNode = toolkit.addNode(node);
 
-    //         item.JoinRelationships.forEach(function(rel) {
-    //           node.JoinRelationships[rel.Key] = {};
-    //           node.JoinRelationships[rel.Key].Relationship = rel.Object.Relationship;
-    //           node.JoinRelationships[rel.Key].Order = rel.Object.Order;
-    //           node.JoinRelationships[rel.Key].JoinFunctionError = false;
-    //         });
-    //       }
+        this.recurseJSONSchemaToAddPorts(node.Schema, newNode);
 
-    //       const newNode = toolkit.addNode(node);
+        setTimeout(() => {
+          toolkit.updateNode(newNode.id);
+        }, 50);
+      });
+    }
 
-    //       this.recurseJSONSchemaToAddPorts(node.Schema, newNode);
+    setTimeout(() => {
+      if (output.SchemaMaps) {
+        output.SchemaMaps.forEach(item => {
+          const edge = toolkit.addEdge({
+            source: item.IncommingSchemaID + '.' + item.IncommingPropertyID,
+            target: item.OutgoingSchemaID + '.' + item.OutgoingPropertyID,
+            data: item.Data,
+            directed: false
+          });
+        });
+      }
 
-    //       // setTimeout(function() {
-    //       toolkit.updateNode(newNode.id);
-    //       // }, 50);
-    //     });
-    //   }
+      if (output.SchemaFunctions) {
+        output.SchemaFunctions.forEach(func => {
+          const node = toolkit.getNode(func.ResultNodeID);
+          let port;
 
-    //   // setTimeout(function(self) {
-    //   if (output.SchemaMaps) {
-    //     output.SchemaMaps.forEach(function(item) {
-    //       const edge = toolkit.addEdge({
-    //         id: item.ID,
-    //         source: item.IncommingSchemaID + '.' + item.IncommingPropertyID,
-    //         target: item.OutgoingSchemaID + '.' + item.OutgoingPropertyID,
-    //         data: item.Data,
-    //         directed: false
-    //       });
-    //     });
-    //   }
+          if (!func.Type) {
+            func.Type = 'mapping';
+          }
 
-    //   if (output.SchemaFunctions) {
-    //     output.SchemaFunctions.forEach(function(func) {
-    //       const node = toolkit.getNode(func.ResultNodeID);
-    //       let port;
+          if (func.Type === 'mapping') {
+            port = node.getPort(func.ResultPropertyID);
 
-    //       if (!func.Type) {
-    //         func.Type = 'mapping';
-    //       }
+            if (!port.data.Functions) {
+              port.data.Functions = new Array<SchemaFunction>();
+            }
+          } else if (func.Type === 'filter') {
+            if (!node.data.Functions) {
+              node.data.Functions = new Array<SchemaFunction>();
+            }
+          } else if (func.Type === 'join') {
+            if (!node.data.JoinRelationships[func.ResultPropertyID].Functions) {
+              node.data.JoinRelationships[
+                func.ResultPropertyID
+              ].Functions = new Array<SchemaFunction>();
+            }
+          }
 
-    //       if (func.Type === 'mapping') {
-    //         port = node.getPort(func.ResultPropertyID);
+          const newFunc = new SchemaFunction();
+          newFunc.ID = func.ID;
+          newFunc.Name = func.Name;
+          newFunc.Order = func.Order;
+          newFunc.ExtraData = func.ExtraData;
+          newFunc.ReturnValueType = func.ReturnValueType;
+          newFunc.ReturnTrueSource = func.ReturnTrueSource;
+          newFunc.ReturnTrueSourceID = func.ReturnTrueSourceID;
+          newFunc.ReturnTrueValue = func.ReturnTrueValue;
+          newFunc.ReturnFalseSource = func.ReturnFalseSource;
+          newFunc.ReturnFalseSourceID = func.ReturnFalseSourceID;
+          newFunc.ReturnFalseValue = func.ReturnFalseValue;
+          newFunc.Properties = new Array<SchemaFunctionProperty>();
 
-    //         if (!port.data.Functions) {
-    //           port.data.Functions = new Array<SchemaFunction>();
-    //         }
-    //       } else if (func.Type === 'filter') {
-    //         if (!node.data.Functions) {
-    //           node.data.Functions = new Array<SchemaFunction>();
-    //         }
-    //       } else if (func.Type === 'join') {
-    //         if (!node.data.JoinRelationships[func.ResultPropertyID].Functions) {
-    //           node.data.JoinRelationships[func.ResultPropertyID].Functions = new Array<SchemaFunction>();
-    //         }
-    //       }
+          func.Properties.forEach(prop => {
+            if (prop.Source === 'function') {
+              const existingFunction = output.SchemaFunctions.filter(f => {
+                return f.ID === prop.id;
+              })[0];
 
-    //       const newFunc = new SchemaFunction();
-    //       newFunc.ID = func.ID;
-    //       newFunc.Name = func.Name;
-    //       newFunc.Order = func.Order;
-    //       newFunc.ExtraData = func.ExtraData;
-    //       newFunc.ReturnValueType = func.ReturnValueType;
-    //       newFunc.ReturnTrueSource = func.ReturnTrueSource;
-    //       newFunc.ReturnTrueSourceID = func.ReturnTrueSourceID;
-    //       newFunc.ReturnTrueValue = func.ReturnTrueValue;
-    //       newFunc.ReturnFalseSource = func.ReturnFalseSource;
-    //       newFunc.ReturnFalseSourceID = func.ReturnFalseSourceID;
-    //       newFunc.ReturnFalseValue = func.ReturnFalseValue;
-    //       newFunc.Properties = new Array<SchemaFunctionProperty>();
+              const funcDef = params.AvailableSchemaFunctions.filter(item => {
+                return item.ID === existingFunction.FunctionID;
+              })[0];
 
-    //       func.Properties.forEach(function(prop) {
-    //         if (prop.Source === 'function') {
-    //           const existingFunction = output.SchemaFunctions.filter(function(f) {
-    //             return f.ID === prop.id;
-    //           })[0];
+              const newExisting = new SchemaFunctionProperty();
+              newExisting.Source = prop.Source;
+              newExisting.Property = new JSONSchema();
+              newExisting.Property.$id = existingFunction.ID;
+              newExisting.Property.title = 'Result of ' + existingFunction.Name;
+              newExisting.Property.type = funcDef.ReturnType;
+              newExisting.Order = prop.Order;
+              newExisting.StaticValue = prop.StaticValue;
+              newExisting.StaticValueType = prop.StaticValueType;
 
-    //           const funcDef = params.AvailableSchemaFunctions.filter(function(item) {
-    //             return item.id === existingFunction.FunctionID;
-    //           })[0];
+              newFunc.Properties.push(newExisting);
+            } else if (prop.Source === 'static') {
+              const newStatic = new SchemaFunctionProperty();
+              newStatic.Source = prop.Source;
+              newStatic.Order = prop.Order;
+              newStatic.StaticValue = prop.StaticValue;
+              newStatic.StaticValueType = prop.StaticValueType;
+              newStatic.Property = new JSONSchema();
+              newStatic.Property.$id = prop.id;
 
-    //           const newExisting = new SchemaFunctionProperty();
-    //           newExisting.Source = prop.Source;
-    //           newExisting.Property = new ForgeJSONSchema();
-    //           newExisting.Property.id = existingFunction.ID;
-    //           newExisting.Property.title = 'Result of ' + existingFunction.Name;
-    //           newExisting.Property.type = funcDef.ReturnType;
-    //           newExisting.Order = prop.Order;
-    //           newExisting.StaticValue = prop.StaticValue;
-    //           newExisting.StaticValueType = prop.StaticValueType;
+              newFunc.Properties.push(newStatic);
+            } else {
+              let newProp: any = null;
 
-    //           newFunc.Properties.push(newExisting);
-    //         } else if (prop.Source === 'static') {
-    //           const newStatic = new SchemaFunctionProperty();
-    //           newStatic.Source = prop.Source;
-    //           newStatic.Order = prop.Order;
-    //           newStatic.StaticValue = prop.StaticValue;
-    //           newStatic.StaticValueType = prop.StaticValueType;
-    //           newStatic.Property = new ForgeJSONSchema();
-    //           newStatic.Property.id = prop.id;
+              if (prop.id) {
+                newProp = this.recurseJSONSchemaToFindProperty(
+                  toolkit.getNode(prop.NodeID).data.Schema,
+                  prop.id
+                );
+              }
 
-    //           newFunc.Properties.push(newStatic);
-    //         } else {
-    //           let newProp = null;
+              newFunc.Properties.push({
+                Source: prop.Source,
+                Property: newProp,
+                SchemaID: prop.SchemaID,
+                NodeID: prop.NodeID,
+                Order: prop.Order,
+                StaticValue: prop.StaticValue,
+                StaticValueType: prop.StaticValueType
+              });
+            }
+          });
 
-    //           if (prop.id) {
-    //             newProp = recurseJSONSchemaToFindProperty(
-    //               recurseJSONSchemaToFindProperty,
-    //               toolkit.getNode(prop.NodeID).data.Schema,
-    //               prop.id
-    //             );
-    //           }
+          newFunc.Function = params.AvailableSchemaFunctions.filter(item => {
+            return item.ID === func.FunctionID;
+          })[0];
 
-    //           newFunc.Properties.push({
-    //             Source: prop.Source,
-    //             Property: newProp,
-    //             SchemaID: prop.SchemaID,
-    //             NodeID: prop.NodeID,
-    //             Order: prop.Order,
-    //             StaticValue: prop.StaticValue,
-    //             StaticValueType: prop.StaticValueType
-    //           });
-    //         }
-    //       });
+          if (func.Type === 'mapping') {
+            port.data.Functions.push(newFunc);
+            if (func.ExtraData.HasErrors) {
+              port.data.MappingFunctionError = true;
+            }
+          } else if (func.Type === 'filter') {
+            node.data.Functions.push(newFunc);
+            if (func.ExtraData.HasErrors) {
+              node.data.FilterFunctionError = true;
+            }
+          } else if (func.Type === 'join') {
+            node.data.JoinRelationships[func.ResultPropertyID].Functions.push(
+              newFunc
+            );
+            if (func.ExtraData.HasErrors) {
+              node.data.JoinRelationships[
+                func.ResultPropertyID
+              ].JoinFunctionError = true;
+            }
+          }
+        });
+      }
 
-    //       newFunc.Function = params.AvailableSchemaFunctions.filter(function(item) {
-    //         return item.ID === func.FunctionID;
-    //       })[0];
+      if (output.SchemaFunctionReturns) {
+        output.SchemaFunctionReturns.forEach(ret => {
+          const node = toolkit.getNode(ret.NodeID);
+          let port;
 
-    //       if (func.Type === 'mapping') {
-    //         port.data.Functions.push(newFunc);
-    //         if (func.ExtraData.HasErrors) {
-    //           port.data.MappingFunctionError = true;
-    //         }
-    //       } else if (func.Type === 'filter') {
-    //         node.data.Functions.push(newFunc);
-    //         if (func.ExtraData.HasErrors) {
-    //           node.data.FilterFunctionError = true;
-    //         }
-    //       } else if (func.Type === 'join') {
-    //         node.data.JoinRelationships[func.ResultPropertyID].Functions.push(newFunc);
-    //         if (func.ExtraData.HasErrors) {
-    //           node.data.JoinRelationships[func.ResultPropertyID].JoinFunctionError = true;
-    //         }
-    //       }
-    //     });
-    //   }
+          if (!ret.Type) {
+            ret.Type = 'mapping';
+          }
 
-    //   if (output.SchemaFunctionReturns) {
-    //     output.SchemaFunctionReturns.forEach(function(ret) {
-    //       const node = toolkit.getNode(ret.NodeID);
-    //       let port;
+          if (ret.Type === 'mapping') {
+            port = node.getPort(ret.PropertyID);
 
-    //       if (!ret.Type) {
-    //         ret.Type = 'mapping';
-    //       }
+            if (!port.data.SchemaFunctionsReturnSourceID) {
+              port.data.SchemaFunctionsReturnSource = null;
+              port.data.SchemaFunctionsReturnSourceID = null;
+              port.data.SchemaFunctionsReturnValue = null;
+              port.data.SchemaFunctionsReturnValueType = null;
+            }
+            port.data.SchemaFunctionsReturnSource =
+              ret.SchemaFunctionsReturnSource;
+            port.data.SchemaFunctionsReturnSourceID =
+              ret.SchemaFunctionsReturnSourceID;
+            port.data.SchemaFunctionsReturnValue =
+              ret.SchemaFunctionsReturnValue;
+            port.data.SchemaFunctionsReturnValueType =
+              ret.SchemaFunctionsReturnValueType;
+          } else if (ret.Type === 'filter') {
+            if (!node.data.SchemaFunctionsReturnSourceID) {
+              node.data.SchemaFunctionsReturnSource = null;
+              node.data.SchemaFunctionsReturnSourceID = null;
+              node.data.SchemaFunctionsReturnValue = null;
+              node.data.SchemaFunctionsReturnValueType = null;
+            }
+            node.data.SchemaFunctionsReturnSource =
+              ret.SchemaFunctionsReturnSource;
+            node.data.SchemaFunctionsReturnSourceID =
+              ret.SchemaFunctionsReturnSourceID;
+            node.data.SchemaFunctionsReturnValue =
+              ret.SchemaFunctionsReturnValue;
+            node.data.SchemaFunctionsReturnValueType =
+              ret.SchemaFunctionsReturnValueType;
+          } else if (ret.Type === 'join') {
+            if (
+              !node.data.JoinRelationships[ret.ExternalSchemaID]
+                .SchemaFunctionsReturnSourceID
+            ) {
+              node.data.JoinRelationships[
+                ret.ExternalSchemaID
+              ].SchemaFunctionsReturnSource = null;
+              node.data.JoinRelationships[
+                ret.ExternalSchemaID
+              ].SchemaFunctionsReturnSourceID = null;
+              node.data.JoinRelationships[
+                ret.ExternalSchemaID
+              ].SchemaFunctionsReturnValue = null;
+              node.data.JoinRelationships[
+                ret.ExternalSchemaID
+              ].SchemaFunctionsReturnValueType = null;
+            }
+            node.data.JoinRelationships[
+              ret.ExternalSchemaID
+            ].SchemaFunctionsReturnSource = ret.SchemaFunctionsReturnSource;
+            node.data.JoinRelationships[
+              ret.ExternalSchemaID
+            ].SchemaFunctionsReturnSourceID = ret.SchemaFunctionsReturnSourceID;
+            node.data.JoinRelationships[
+              ret.ExternalSchemaID
+            ].SchemaFunctionsReturnValue = ret.SchemaFunctionsReturnValue;
+            node.data.JoinRelationships[
+              ret.ExternalSchemaID
+            ].SchemaFunctionsReturnValueType =
+              ret.SchemaFunctionsReturnValueType;
+            node.data.JoinRelationships[ret.ExternalSchemaID].ExternalSchemaID =
+              ret.ExternalSchemaID;
+          }
+        });
+      }
 
-    //       if (ret.Type === 'mapping') {
-    //         port = node.getPort(ret.PropertyID);
+      if (output.SchemaNodes) {
+        toolkit
+          .getNodes()
+          .filter(node => {
+            return node.data.SchemaType === 'outgoing';
+          })
+          .forEach(node => {
+            node.data.JoinFunctionNeeded = false;
+            node.data.ShowJoinLink = false;
 
-    //         if (!port.data.SchemaFunctionsReturnSourceID) {
-    //           port.data.SchemaFunctionsReturnSource = null;
-    //           port.data.SchemaFunctionsReturnSourceID = null;
-    //           port.data.SchemaFunctionsReturnValue = null;
-    //           port.data.SchemaFunctionsReturnValueType = null;
-    //         }
-    //         port.data.SchemaFunctionsReturnSource = ret.SchemaFunctionsReturnSource;
-    //         port.data.SchemaFunctionsReturnSourceID = ret.SchemaFunctionsReturnSourceID;
-    //         port.data.SchemaFunctionsReturnValue = ret.SchemaFunctionsReturnValue;
-    //         port.data.SchemaFunctionsReturnValueType = ret.SchemaFunctionsReturnValueType;
-    //       } else if (ret.Type === 'filter') {
-    //         if (!node.data.SchemaFunctionsReturnSourceID) {
-    //           node.data.SchemaFunctionsReturnSource = null;
-    //           node.data.SchemaFunctionsReturnSourceID = null;
-    //           node.data.SchemaFunctionsReturnValue = null;
-    //           node.data.SchemaFunctionsReturnValueType = null;
-    //         }
-    //         node.data.SchemaFunctionsReturnSource = ret.SchemaFunctionsReturnSource;
-    //         node.data.SchemaFunctionsReturnSourceID = ret.SchemaFunctionsReturnSourceID;
-    //         node.data.SchemaFunctionsReturnValue = ret.SchemaFunctionsReturnValue;
-    //         node.data.SchemaFunctionsReturnValueType = ret.SchemaFunctionsReturnValueType;
-    //       } else if (ret.Type === 'join') {
-    //         if (!node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnSourceID) {
-    //           node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnSource = null;
-    //           node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnSourceID = null;
-    //           node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnValue = null;
-    //           node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnValueType = null;
-    //         }
-    //         node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnSource = ret.SchemaFunctionsReturnSource;
-    //         node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnSourceID = ret.SchemaFunctionsReturnSourceID;
-    //         node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnValue = ret.SchemaFunctionsReturnValue;
-    //         node.data.JoinRelationships[ret.ExternalSchemaID].SchemaFunctionsReturnValueType = ret.SchemaFunctionsReturnValueType;
-    //         node.data.JoinRelationships[ret.ExternalSchemaID].ExternalSchemaID = ret.ExternalSchemaID;
-    //       }
-    //     });
-    //   }
+            node.getPorts().forEach(port => {
+              const portEdges = toolkit.getAllEdgesFor(port);
 
-    //   if (output.SchemaNodes) {
-    //     toolkit
-    //       .getNodes()
-    //       .filter(function(node) {
-    //         return node.data.SchemaType === 'outgoing';
-    //       })
-    //       .forEach(function(node) {
-    //         node.data.JoinFunctionNeeded = false;
-    //         node.data.ShowJoinLink = false;
+              if (node.data.SchemaType === 'outgoing') {
+                portEdges.forEach(edge => {
+                  const needed = params.IsJoinFunctionNeeded(edge);
+                  if (needed && !params.IsJoinPresent(node)) {
+                    node.data.JoinFunctionNeeded = true;
+                  }
+                  if (needed) {
+                    node.data.ShowJoinLink = true;
+                  }
+                });
+              }
 
-    //         node.getPorts().forEach(function(port) {
-    //           const edges = port.getAllEdges();
+              if (portEdges && portEdges.length > 0) {
+                const edge = portEdges[0];
+                const isMapNeeded = params.IsMappingFunctionNeeded(edge);
 
-    //           if (node.data.SchemaType === 'outgoing') {
-    //             edges.forEach(function(edge) {
-    //               const needed = params.IsJoinFunctionNeeded(edge);
-    //               if (needed && !params.IsJoinPresent(node)) {
-    //                 node.data.JoinFunctionNeeded = true;
-    //               }
-    //               if (needed) {
-    //                 node.data.ShowJoinLink = true;
-    //               }
-    //             });
-    //           }
+                if (
+                  isMapNeeded &&
+                  !edge.target.data.SchemaFunctionsReturnSource
+                ) {
+                  edge.target.data.MappingFunctionNeeded = true;
+                }
+              }
+            });
 
-    //           if (edges && edges.length > 0) {
-    //             const edge = edges[0];
-    //             const isMapNeeded = params.IsMappingFunctionNeeded(edge);
-
-    //             if (isMapNeeded && !edge.target.data.SchemaFunctionsReturnSource) {
-    //               edge.target.data.MappingFunctionNeeded = true;
-    //             }
-    //           }
-    //         });
-
-    //         params.IsGroupNeeded(params.IsGroupNeeded, node, null, null);
-    //       });
-    //   }
-    //   // }, 500);
-    // }
+            params.IsGroupNeeded(node, null, null);
+          });
+      }
+    }, 500);
   }
 }

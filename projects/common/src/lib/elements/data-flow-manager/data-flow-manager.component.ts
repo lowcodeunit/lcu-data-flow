@@ -1,8 +1,8 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { LcuDataFlowDataFlowListContext } from './controls/data-flow-list/data-flow-list.component';
-import { DataFlowManagerStateManagerContext } from '../../core/data-flow-manager-state-manager.context';
-import { DataFlowManagerState } from '../../core/data-flow-manager-state.model';
+import { DataFlowManagementStateContext } from '../../core/data-flow-management-state.context';
+import { DataFlowManagementState } from '../../core/data-flow-management.state';
 
 export class LcuDataFlowDataFlowManagerElementState {}
 
@@ -19,10 +19,10 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   //  Fields
 
   //  Properties
-  public State: DataFlowManagerState;
+  public State: DataFlowManagementState;
 
   //  Constructors
-  constructor(protected injector: Injector, protected state: DataFlowManagerStateManagerContext) {
+  constructor(protected injector: Injector, protected state: DataFlowManagementStateContext) {
     super(injector);
   }
 

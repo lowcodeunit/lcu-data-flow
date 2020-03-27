@@ -2,6 +2,53 @@
 
 <div mat-dialog-content>
   <lcu-lazy-element [config]="Config" [context]="Context"></lcu-lazy-element>
+  <mat-expansion-panel *ngIf="ShowConnections === true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon color="accent" class="margin-right-2">swap_horizontal_circle</mat-icon>
+          Storage Connections
+        </div>
+      </mat-panel-title>
+      <!-- <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description> -->
+    </mat-expansion-panel-header>
+  
+  <mat-card>
+    <mat-card-header>
+        <!-- <div mat-card-avatar>
+          <mat-icon color="accent">swap_horizontal_circle</mat-icon>
+        </div> -->
+        <mat-card-title>Connections</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-list *ngFor="let connection of Connections; let i = index; let odd = odd; let even = even">
+          <mat-list-item [ngClass]="{ odd: odd, even: even }" style="height: auto;">
+            <div fxFlex fxLayout="row" class="margin-2">
+              <div fxFlex="95" fxLayout="column" class="margin-right-3 word-break-all">
+                <span id="connectionKey" name="connectionKey" class="mat-body-strong mat-body-2">{{connection.Key}}: </span>
+                <span id="connectionValue" name="connectionValue" class="mat-small mat-caption">{{connection.Value}}</span>
+              </div>
+              <div fxLayoutAlign="end start">
+                <button
+                  id="copyToClipboardButton"
+                  name="copyToClipboardButton"
+                  type="button"
+                  mat-button
+                  matTooltip="Copy connection string to Clipboard"
+                  matTooltipPosition="right"
+                  (click)="CopyToClipboard(i)">
+                  <mat-icon class="rotate-180 clipboard-icon">save_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+  </mat-card>
+</mat-expansion-panel>
+
 </div>
 
 <div mat-dialog-actions>

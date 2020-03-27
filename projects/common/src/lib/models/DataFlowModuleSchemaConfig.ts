@@ -59,7 +59,25 @@ export class SchemaNode {
 
   public Data: any;
 
+  public DisableSchemaEdit: boolean;
+
+  public Groups: string[];
+
+  public IncommingModuleID: string;
+
+  public JoinRelationships: any[];
+
   public JSONSchemaID: string;
+
+  public OutgoingModuleIDs: string[];
+
+  public Timestamp: string;
+
+  public TumblingWindow: boolean;
+
+  public TumblingInterval: string;
+
+  public TumblingIntervalValue: number;
 }
 
 export class SchemaFunctionDefinition {

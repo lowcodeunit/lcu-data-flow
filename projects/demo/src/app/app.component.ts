@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
 
   public SelectedTheme: string;
 
+  public ShowMap: boolean;
+
   constructor(protected overlayContainer: OverlayContainer, protected settings: LCUServiceSettings) {
     this.BackgroundImage = './assets/images/bg_image.jpg';
 

@@ -6,6 +6,7 @@ export * from './lib/elements/data-flow-manager/controls/data-flow-modules-bank/
 export * from './lib/models/chart';
 export * from './lib/models/DataFlowModuleSchemaConfig';
 export * from './lib/models/DataFlowNodeFactoryParams';
+export * from './lib/models/connection-string.model';
 export * from './lib/services/data-flow-jsplumb-toolkit-io.service';
 export * from './lib/services/data-flow-map-jsplumb-toolkit-io.service';
 export * from './lib/elements/data-flow-analytics/data-flow-analytics.component';

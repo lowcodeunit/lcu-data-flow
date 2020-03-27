@@ -14,6 +14,11 @@
           "options": {
             "tsConfig": "projects/common/tsconfig.lib.json",
             "project": "projects/common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/common/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -185,7 +190,7 @@
             "main": "projects/demo/src/main.ts",
             "polyfills": "projects/demo/src/polyfills.ts",
             "tsConfig": "projects/demo/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/demo/src/favicon.ico",
               "projects/demo/src/assets",
@@ -214,7 +219,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -223,6 +227,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -290,5 +298,8 @@
       }
     }
   },
-  "defaultProject": "lcu"
+  "defaultProject": "lcu",
+  "cli": {
+    "analytics": "c0eae367-ac52-4ce3-aea6-02463d3399ee"
+  }
 }
