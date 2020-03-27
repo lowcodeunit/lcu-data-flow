@@ -25,7 +25,7 @@
     </div>
 
     <ng-container *ngIf="State.ActiveDataFlow">
-      <lcu-data-flow-ide-element></lcu-data-flow-ide-element>
+      <lcu-data-flow-ide-element [context]="{ State: State }"></lcu-data-flow-ide-element>
     </ng-container>
   </ng-container>
 
