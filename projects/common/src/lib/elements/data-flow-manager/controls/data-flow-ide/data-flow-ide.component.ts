@@ -5,13 +5,10 @@ import {
   Injector,
   ViewChild,
   OnDestroy,
-  AfterViewInit,
-  Input,
-  Inject
+  AfterViewInit
 } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
-import { DataFlowManagementStateContext } from '../../../../core/data-flow-management-state.context';
 import {
   jsPlumbSurfaceComponent,
   AngularViewOptions,
@@ -22,11 +19,9 @@ import {
   jsPlumbToolkit,
   DrawingTools,
   jsPlumbUtil,
-  LayoutSpec,
   SurfaceMode,
   SurfaceRenderParams,
   jsPlumbToolkitOptions,
-  Node,
   Edge
 } from 'jsplumbtoolkit';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
@@ -34,24 +29,21 @@ import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactor
 import {
   MatDialog,
   MatDialogRef,
-  MAT_DIALOG_DATA,
   MatDialogConfig
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { DataFlowManagerEventService } from '../../data-flow-manager-event.service';
 
 export interface DialogData {
   animal: string;
   name: string;
 }
 
-export class LcuDataFlowDataFlowIdeElementState {}
+export class LcuDataFlowDataFlowIdeElementState extends DataFlowManagementState {}
 
-export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<
-  LcuDataFlowDataFlowIdeElementState
-> {}
+export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<LcuDataFlowDataFlowIdeElementState> {}
 
-export const SelectorLcuDataFlowDataFlowIdeElement =
-  'lcu-data-flow-ide-element';
+export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element';
 
 // @Component({
 //   selector: 'dialog-overview-example-dialog',
@@ -74,9 +66,8 @@ export const SelectorLcuDataFlowDataFlowIdeElement =
   templateUrl: './data-flow-ide.component.html',
   styleUrls: ['./data-flow-ide.component.scss']
 })
-export class LcuDataFlowDataFlowIdeElementComponent
-  extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
-  implements AfterViewInit, OnDestroy, OnInit {
+export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
+                                                    implements AfterViewInit, OnDestroy, OnInit {
   //  Fields
   protected dialogRef: MatDialogRef<DialogBodyComponent>;
 
@@ -93,20 +84,22 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
   public SelectMode: SurfaceMode;
 
-  @ViewChild(jsPlumbSurfaceComponent)
-  public SurfaceComponent: jsPlumbSurfaceComponent;
-
-  public State: DataFlowManagementState;
-
   public ToolkitParams: jsPlumbToolkitOptions;
 
   public View: AngularViewOptions;
 
+  public get State(): DataFlowManagementState {
+    return this.context.State;
+  }
+
+  @ViewChild(jsPlumbSurfaceComponent)
+  public SurfaceComponent: jsPlumbSurfaceComponent;
+
   //  Constructors
   constructor(
-    protected injector: Injector,
-    protected state: DataFlowManagementStateContext,
     protected $jsplumb: jsPlumbService,
+    protected dataFlowEventService: DataFlowManagerEventService,
+    protected injector: Injector,
     protected io: DataFlowJSPlumbToolkitIOService,
     protected matDialog: MatDialog
   ) {
@@ -148,25 +141,16 @@ export class LcuDataFlowDataFlowIdeElementComponent
     super.ngOnInit();
 
     this.setupJsPlumbSurface();
-
-    this.state.Context.subscribe(async state => {
-      this.State = state;
-
-      await this.handleStateChanged();
-    });
+    this.handleStateChanged();
   }
 
   //  API Methods
   public CancelActive() {
-    this.State.Loading = true;
-
-    this.state.SetActiveDataFlow(null);
+    this.dataFlowEventService.EmitSetActiveDataFlowEvent(null);
   }
 
   public Deploy() {
-    this.State.Loading = true;
-
-    this.state.DeployDataFlow(this.State.ActiveDataFlow.Lookup);
+    this.dataFlowEventService.EmitDeployDataFlowEvent(this.State.ActiveDataFlow.Lookup);
   }
 
   public async Relayout(refreshOutput: boolean = false) {
@@ -180,24 +164,18 @@ export class LcuDataFlowDataFlowIdeElementComponent
   }
 
   public async Save() {
-    this.State.Loading = true;
-
     this.State.ActiveDataFlow.Output = await this.io.ExportFromSurface(
       this.surface
     );
-
-    this.state.SaveDataFlow(this.State.ActiveDataFlow);
+    this.dataFlowEventService.EmitSaveDataFlowEvent(this.State.ActiveDataFlow);
   }
 
   public ToggleCreationModules() {
-    this.State.Loading = true;
-
-    this.state.ToggleCreationModules();
+    this.dataFlowEventService.EmitToggleCreationModulesEvent();
   }
 
   public ToggleSelectMode() {
     this.SelectMode = this.SelectMode === 'pan' ? 'select' : 'pan';
-
     this.surface.setMode(this.SelectMode);
   }
 
