@@ -146,7 +146,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   //  API Methods
   public CancelActive() {
-    this.dataFlowEventService.EmitActiveDataFlowEvent(null);
+    this.dataFlowEventService.EmitSetActiveDataFlowEvent(null);
   }
 
   public Deploy() {

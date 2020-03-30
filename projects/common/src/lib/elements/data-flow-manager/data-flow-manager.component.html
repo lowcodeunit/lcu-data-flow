@@ -21,7 +21,7 @@
         have different outcomes in provisioned and deployed enterprise assets/configurations.
       </p>
 
-      <lcu-data-flow-list-element></lcu-data-flow-list-element>
+      <lcu-data-flow-list-element [context]="{ State: State }"></lcu-data-flow-list-element>
     </div>
 
     <ng-container *ngIf="State.ActiveDataFlow">

@@ -5,10 +5,7 @@ import { DataFlow } from '@lcu/common';
   providedIn: 'root'
 })
 export class DataFlowManagerEventService {
-  private loading: EventEmitter<boolean>;
-
-  private addIoTInfrastructure: EventEmitter<any>;
-  private deleteDataFlow: EventEmitter<any>;
+  private deleteDataFlow: EventEmitter<string>;
   private deployDataFlow: EventEmitter<string>;
   private saveDataFlow: EventEmitter<DataFlow>;
   private setActiveDataFlow: EventEmitter<string>;
@@ -16,10 +13,7 @@ export class DataFlowManagerEventService {
   private toggleIsCreating: EventEmitter<any>;
 
   constructor() {
-    this.loading = new EventEmitter<boolean>();
-
-    this.addIoTInfrastructure = new EventEmitter<any>();
-    this.deleteDataFlow = new EventEmitter<any>();
+    this.deleteDataFlow = new EventEmitter<string>();
     this.deployDataFlow = new EventEmitter<string>();
     this.saveDataFlow = new EventEmitter<DataFlow>();
     this.setActiveDataFlow = new EventEmitter<string>();
@@ -27,32 +21,25 @@ export class DataFlowManagerEventService {
     this.toggleIsCreating = new EventEmitter<any>();
   }
 
-  public EmitLoadingEvent(isLoading: boolean): void {
-    this.loading.emit(isLoading);
+  /** DeleteDataFlow */
+  public EmitDeleteDataFlowEvent(dataFlowLookup: string): void {
+    this.deleteDataFlow.emit(dataFlowLookup);
   }
 
-  public GetLoadingEvent(): EventEmitter<boolean> {
-    return this.loading;
+  public GetDeleteDataFlowEvent(): EventEmitter<string> {
+    return this.deleteDataFlow;
   }
 
-
-
-  public EmitDeployDataFlowEvent(lookup: string): void {
-    this.deployDataFlow.emit(lookup);
+  /** DeployDataFlow */
+  public EmitDeployDataFlowEvent(dataFlowLookup: string): void {
+    this.deployDataFlow.emit(dataFlowLookup);
   }
 
   public GetDeployDataFlowEvent(): EventEmitter<string> {
     return this.deployDataFlow;
   }
 
-  public EmitActiveDataFlowEvent(dataFlowLookup: string): void {
-    this.setActiveDataFlow.emit(dataFlowLookup);
-  }
-
-  public GetActiveDataFlowEvent(): EventEmitter<string> {
-    return this.setActiveDataFlow;
-  }
-
+  /** SaveDataFlow */
   public EmitSaveDataFlowEvent(dataFlow: DataFlow): void {
     this.saveDataFlow.emit(dataFlow);
   }
@@ -61,6 +48,16 @@ export class DataFlowManagerEventService {
     return this.saveDataFlow;
   }
 
+  /** SetActiveDataFlow */
+  public EmitSetActiveDataFlowEvent(dataFlowLookup: string): void {
+    this.setActiveDataFlow.emit(dataFlowLookup);
+  }
+
+  public GetSetActiveDataFlowEvent(): EventEmitter<string> {
+    return this.setActiveDataFlow;
+  }
+
+  /** ToggleCreationModules */
   public EmitToggleCreationModulesEvent(): void {
     this.toggleCreationModules.emit();
   }
@@ -69,17 +66,12 @@ export class DataFlowManagerEventService {
     return this.toggleCreationModules;
   }
 
-  /***
-
-  public EmitEvent(value: any): void {
-    this.event.emit(value);
+  /** ToggleIsCreating */
+  public EmitToggleIsCreatingEvent(): void {
+    this.toggleIsCreating.emit();
   }
 
-  public GetEvent(): EventEmitter<any> {
-    return this.event;
+  public GetToggleIsCreatingEvent(): EventEmitter<any> {
+    return this.toggleIsCreating;
   }
-
-  ***/
-
-
 }

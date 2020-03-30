@@ -1,8 +1,8 @@
-import { Component, OnInit, Injector, Input } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { DataFlow, LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
-import { DataFlowManagementStateContext } from '../../../../core/data-flow-management-state.context';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DataFlowManagerEventService } from '../../data-flow-manager-event.service';
 
 export class LcuDataFlowDataFlowListElementState {
   public DataFlows: DataFlow[];
@@ -23,10 +23,16 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   //  Properties
   public CreateNewDataFlowForm: FormGroup;
 
-  public State: DataFlowManagementState;
+  public get State(): DataFlowManagementState {
+    return this.context.State;
+  }
 
   //  Constructors
-  constructor(protected injector: Injector, protected formBldr: FormBuilder, protected state: DataFlowManagementStateContext) {
+  constructor(
+    protected dataFlowEventService: DataFlowManagerEventService,
+    protected formBldr: FormBuilder,
+    protected injector: Injector
+  ) {
     super(injector);
   }
 
@@ -40,42 +46,30 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
       lookup: ['', Validators.required]
     });
 
-    this.state.Context.subscribe(state => {
-      this.State = state;
-
-      this.handleStateChanged();
-    });
+    this.handleStateChanged();
   }
 
   //  API Methods
   public DeleteDataFlow(dataFlow: DataFlow) {
     if (confirm(`Are you sure you want to delete the data flow for '${dataFlow.Name}'?`)) {
-      this.State.Loading = true;
-
-      this.state.DeleteDataFlow(dataFlow.Lookup);
+      this.dataFlowEventService.EmitDeleteDataFlowEvent(dataFlow.Lookup);
     }
   }
 
   public CreateNewDataFlow() {
-    this.State.Loading = true;
-
-    this.state.SaveDataFlow({
+    this.dataFlowEventService.EmitSaveDataFlowEvent({
       Name: this.CreateNewDataFlowForm.controls.name.value,
       Description: this.CreateNewDataFlowForm.controls.desc.value,
       Lookup: this.CreateNewDataFlowForm.controls.lookup.value
     });
   }
 
-  public SetAcitveDataFlow(dataFlow: DataFlow) {
-    this.State.Loading = true;
-
-    this.state.SetActiveDataFlow(dataFlow.Lookup);
+  public SetActiveDataFlow(dataFlow: DataFlow) {
+    this.dataFlowEventService.EmitSetActiveDataFlowEvent(dataFlow.Lookup);
   }
 
   public ToggleIsCreating() {
-    this.State.Loading = true;
-
-    this.state.ToggleIsCreating();
+    this.dataFlowEventService.EmitToggleIsCreatingEvent();
   }
 
   //  Helpers

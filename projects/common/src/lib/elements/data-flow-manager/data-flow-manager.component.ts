@@ -1,6 +1,5 @@
 import { Component, OnInit, Injector, OnDestroy } from '@angular/core';
 import { LCUElementContext, LcuElementComponent, DataFlow } from '@lcu/common';
-import { LcuDataFlowDataFlowListContext } from './controls/data-flow-list/data-flow-list.component';
 import { DataFlowManagementStateContext } from '../../core/data-flow-management-state.context';
 import { DataFlowManagementState } from '../../core/data-flow-management.state';
 import { DataFlowManagerEventService } from './data-flow-manager-event.service';
@@ -33,10 +32,12 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
     super(injector);
 
     this.subscriptions = {
+      deleteDataFlow: this.deleteDataFlow(),
       deployDataFlow: this.deployDataFlow(),
       saveDataFlow: this.saveDataFlow(),
       setActiveDataFlow: this.setActiveDataFlow(),
-      toggleCreationModules: this.toggleCreationModules()
+      toggleCreationModules: this.toggleCreationModules(),
+      toggleIsCreating: this.toggleIsCreating()
     };
   }
 
@@ -71,11 +72,20 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   //  Helpers
   protected handleStateChanged() { }
 
+  protected deleteDataFlow(): Subscription {
+    return this.dataFlowEventService.GetDeleteDataFlowEvent().subscribe(
+      (dataFlowLookup: string) => {
+        this.State.Loading = true;
+        this.state.DeleteDataFlow(dataFlowLookup);
+      }
+    );
+  }
+
   protected deployDataFlow(): Subscription {
     return this.dataFlowEventService.GetDeployDataFlowEvent().subscribe(
-      (lookup: string) => {
+      (dataFlowLookup: string) => {
         this.State.Loading = true;
-        this.state.DeployDataFlow(lookup);
+        this.state.DeployDataFlow(dataFlowLookup);
       }
     );
   }
@@ -91,7 +101,7 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   }
 
   protected setActiveDataFlow(): Subscription {
-    return this.dataFlowEventService.GetActiveDataFlowEvent().subscribe(
+    return this.dataFlowEventService.GetSetActiveDataFlowEvent().subscribe(
       (dataFlowLookup: string) => {
         this.State.Loading = true;
         this.state.SetActiveDataFlow(dataFlowLookup);
@@ -104,6 +114,15 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
       () => {
         this.State.Loading = true;
         this.state.ToggleCreationModules();
+      }
+    );
+  }
+
+  protected toggleIsCreating(): Subscription {
+    return this.dataFlowEventService.GetToggleIsCreatingEvent().subscribe(
+      () => {
+        this.State.Loading = true;
+        this.state.ToggleIsCreating();
       }
     );
   }
