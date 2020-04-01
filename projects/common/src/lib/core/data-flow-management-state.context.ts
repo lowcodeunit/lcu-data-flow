@@ -78,7 +78,7 @@ export class DataFlowManagementStateContext extends StateContext<DataFlowManagem
   }
 
   protected loadStateKey() {
-    return 'data-flow';
+    return 'main';
   }
 
   protected loadStateName() {
