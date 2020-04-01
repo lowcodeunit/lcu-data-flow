@@ -260,7 +260,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected setupJsPlumbSurface() {
     this.RenderParams = this.io.LoadRenderParams();
 
-    this.ToolkitParams = this.io.LoadToolkitParams();
+    this.ToolkitParams = this.io.LoadToolkitParamsWithOptions(this.State.ModuleOptions, () => this.toolkit);
 
     this.View = this.io.LoadView();
 
