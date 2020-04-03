@@ -1,71 +1,31 @@
-<h3>
-  <mat-icon>settings_input_antenna</mat-icon>
+<mat-tab-group *ngIf="DataFlowLists">
+  <mat-tab *ngFor="let list of DataFlowLists | keyvalue">
+    <ng-template matTabLabel>
+      <span [matBadge]="list.value?.length" matBadgeOverlap="false">{{ list.key | decamelize }}</span>
+    </ng-template>
 
-  Active Data Flows
-</h3>
-
-<mat-list *ngIf="State">
-  <ng-container *ngIf="!State.IsCreating">
-    <mat-list-item *ngFor="let dataFlow of State.DataFlows">
-      <div fxFlex="70%">
-        <div matLine>
-          <h4>
-            {{ dataFlow.Name }} - <small>{{ dataFlow.Description }}</small>
-          </h4>
-        </div>
+    <mat-card
+      *ngFor="let dataFlow of list.value; let first = first; let last = last"
+      [ngClass]="{ 'margin-top-2': first }"
+      class="margin-bottom-1">
+      <div fxLayout="row">
+          <mat-icon>{{ dataFlow.MaterialIcon ? dataFlow.MaterialIcon : 'account_tree' }}</mat-icon>
+          <mat-card-header [matTooltip]="dataFlow.Name">
+              <mat-card-title>{{ dataFlow.Name }}</mat-card-title>
+              <mat-card-subtitle>{{ dataFlow.Description }}</mat-card-subtitle>
+          </mat-card-header>
       </div>
 
-      <div fxFlex="30%">
-        <a mat-raised-button color="accent" (click)="SetActiveDataFlow(dataFlow)"> <mat-icon>settings</mat-icon> Manage </a>
-
-        <a mat-icon-button color="warn" (click)="DeleteDataFlow(dataFlow)"> <mat-icon>delete</mat-icon> </a>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item *ngIf="!State?.DataFlows || State.DataFlows.length == 0">
-      <h4 mat-line>No active data flows. Create a new data flow now.</h4>
-    </mat-list-item>
-  </ng-container>
-
-  <ng-container *ngIf="State.IsCreating">
-    <form [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
-      <div>
-        <mat-form-field style="width: 100%">
-          <input type="text" matInput placeholder="Name" formControlName="name" required />
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field style="width: 100%">
-          <input type="text" matInput placeholder="Description" formControlName="desc" required />
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field style="width: 100%">
-          <input type="text" matInput placeholder="Lookup" formControlName="lookup" required maxlength="4" />
-          <mat-icon matSuffix
-            matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating">
-            info
-          </mat-icon>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!CreateNewDataFlowForm.valid">Create Data Flow</button>
-
-        <a mat-raised-button color="warn" (click)="ToggleIsCreating()"><mat-icon>delete</mat-icon> Cancel</a>
-      </div>
-    </form>
-  </ng-container>
-
-  <hr />
-
-  <br />
-
-  <mat-list-item>
-    <a mat-raised-button color="accent" (click)="ToggleIsCreating()" *ngIf="!State.IsCreating">
-      Create New Data Flow
-    </a>
-  </mat-list-item>
-</mat-list>
+      <mat-card-actions fxLayoutAlign="end">
+          <button mat-button color="accent" (click)="SetActiveDataFlow(dataFlow)">
+              <mat-icon class="margin-right-1">edit</mat-icon>
+              Manage
+          </button>
+          <button mat-button color="warn" (click)="DeleteDataFlow(dataFlow)">
+              <mat-icon class="margin-right-1">delete</mat-icon>
+              Delete
+          </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>

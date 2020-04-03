@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { DataFlow, LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -26,6 +26,9 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   public get State(): DataFlowManagementState {
     return this.context.State;
   }
+
+  @Input('data-flow-lists')
+  public DataFlowLists: any = { activeDataFlows: [] };
 
   //  Constructors
   constructor(
@@ -73,5 +76,5 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   }
 
   //  Helpers
-  protected handleStateChanged() {}
+  protected handleStateChanged() { }
 }

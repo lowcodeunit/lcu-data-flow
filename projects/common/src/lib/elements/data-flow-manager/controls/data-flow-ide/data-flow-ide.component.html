@@ -2,25 +2,26 @@
   <mat-drawer-container>
     <mat-drawer-content>
       <div class="home-actions">
-        <a mat-mini-fab color="accent" title="Data Flows Home" (click)="CancelActive()">
+        <a mat-mini-fab color="primary" title="Data Flows Home" (click)="CancelActive()">
           <mat-icon>home</mat-icon>
         </a>
       </div>
 
       <div class="panel-actions">
-        <a mat-mini-fab color="primary" title="Toggle Modules" (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
+        <a mat-mini-fab color="primary" title="Toggle Modules" (click)="drawer.toggle()"
+          [ngClass]="{'rotate-180-ccw': !IsModuleSidebarOpened, 'rotate-180-cw': IsModuleSidebarOpened }">
+          <mat-icon>arrow_right_alt</mat-icon>
         </a>
       </div>
 
       <div class="flow-actions">
-        <a mat-mini-fab title="Select Mode" (click)="ToggleSelectMode()">
+        <a mat-mini-fab color="primary" title="Select Mode" (click)="ToggleSelectMode()">
           <mat-icon title="Switch to Select Mode" *ngIf="SelectMode != 'select'">edit</mat-icon>
 
           <mat-icon title="Switch to Pan Mode" *ngIf="SelectMode != 'pan'">pan_tool</mat-icon>
         </a>
 
-        <a mat-mini-fab title="Zoom to Fit" (click)="ZoomToFit()">
+        <a mat-mini-fab color="primary" title="Zoom to Fit" (click)="ZoomToFit()">
           <mat-icon>zoom_out_map</mat-icon>
         </a>
       </div>
@@ -37,18 +38,18 @@
       <jsplumb-controls [surfaceId]="State.ActiveDataFlow.Lookup"></jsplumb-controls>
     </mat-drawer-content>
 
-    <mat-drawer mode="side" opened position="end" #drawer>
+    <mat-drawer #drawer mode="side" position="end" [opened]="IsModuleSidebarOpened" (openedChange)="ModuleSidebarToggled($event)">
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
-          <a mat-icon-button title="Save" color="primary" (click)="Save()">
+          <a mat-icon-button title="Save" (click)="Save()">
             <mat-icon>save</mat-icon>
           </a>
 
-          <a mat-icon-button title="Deploy" color="primary" (click)="Deploy()">
+          <a mat-icon-button title="Deploy" (click)="Deploy()">
             <mat-icon>cloud_upload</mat-icon>
           </a>
 
-          <a mat-icon-button title="Relayout" color="primary" (click)="Relayout()">
+          <a mat-icon-button title="Relayout" (click)="Relayout()">
             <mat-icon>loop</mat-icon>
           </a>
 

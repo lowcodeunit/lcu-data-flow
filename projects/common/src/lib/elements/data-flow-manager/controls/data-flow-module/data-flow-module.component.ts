@@ -197,12 +197,45 @@ export class DataFlowModuleComponent extends BaseNodeComponent
 
   // 	Helpers
   protected setQuickView() {
-    const status = <any>this.Module.Status;
+    const status = <any> this.Module.Status;
 
     if (status && status.QuickView && status.QuickView.Chart) {
-      this.QuickView = <DataFlowModuleQuickView>status.QuickView;
+      this.QuickView = <DataFlowModuleQuickView> status.QuickView;
+      this.setChartDefaults();
     } else {
       this.QuickView = null;
     }
+  }
+
+  protected setChartDefaults(): void {
+    // TODO: Handle colors dynamically based on light/dark theme
+    this.QuickView.Chart.Options.scales = {
+      xAxes: [{
+        ticks: { fontColor: 'white' },
+        gridLines: { color: 'rgba(255,255,255,0.1)' }
+      }],
+      yAxes: [{
+        ticks: { fontColor: 'white' },
+        gridLines: { color: 'rgba(255,255,255,0.1)' }
+      }]
+    };
+    this.QuickView.Chart.Colors = [
+      {
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderColor: '#ffffff',
+        pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+        pointBorderColor: '#67C7C5',
+        pointHoverBackgroundColor: '#ffffff',
+        pointHoverBorderColor: '#000000'
+      },
+      {
+        backgroundColor: 'rgba(103, 199, 197, 0.5)',
+        borderColor: '#67C7C5',
+        pointBackgroundColor: 'rgba(103, 199, 197, 1)',
+        pointBorderColor: '#ffffff',
+        pointHoverBackgroundColor: '#67C7C5',
+        pointHoverBorderColor: '#000000'
+      }
+    ];
   }
 }

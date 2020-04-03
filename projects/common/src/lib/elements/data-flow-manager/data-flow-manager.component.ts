@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, OnDestroy } from '@angular/core';
+import { Component, OnInit, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { LCUElementContext, LcuElementComponent, DataFlow } from '@lcu/common';
 import { DataFlowManagementStateContext } from '../../core/data-flow-management-state.context';
 import { DataFlowManagementState } from '../../core/data-flow-management.state';
@@ -21,7 +21,12 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   protected subscriptions: { [key: string]: Subscription };
 
   //  Properties
+  public DataFlowLists: { activeDataFlows: DataFlow[] };
+
   public State: DataFlowManagementState;
+
+  @ViewChild('drawer')
+  public DataFlowListDrawer: any;
 
   //  Constructors
   constructor(
@@ -30,6 +35,8 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
     protected dataFlowEventService: DataFlowManagerEventService
   ) {
     super(injector);
+
+    this.DataFlowLists = { activeDataFlows: [] };
 
     this.subscriptions = {
       deleteDataFlow: this.deleteDataFlow(),
@@ -47,6 +54,7 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
 
     this.state.Context.subscribe(async state => {
       this.State = state;
+      console.log('Data Flow Manager State: ', this.State);
 
       await this.handleStateChanged();
     });
@@ -63,14 +71,31 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   }
 
   //  API Methods
-  public AddIoT() {
+  public AddIoT(): void {
     this.State.Loading = true;
 
     this.state.AddIoTInfrastructure();
   }
 
+  public ToggleIsCreating(): void {
+    this.State.Loading = true;
+
+    this.state.ToggleIsCreating();
+  }
+
   //  Helpers
-  protected handleStateChanged() { }
+  protected handleStateChanged() {
+    if (JSON.stringify(this.State.DataFlows) !== JSON.stringify(this.DataFlowLists.activeDataFlows)) {
+      this.DataFlowLists.activeDataFlows = this.State.DataFlows;
+      this.openDataFlowListSideBar();
+    }
+  }
+
+  protected openDataFlowListSideBar(): void {
+    if (this.DataFlowLists && this.DataFlowListDrawer) {
+      this.DataFlowListDrawer.open();
+    }
+  }
 
   protected deleteDataFlow(): Subscription {
     return this.dataFlowEventService.GetDeleteDataFlowEvent().subscribe(
@@ -93,7 +118,6 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   protected saveDataFlow(): Subscription {
     return this.dataFlowEventService.GetSaveDataFlowEvent().subscribe(
       (dataFlow: DataFlow) => {
-        console.log('GetSaveDataFlowEvent() triggered');
         this.State.Loading = true;
         this.state.SaveDataFlow(dataFlow);
       }
@@ -121,8 +145,7 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   protected toggleIsCreating(): Subscription {
     return this.dataFlowEventService.GetToggleIsCreatingEvent().subscribe(
       () => {
-        this.State.Loading = true;
-        this.state.ToggleIsCreating();
+        this.ToggleIsCreating();
       }
     );
   }

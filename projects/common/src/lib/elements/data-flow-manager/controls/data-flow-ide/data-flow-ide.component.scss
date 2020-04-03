@@ -12,6 +12,24 @@
 
         .mat-mini-fab {
           margin: 0 0.5rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(74, 145, 142, 0.25);
+          transition: all .5s ease-out;
+
+          &:hover {
+            background-color: rgba(74, 145, 142, 1);
+            transition: all .4s ease-in .1s;
+          }
+
+          &.rotate-180-ccw {
+            animation: rotate-180-ccw 0.4s ease-out forwards;
+          }
+
+          &.rotate-180-cw {
+            animation: rotate-180-cw 0.4s ease-out forwards;
+          }
         }
 
         .home-actions {
@@ -53,21 +71,46 @@
 
       .mat-drawer {
         width: 300px;
-        background-color: #a4bab3;
 
         .data-flow-ide-bank-container {
           height: 100%;
 
           .mat-toolbar {
-            background-color: #fbfcf3;
+            background-color: #4a918e;
+
+            a:hover {
+              color: #67c7c5;
+            }
           }
 
           .bank {
             margin: 0.5rem;
-            color: #000;
+
+            hr {
+              border-color: rgba(255, 255, 255, 0.12);
+            }
           }
         }
       }
+    }
+  }
+
+  // Animations
+  @keyframes rotate-180-ccw {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(-180deg);
+    }
+  }
+
+  @keyframes rotate-180-cw {
+    0% {
+      transform: rotate(-180deg);
+    }
+    100% {
+      transform: rotate(0);
     }
   }
 
@@ -131,7 +174,7 @@
         margin: 0 0.5em;
         color: #fff;
         font-size: 12px;
-        line-height: 15px;
+        line-height: 12px;
 
         &:hover {
           color: #282d35;
@@ -146,7 +189,7 @@
     overflow: hidden;
     position: relative;
     border-radius: 0.5em;
-    background-color: #92aba3;
+    background-color: #4a918e;
     cursor: pointer;
 
     .mat-card-header-text {
@@ -168,26 +211,29 @@
 
   .inner {
     opacity: 0.8;
-    border-radius: 0.5em;
-    background-color: #b2c4be;
+    border-radius: 5px;
+    background-color: #424242;
     cursor: move !important;
 
     .mat-toolbar {
-      opacity: 0.5;
-      background-color: #4a918e;
+      background-color: #67c7c5;
+      border-radius: 5px 5px 0 0;
     }
 
     .module-details {
-      margin: 0.5em;
+      margin: 0.2em;
       text-align: left;
       height: calc(100% - 15px - 1em);
       position: relative;
 
       .module-status-check {
+        align-items: center;
+        display: flex;
         font-size: 11px;
+        justify-content: center;
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .module-status-chart {
@@ -217,13 +263,29 @@
     }
 
     .module-status-icon-sm {
-      font-size: 12px;
-      height: 12px;
-      width: 12px;
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
     }
 
     &.mat-card-header {
       height: 24px;
+
+      .mat-card-title {
+        display: flex;
+        align-items: center;
+
+        > .mat-icon {
+          margin-right: 5px;
+        }
+
+        > span {
+          max-width: 155px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
 
     &.mat-card-content {

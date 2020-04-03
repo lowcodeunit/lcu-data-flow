@@ -1,35 +1,40 @@
-<div class="data-flow-manager-container">
-  <ng-container *ngIf="!State.Loading">
-    <!-- <div class="spread" *ngIf="!State.ModuleOptions || State.ModuleOptions.length <= 2">
-      <h2 class="mat-headline">Unable to Detect IoT Infrastructure</h2>
+<div class="data-flow-manager-container" *ngIf="State">
+  <mat-toolbar>
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
 
-      <p class="mat-body-2 spread">
-        We are unable to detect any IoT infrastructure to use with the Data Flow tool. If you have already clicked the button below, wait a
-        bit longer and refresh the page. If you have not clicked to add IoT infrastructure, then do so now.
-      </p>
+    <h2>Data Flow Management</h2>
 
-      <div class="spread">
-        <a mat-raised-button color="primary" (click)="AddIoT()">Add IoT Infrastructure</a>
+    <span class="filler"></span>
+  </mat-toolbar>
+
+  <mat-drawer-container class="drawer">
+    <!--SIDEBAR-->
+    <mat-drawer mode="side" #drawer>
+      <div fxLayout="column" fxLayoutGap="3px">
+        <lcu-data-flow-list-element [context]="{ State: State }" [data-flow-lists]="DataFlowLists"></lcu-data-flow-list-element>
       </div>
-    </div> -->
+    </mat-drawer>
 
-    <div *ngIf="!State.ActiveDataFlow" class="spread">
-      <h2 class="mat-headline">Data Flow Management</h2>
+    <!--CONTENT-->
+    <mat-drawer-content>
+      <div class="data-flow-manager-content">
+        <ng-container *ngIf="!State.Loading">
+          <div *ngIf="!State.ActiveDataFlow" class="data-flow-manager-content-form spread">
+            <lcu-data-flow-create-element [context]="{ State: State }"></lcu-data-flow-create-element>
+          </div>
 
-      <p class="mat-body-2 spread">
-        A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
-        have different outcomes in provisioned and deployed enterprise assets/configurations.
-      </p>
+          <ng-container *ngIf="State.ActiveDataFlow">
+            <lcu-data-flow-ide-element [context]="{ State: State }"></lcu-data-flow-ide-element>
+          </ng-container>
+        </ng-container>
 
-      <lcu-data-flow-list-element [context]="{ State: State }"></lcu-data-flow-list-element>
-    </div>
+        <div class="spread" *ngIf="State.Loading">
+          <mat-spinner></mat-spinner>
+        </div>
+      </div>
+    </mat-drawer-content>
 
-    <ng-container *ngIf="State.ActiveDataFlow">
-      <lcu-data-flow-ide-element [context]="{ State: State }"></lcu-data-flow-ide-element>
-    </ng-container>
-  </ng-container>
-
-  <div class="spread" *ngIf="State.Loading">
-    <mat-spinner></mat-spinner>
-  </div>
+  </mat-drawer-container>
 </div>

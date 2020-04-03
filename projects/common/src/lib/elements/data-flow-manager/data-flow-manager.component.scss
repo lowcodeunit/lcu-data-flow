@@ -1,5 +1,24 @@
 :host ::ng-deep {
   .data-flow-manager-container {
     height: 100%;
+
+    .mat-drawer-container {
+      height: calc(100% - 64px);
+
+      .mat-drawer-inner-container {
+        background-color: #303030;
+      }
+
+      .data-flow-manager-content {
+        height: 100%;
+
+        .data-flow-manager-content-form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 5%;
+        }
+      }
+    }
   }
 }

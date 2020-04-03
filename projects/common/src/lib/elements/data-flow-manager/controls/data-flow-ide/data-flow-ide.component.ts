@@ -80,6 +80,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected toolkit: jsPlumbToolkit;
 
   //  Properties
+  public IsModuleSidebarOpened: boolean;
+
   public RenderParams: SurfaceRenderParams;
 
   public SelectMode: SurfaceMode;
@@ -104,6 +106,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     protected matDialog: MatDialog
   ) {
     super(injector);
+
+    this.IsModuleSidebarOpened = true;
 
     this.SelectMode = 'pan';
 
@@ -151,6 +155,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
   public Deploy() {
     this.dataFlowEventService.EmitDeployDataFlowEvent(this.State.ActiveDataFlow.Lookup);
+  }
+  public ModuleSidebarToggled(event: any): void {
+    this.IsModuleSidebarOpened = event;
   }
 
   public async Relayout(refreshOutput: boolean = false) {

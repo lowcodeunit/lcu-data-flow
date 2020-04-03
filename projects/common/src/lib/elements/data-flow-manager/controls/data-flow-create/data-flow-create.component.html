@@ -1,0 +1,47 @@
+<h2 class="mat-headline">Data Flow Management</h2>
+
+<p class="mat-body-2">
+  A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
+  have different outcomes in provisioned and deployed enterprise assets/configurations.
+</p>
+
+<hr>
+
+<ng-container *ngIf="!State.IsCreating">
+  <a mat-raised-button color="accent" (click)="ToggleIsCreating()" *ngIf="!State.IsCreating">
+    Create New Data Flow
+  </a>
+</ng-container>
+
+
+<ng-container *ngIf="State.IsCreating">
+  <form [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
+    <div>
+      <mat-form-field style="width: 100%">
+        <input type="text" matInput placeholder="Name" formControlName="name" required />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field style="width: 100%">
+        <input type="text" matInput placeholder="Description" formControlName="desc" required />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field style="width: 100%">
+        <input type="text" matInput placeholder="Lookup" formControlName="lookup" required maxlength="4" />
+        <mat-icon matSuffix
+          matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating">
+          info
+        </mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button mat-raised-button class="margin-right-2" color="primary" type="submit" [disabled]="!CreateNewDataFlowForm.valid">Create Data Flow</button>
+
+      <a mat-raised-button color="warn" (click)="ToggleIsCreating()"><mat-icon>delete</mat-icon> Cancel</a>
+    </div>
+  </form>
+</ng-container>

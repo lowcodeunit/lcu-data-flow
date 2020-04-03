@@ -6,12 +6,12 @@
       <mat-card-header class="inner">
         <!-- <div mat-card-avatar class="example-header-image"></div> -->
 
-        <mat-card-title>
+        <mat-card-title [matTooltip]="Module.Text">
           <mat-icon *ngIf="Module.Display.Icon?.Icon"
             >{{Module.Display.Icon?.Icon}}
           </mat-icon>
 
-          {{ Module.Text }}
+          <span>{{ Module.Text }}</span>
         </mat-card-title>
 
         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->

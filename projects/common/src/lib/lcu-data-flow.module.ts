@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FathymSharedModule, MaterialModule } from '@lcu/common';
+import { FathymSharedModule, MaterialModule, PipeModule } from '@lcu/common';
 import { jsPlumbToolkitModule } from 'jsplumbtoolkit-angular';
 import { jsPlumbToolkitDragDropModule } from 'jsplumbtoolkit-angular-drop';
 import { ChartsModule } from 'ng2-charts';
@@ -23,6 +23,7 @@ import { LcuDataFlowDataFlowMapElementComponent } from './elements/data-flow-map
 import { DataFlowMapJSPlumbToolkitIOService } from './services/data-flow-map-jsplumb-toolkit-io.service';
 import { DialogModuleConfigureComponent } from './elements/data-flow-manager/controls/dialog-module-configure/dialog-module-configure.component';
 import { DataFlowManagerEventService } from './elements/data-flow-manager/data-flow-manager-event.service';
+import { LcuDataFlowDataFlowCreateElementComponent } from './elements/data-flow-manager/controls/data-flow-create/data-flow-create.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DataFlowManagerEventService } from './elements/data-flow-manager/data-f
     LcuDataFlowDataFlowModulesBankElementComponent,
     LcuDataFlowDataFlowAnalyticsElementComponent,
     LcuDataFlowDataFlowMapElementComponent,
+    LcuDataFlowDataFlowCreateElementComponent,
     DataFlowModuleComponent,
     DialogBodyComponent,
     DialogModuleConfigureComponent
@@ -43,6 +45,7 @@ import { DataFlowManagerEventService } from './elements/data-flow-manager/data-f
     LcuDataFlowDataFlowModulesBankElementComponent,
     LcuDataFlowDataFlowAnalyticsElementComponent,
     LcuDataFlowDataFlowMapElementComponent,
+    LcuDataFlowDataFlowCreateElementComponent,
     DataFlowModuleComponent,
     DialogBodyComponent,
     DialogModuleConfigureComponent
@@ -54,6 +57,7 @@ import { DataFlowManagerEventService } from './elements/data-flow-manager/data-f
     LcuDataFlowDataFlowModulesBankElementComponent,
     LcuDataFlowDataFlowAnalyticsElementComponent,
     LcuDataFlowDataFlowMapElementComponent,
+    LcuDataFlowDataFlowCreateElementComponent,
     DataFlowModuleComponent,
     DialogBodyComponent,
     DialogModuleConfigureComponent
@@ -67,7 +71,8 @@ import { DataFlowManagerEventService } from './elements/data-flow-manager/data-f
     jsPlumbToolkitModule,
     jsPlumbToolkitDragDropModule,
     ChartsModule,
-    LazyElementModule
+    LazyElementModule,
+    PipeModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
