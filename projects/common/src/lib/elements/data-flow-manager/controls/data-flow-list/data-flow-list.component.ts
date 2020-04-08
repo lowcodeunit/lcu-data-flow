@@ -3,6 +3,8 @@ import { DataFlow, LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataFlowManagerEventService } from '../../data-flow-manager-event.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 export class LcuDataFlowDataFlowListElementState {
   public DataFlows: DataFlow[];
@@ -34,7 +36,8 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   constructor(
     protected dataFlowEventService: DataFlowManagerEventService,
     protected formBldr: FormBuilder,
-    protected injector: Injector
+    protected injector: Injector,
+    protected dialog: MatDialog,
   ) {
     super(injector);
   }
@@ -54,9 +57,7 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
 
   //  API Methods
   public DeleteDataFlow(dataFlow: DataFlow) {
-    if (confirm(`Are you sure you want to delete the data flow for '${dataFlow.Name}'?`)) {
-      this.dataFlowEventService.EmitDeleteDataFlowEvent(dataFlow.Lookup);
-    }
+    this.openDeleteConfirmationDialog(dataFlow);
   }
 
   public CreateNewDataFlow() {
@@ -77,4 +78,18 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
 
   //  Helpers
   protected handleStateChanged() { }
+
+  protected openDeleteConfirmationDialog(dataFlow: DataFlow): void {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      width: '500px',
+      data: dataFlow
+    });
+
+    dialogRef.afterClosed().subscribe((dataFlowLookup: string) => {
+      if (dataFlowLookup) {
+        console.log('Deleting the Data Flow with Lookup: ', dataFlowLookup);
+        this.dataFlowEventService.EmitDeleteDataFlowEvent(dataFlowLookup);
+      }
+    });
+  }
 }

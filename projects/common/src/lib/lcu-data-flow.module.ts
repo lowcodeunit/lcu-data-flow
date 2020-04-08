@@ -24,6 +24,7 @@ import { DataFlowMapJSPlumbToolkitIOService } from './services/data-flow-map-jsp
 import { DialogModuleConfigureComponent } from './elements/data-flow-manager/controls/dialog-module-configure/dialog-module-configure.component';
 import { DataFlowManagerEventService } from './elements/data-flow-manager/data-flow-manager-event.service';
 import { LcuDataFlowDataFlowCreateElementComponent } from './elements/data-flow-manager/controls/data-flow-create/data-flow-create.component';
+import { ConfirmationModalComponent } from './elements/data-flow-manager/controls/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LcuDataFlowDataFlowCreateElementComponent } from './elements/data-flow-
     LcuDataFlowDataFlowCreateElementComponent,
     DataFlowModuleComponent,
     DialogBodyComponent,
-    DialogModuleConfigureComponent
+    DialogModuleConfigureComponent,
+    ConfirmationModalComponent
   ],
   entryComponents: [
     LcuDataFlowDataFlowManagerElementComponent,
@@ -48,7 +50,8 @@ import { LcuDataFlowDataFlowCreateElementComponent } from './elements/data-flow-
     LcuDataFlowDataFlowCreateElementComponent,
     DataFlowModuleComponent,
     DialogBodyComponent,
-    DialogModuleConfigureComponent
+    DialogModuleConfigureComponent,
+    ConfirmationModalComponent
   ],
   exports: [
     LcuDataFlowDataFlowManagerElementComponent,
@@ -60,7 +63,8 @@ import { LcuDataFlowDataFlowCreateElementComponent } from './elements/data-flow-
     LcuDataFlowDataFlowCreateElementComponent,
     DataFlowModuleComponent,
     DialogBodyComponent,
-    DialogModuleConfigureComponent
+    DialogModuleConfigureComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     FathymSharedModule,
