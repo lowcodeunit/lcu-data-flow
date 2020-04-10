@@ -21,28 +21,28 @@
         <mat-toolbar class="node-actions">
           <span class="filler"></span>
 
-          <a title="Module Quick View"
+          <a matTooltip="Module Quick View"
             class="node-quick-view"
             (click)="OpenModuleQuickView()">
             <mat-icon *ngIf="!ViewDetails" class="module-status-icon-sm">visibility</mat-icon>
             <mat-icon *ngIf="ViewDetails" class="module-status-icon-sm">visibility_off</mat-icon>
           </a>
 
-          <a title="Rename Module" class="node-edit" (click)="EditNodeName()">
+          <a matTooltip="Rename Module" class="node-edit" (click)="EditNodeName()">
             <mat-icon class="module-status-icon-sm">edit</mat-icon>
           </a>
 
-          <a title="Configure Module"
+          <a matTooltip="Configure Module"
             class="node-configure"
             (click)="ManageModule()">
             <mat-icon class="module-status-icon-sm">settings</mat-icon>
           </a>
 
-          <a title="Delete Module" class="node-delete" (click)="RemoveNode()">
+          <a matTooltip="Delete Module" class="node-delete" (click)="RemoveNode()">
             <mat-icon class="module-status-icon-sm">close</mat-icon>
           </a>
 
-          <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
+          <!-- <a mat-icon-button matTooltip="Creation Modules" color="primary" (click)="ToggleCreationModules()">
             <mat-icon *ngIf="State.AllowCreationModules">check_box</mat-icon>
 
             <mat-icon *ngIf="!State.AllowCreationModules">check_box_outline_blank</mat-icon>

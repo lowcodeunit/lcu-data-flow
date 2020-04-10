@@ -15,7 +15,7 @@
 
 
 <ng-container *ngIf="State.IsCreating">
-  <form [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
+  <form autocomplete="off" [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
     <div>
       <mat-form-field style="width: 100%">
         <input type="text" matInput placeholder="Name" formControlName="name" required />

@@ -22,21 +22,32 @@ export class DialogBodyComponent implements OnInit {
    */
   public Form: FormGroup;
 
+  public IsEdit: boolean;
+
   protected action: string;
   protected localData: any;
 
   constructor(
     protected dialogRef: MatDialogRef<DialogBodyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public Data: any) {
+      this.IsEdit = Data.Text ? true : false;
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.setupForm();
+  }
+
+  public Create(): void {
+    this.dialogRef.close({event: 'test', data: this.NameControl.value});
+  }
+
+  public OnCancel(): void {
+    this.dialogRef.close();
   }
 
   protected setupForm(): void {
     this.Form = new FormGroup({
-      nameControl: new FormControl(this.data.Text, Validators.compose([Validators.required])),
+      nameControl: new FormControl(this.Data.Text, Validators.compose([Validators.required, Validators.minLength(2)])),
     });
 
     this.onChanges();
@@ -50,10 +61,6 @@ export class DialogBodyComponent implements OnInit {
     this.Form.valueChanges.subscribe((val: any) => {
       // this.updateSessionStorage(val);
     });
-  }
-
-  public Create(): void {
-    this.dialogRef.close({event: 'test', data: this.NameControl.value});
   }
 
 }

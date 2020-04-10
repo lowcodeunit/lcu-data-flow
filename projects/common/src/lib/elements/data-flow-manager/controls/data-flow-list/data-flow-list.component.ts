@@ -29,6 +29,9 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
     return this.context.State;
   }
 
+  @Input('allow-delete')
+  public AllowDelete: boolean = false;
+
   @Input('data-flow-lists')
   public DataFlowLists: any = { activeDataFlows: [] };
 
@@ -80,15 +83,24 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   protected handleStateChanged() { }
 
   protected openDeleteConfirmationDialog(dataFlow: DataFlow): void {
+    const textContent: string = `Are you sure you want to delete the Data Flow - '${dataFlow.Name}'?`;
+
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '500px',
-      data: dataFlow
+      data: {
+        Content: textContent,
+        ObjData: dataFlow,
+        Title: 'Confirm Deletion',
+        Button: {
+          Color: 'warn',
+          Text: 'Delete'
+        }
+      }
     });
 
-    dialogRef.afterClosed().subscribe((dataFlowLookup: string) => {
-      if (dataFlowLookup) {
-        console.log('Deleting the Data Flow with Lookup: ', dataFlowLookup);
-        this.dataFlowEventService.EmitDeleteDataFlowEvent(dataFlowLookup);
+    dialogRef.afterClosed().subscribe((df: DataFlow) => {
+      if (df && df.Lookup) {
+        this.dataFlowEventService.EmitDeleteDataFlowEvent(df.Lookup);
       }
     });
   }

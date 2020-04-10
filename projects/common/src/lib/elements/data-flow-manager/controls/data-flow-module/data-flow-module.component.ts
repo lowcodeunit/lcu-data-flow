@@ -7,10 +7,9 @@ import {
   MatDialog
 } from '@angular/material/dialog';
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
-import { ChartOptions } from 'chart.js';
-import { Label, Color } from 'ng2-charts';
 import { DialogModuleConfigureComponent } from '../dialog-module-configure/dialog-module-configure.component';
 import { LCUChart } from '../../../../models/chart';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 function isNode(obj: any): obj is Node {
   return obj.objectType === 'Node';
@@ -52,7 +51,7 @@ export class DataFlowModuleComponent extends BaseNodeComponent
     } else if (this.Module.Status && this.Module.Status.Code === -100) {
       return 'yellow';
     } else if (this.Module.Status && this.Module.Status.Code === 0) {
-      return 'green';
+      return '#00ff00'; // light green
     } else if (this.Module.Status && this.Module.Status.Code === 100) {
       return 'gray';
     }
@@ -186,9 +185,7 @@ export class DataFlowModuleComponent extends BaseNodeComponent
   }
 
   public RemoveNode() {
-    if (this.Module != null && confirm(`Delete '${this.Module.Text}'?`)) {
-      this.toolkit.removeNode(this.obj);
-    }
+    this.openDeleteConfirmationDialog(this.Module);
   }
 
   public ToggleViewDetails() {
@@ -205,6 +202,30 @@ export class DataFlowModuleComponent extends BaseNodeComponent
     } else {
       this.QuickView = null;
     }
+  }
+
+
+  protected openDeleteConfirmationDialog(dataFlowModule: DataFlowModule): void {
+    const textContent: string = `Delete '${this.Module.Text}'?`;
+
+    const dialogRef = this.matDialog.open(ConfirmationModalComponent, {
+      width: '300px',
+      data: {
+        Content: textContent,
+        ObjData: dataFlowModule,
+        Title: 'Confirm Deletion',
+        Button: {
+          Color: 'warn',
+          Text: 'Delete'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((dfModule: DataFlowModule) => {
+      if (dfModule) {
+        this.toolkit.removeNode(this.obj);
+      }
+    });
   }
 
   protected setChartDefaults(): void {

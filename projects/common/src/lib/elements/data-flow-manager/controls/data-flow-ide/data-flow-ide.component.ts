@@ -254,7 +254,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
           params.Callback(data);
         } else {
-          alert(`${data.Display.ModuleType} names must be at least 2 characters!`);
+          console.error(`${data.Display.ModuleType} names must be at least 2 characters!`);
         }
       }
     });

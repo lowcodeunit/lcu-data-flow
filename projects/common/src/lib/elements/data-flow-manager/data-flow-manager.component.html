@@ -13,7 +13,7 @@
     <!--SIDEBAR-->
     <mat-drawer mode="side" #drawer>
       <div fxLayout="column" fxLayoutGap="3px">
-        <lcu-data-flow-list-element [context]="{ State: State }" [data-flow-lists]="DataFlowLists"></lcu-data-flow-list-element>
+        <lcu-data-flow-list-element [context]="{ State: State }" [data-flow-lists]="DataFlowLists" [allow-delete]="AllowDelete"></lcu-data-flow-list-element>
       </div>
     </mat-drawer>
 

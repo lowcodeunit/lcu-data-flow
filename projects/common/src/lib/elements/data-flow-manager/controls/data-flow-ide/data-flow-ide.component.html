@@ -2,26 +2,26 @@
   <mat-drawer-container>
     <mat-drawer-content>
       <div class="home-actions">
-        <a mat-mini-fab color="primary" title="Data Flows Home" (click)="CancelActive()">
+        <a mat-mini-fab color="primary" matTooltip="Data Flows Home" (click)="CancelActive()">
           <mat-icon>home</mat-icon>
         </a>
       </div>
 
       <div class="panel-actions">
-        <a mat-mini-fab color="primary" title="Toggle Modules" (click)="drawer.toggle()"
+        <a mat-mini-fab color="primary" matTooltip="Toggle Modules" (click)="drawer.toggle()"
           [ngClass]="{'rotate-180-ccw': !IsModuleSidebarOpened, 'rotate-180-cw': IsModuleSidebarOpened }">
           <mat-icon>arrow_right_alt</mat-icon>
         </a>
       </div>
 
       <div class="flow-actions">
-        <a mat-mini-fab color="primary" title="Select Mode" (click)="ToggleSelectMode()">
-          <mat-icon title="Switch to Select Mode" *ngIf="SelectMode != 'select'">edit</mat-icon>
+        <a mat-mini-fab color="primary" (click)="ToggleSelectMode()">
+          <mat-icon matTooltip="Switch to Select Mode" *ngIf="SelectMode != 'select'">edit</mat-icon>
 
-          <mat-icon title="Switch to Pan Mode" *ngIf="SelectMode != 'pan'">pan_tool</mat-icon>
+          <mat-icon matTooltip="Switch to Pan Mode" *ngIf="SelectMode != 'pan'">pan_tool</mat-icon>
         </a>
 
-        <a mat-mini-fab color="primary" title="Zoom to Fit" (click)="ZoomToFit()">
+        <a mat-mini-fab color="primary" matTooltip="Zoom to Fit" (click)="ZoomToFit()">
           <mat-icon>zoom_out_map</mat-icon>
         </a>
       </div>
@@ -41,19 +41,19 @@
     <mat-drawer #drawer mode="side" position="end" [opened]="IsModuleSidebarOpened" (openedChange)="ModuleSidebarToggled($event)">
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
-          <a mat-icon-button title="Save" (click)="Save()">
+          <a mat-icon-button matTooltip="Save" (click)="Save()">
             <mat-icon>save</mat-icon>
           </a>
 
-          <a mat-icon-button title="Deploy" (click)="Deploy()">
+          <a mat-icon-button matTooltip="Deploy" (click)="Deploy()">
             <mat-icon>cloud_upload</mat-icon>
           </a>
 
-          <a mat-icon-button title="Relayout" (click)="Relayout()">
+          <a mat-icon-button matTooltip="Relayout" (click)="Relayout()">
             <mat-icon>loop</mat-icon>
           </a>
 
-          <!-- <a mat-icon-button title="Creation Modules" color="primary" (click)="ToggleCreationModules()">
+          <!-- <a mat-icon-button matTooltip="Creation Modules" color="primary" (click)="ToggleCreationModules()">
             <mat-icon *ngIf="State.AllowCreationModules">check_box</mat-icon>
 
             <mat-icon *ngIf="!State.AllowCreationModules">check_box_outline_blank</mat-icon>

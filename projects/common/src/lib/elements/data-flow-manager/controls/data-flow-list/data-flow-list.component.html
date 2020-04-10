@@ -21,7 +21,7 @@
               <mat-icon class="margin-right-1">edit</mat-icon>
               Manage
           </button>
-          <button mat-button color="warn" (click)="DeleteDataFlow(dataFlow)">
+          <button mat-button color="warn" (click)="DeleteDataFlow(dataFlow)" *ngIf="AllowDelete">
               <mat-icon class="margin-right-1">delete</mat-icon>
               Delete
           </button>

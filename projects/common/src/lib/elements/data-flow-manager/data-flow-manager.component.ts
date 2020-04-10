@@ -21,6 +21,8 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   protected subscriptions: { [key: string]: Subscription };
 
   //  Properties
+  public AllowDelete: boolean;
+
   public DataFlowLists: { activeDataFlows: DataFlow[] };
 
   public State: DataFlowManagementState;
@@ -35,6 +37,7 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
     protected dataFlowEventService: DataFlowManagerEventService
   ) {
     super(injector);
+    this.AllowDelete = true;
 
     this.DataFlowLists = { activeDataFlows: [] };
 
