@@ -120,11 +120,11 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
       .getAllEdgesFor(target)
       .filter(edge => edge.target.id === target.id);
 
-    console.log(`Before Connect: ${source.data.type} => ${target.data.type}`);
+    if (targetEdges.find(te => te.source.id === source.id)) {
+      this.openSnackBar(`These two modules are already connected.`);
 
-    targetEdges.forEach(e =>
-      console.log(`${e.source.data.type} => ${e.target.data.type}`)
-    );
+      return false;
+    }
 
     const sourceModuleOption = options.find(
       opt => opt.ModuleType === source.data.type
@@ -188,12 +188,6 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
       .getAllEdgesFor(node)
       .filter(edge => edge.source.id === node.id);
 
-    console.log(`Before Start Connect: ${node.data.type}`);
-
-    edges.forEach(e =>
-      console.log(`${e.source.data.type} => ${e.target.data.type}`)
-    );
-
     if (
       moduleOption.OutgoingConnectionLimit >= 0 &&
       edges.length >= moduleOption.OutgoingConnectionLimit
@@ -255,7 +249,7 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
 
   protected openSnackBar(message: string, action: string = null) {
     this.snackBar.open(message, action, {
-      duration: 2000
+      duration: 5000
     });
   }
 
