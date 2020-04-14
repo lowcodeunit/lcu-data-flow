@@ -1,12 +1,39 @@
 <div class="data-flow-manager-container" *ngIf="State">
   <mat-toolbar>
-    <button mat-icon-button (click)="drawer.toggle()">
-      <mat-icon>menu</mat-icon>
+    <button *ngIf="drawer" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon
+        class="open-icon"
+        *ngIf="!drawer.opened"
+        matTooltip="Open Data Flow List">
+        menu_open
+      </mat-icon>
+      <mat-icon
+        *ngIf="drawer.opened"
+        matTooltip="Close Data Flow List">
+        menu_open
+      </mat-icon>
     </button>
 
     <h2>Data Flow Management</h2>
 
     <span class="filler"></span>
+
+    <div *ngIf="!State.Loading">
+      <button
+        *ngIf="!State.IsCreating"
+        (click)="ToggleIsCreating()"
+        mat-flat-button matTooltip="Create a new application" color="accent">
+        <mat-icon>add_circle</mat-icon>
+        Create New Data Flow
+      </button>
+      <button
+        *ngIf="State.IsCreating"
+        (click)="ToggleIsCreating()"
+        mat-flat-button matTooltip="Cancel new application" color="warn">
+        <mat-icon>cancel</mat-icon>
+        Cancel Add New
+      </button>
+    </div>
   </mat-toolbar>
 
   <mat-drawer-container class="drawer">

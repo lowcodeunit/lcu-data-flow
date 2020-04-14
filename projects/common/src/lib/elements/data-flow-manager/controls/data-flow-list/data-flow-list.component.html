@@ -6,7 +6,7 @@
 
     <mat-card
       *ngFor="let dataFlow of list.value; let first = first; let last = last"
-      [ngClass]="{ 'margin-top-2': first }"
+      [ngClass]="{ 'margin-top-2': first, 'active-item': State?.ActiveDataFlow?.ID === dataFlow.ID && State.IsCreating === false }"
       class="margin-bottom-1">
       <div fxLayout="row">
           <mat-icon>{{ dataFlow.MaterialIcon ? dataFlow.MaterialIcon : 'account_tree' }}</mat-icon>

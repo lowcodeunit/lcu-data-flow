@@ -2,6 +2,10 @@
   .data-flow-manager-container {
     height: 100%;
 
+    .open-icon {
+      transform: rotate(180deg);
+    }
+
     .mat-drawer-container {
       height: calc(100% - 64px);
 
