@@ -6,12 +6,13 @@
       transform: rotate(180deg);
     }
 
+    .mat-drawer,
+    .mat-drawer-container {
+      background-color: transparent;
+    }
+
     .mat-drawer-container {
       height: calc(100% - 64px);
-
-      .mat-drawer-inner-container {
-        background-color: #303030;
-      }
 
       .data-flow-manager-content {
         height: 100%;

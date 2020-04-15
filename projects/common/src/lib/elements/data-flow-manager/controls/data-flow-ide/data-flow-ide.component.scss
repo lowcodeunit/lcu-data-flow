@@ -23,12 +23,14 @@
             transition: all .4s ease-in .1s;
           }
 
-          &.rotate-180-ccw {
-            animation: rotate-180-ccw 0.4s ease-out forwards;
-          }
+          .mat-icon {
+            &.rotate-180-ccw {
+              animation: rotate-180-ccw 0.4s ease-out forwards;
+            }
 
-          &.rotate-180-cw {
-            animation: rotate-180-cw 0.4s ease-out forwards;
+            &.rotate-180-cw {
+              animation: rotate-180-cw 0.4s ease-out forwards;
+            }
           }
         }
 

@@ -8,9 +8,8 @@
       </div>
 
       <div class="panel-actions">
-        <a mat-mini-fab color="primary" matTooltip="Toggle Modules" (click)="drawer.toggle()"
-          [ngClass]="{'rotate-180-ccw': !IsModuleSidebarOpened, 'rotate-180-cw': IsModuleSidebarOpened }">
-          <mat-icon>arrow_right_alt</mat-icon>
+        <a mat-mini-fab color="primary" matTooltip="Toggle Modules" (click)="drawer.toggle()">
+          <mat-icon [ngClass]="{'rotate-180-ccw': !IsModuleSidebarOpened, 'rotate-180-cw': IsModuleSidebarOpened }">arrow_right_alt</mat-icon>
         </a>
       </div>
 
