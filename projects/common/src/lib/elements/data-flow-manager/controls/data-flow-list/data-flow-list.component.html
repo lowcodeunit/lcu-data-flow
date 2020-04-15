@@ -16,7 +16,7 @@
           </mat-card-header>
       </div>
 
-      <mat-card-actions fxLayoutAlign="end" *ngIf="State?.ActiveDataFlow">
+      <mat-card-actions fxLayoutAlign="end" *ngIf="!State?.ActiveDataFlow">
           <button mat-button color="accent" (click)="SetActiveDataFlow(dataFlow)">
               <mat-icon class="margin-right-1">edit</mat-icon>
               Manage
