@@ -129,9 +129,10 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
 
   protected setActiveDataFlow(): Subscription {
     return this.dataFlowEventService.GetSetActiveDataFlowEvent().subscribe(
-      (dataFlowLookup: string) => {
+      (dataFlow: DataFlow) => {
+        const lookup = dataFlow && dataFlow.Lookup ? dataFlow.Lookup : null;
         this.State.Loading = true;
-        this.state.SetActiveDataFlow(dataFlowLookup);
+        this.state.SetActiveDataFlow(lookup);
       }
     );
   }

@@ -72,7 +72,7 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   }
 
   public SetActiveDataFlow(dataFlow: DataFlow) {
-    this.dataFlowEventService.EmitSetActiveDataFlowEvent(dataFlow.Lookup);
+    this.dataFlowEventService.EmitSetActiveDataFlowEvent(dataFlow);
   }
 
   public ToggleIsCreating() {

@@ -8,7 +8,7 @@ export class DataFlowManagerEventService {
   private deleteDataFlow: EventEmitter<string>;
   private deployDataFlow: EventEmitter<string>;
   private saveDataFlow: EventEmitter<DataFlow>;
-  private setActiveDataFlow: EventEmitter<string>;
+  private setActiveDataFlow: EventEmitter<DataFlow>;
   private toggleCreationModules: EventEmitter<any>;
   private toggleIsCreating: EventEmitter<any>;
 
@@ -16,7 +16,7 @@ export class DataFlowManagerEventService {
     this.deleteDataFlow = new EventEmitter<string>();
     this.deployDataFlow = new EventEmitter<string>();
     this.saveDataFlow = new EventEmitter<DataFlow>();
-    this.setActiveDataFlow = new EventEmitter<string>();
+    this.setActiveDataFlow = new EventEmitter<DataFlow>();
     this.toggleCreationModules = new EventEmitter<any>();
     this.toggleIsCreating = new EventEmitter<any>();
   }
@@ -49,11 +49,11 @@ export class DataFlowManagerEventService {
   }
 
   /** SetActiveDataFlow */
-  public EmitSetActiveDataFlowEvent(dataFlowLookup: string): void {
-    this.setActiveDataFlow.emit(dataFlowLookup);
+  public EmitSetActiveDataFlowEvent(dataFlow: DataFlow): void {
+    this.setActiveDataFlow.emit(dataFlow);
   }
 
-  public GetSetActiveDataFlowEvent(): EventEmitter<string> {
+  public GetSetActiveDataFlowEvent(): EventEmitter<DataFlow> {
     return this.setActiveDataFlow;
   }
 
