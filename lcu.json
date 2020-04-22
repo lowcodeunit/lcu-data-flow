@@ -11,12 +11,6 @@
 		"solutions": {
 			"data-flow-manager": {
 				"element": "lcu-data-flow-manager-element"
-			},
-			"data-flow-map": {
-				"element": "lcu-data-flow-map-element"
-			},
-			"data-flow-analytics": {
-				"element": "lcu-data-flow-data-flow-analytics-element"
 			}
 		},
 		"elements": {},
