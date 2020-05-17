@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { DataFlow, LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { DataFlowManagerEventService } from '../../data-flow-manager-event.service';
 
 export class LcuDataFlowDataFlowListElementState {
@@ -23,6 +23,25 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   //  Properties
   public CreateNewDataFlowForm: FormGroup;
 
+  public get DataFlowLookup(): AbstractControl {
+    return !this.CreateNewDataFlowForm ? null : this.CreateNewDataFlowForm.get('lookup');
+  }
+
+  public get DataFlowLookupHasError(): boolean {
+    return (
+      this.DataFlowLookup.hasError('pattern') ||
+      this.DataFlowLookup.hasError('required')
+    );
+  }
+
+  public get DataFlowLookupErrorMessage(): string {
+    if (this.DataFlowLookup.hasError('pattern')) {
+      return `The Project lookup must contain 1 - 4 charaters, all lowercase with '-'. A '-' may not start or end the value.`;
+    } else if (this.DataFlowLookup.hasError('required')) {
+      return 'The Data Flow lookup is required.';
+    }
+  }
+
   public get State(): DataFlowManagementState {
     return this.context.State;
   }
@@ -43,7 +62,13 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
     this.CreateNewDataFlowForm = this.formBldr.group({
       name: ['', Validators.required],
       desc: ['', Validators.required],
-      lookup: ['', Validators.required]
+      lookup: ['', {
+        validators: Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-z-]{1,4}$'),
+        ]),
+        updateOn: 'change',
+      }]
     });
 
     this.handleStateChanged();

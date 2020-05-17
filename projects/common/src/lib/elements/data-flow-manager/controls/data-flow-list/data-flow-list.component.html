@@ -16,9 +16,17 @@
       </div>
 
       <div fxFlex="30%">
-        <a mat-raised-button color="accent" (click)="SetActiveDataFlow(dataFlow)"> <mat-icon>settings</mat-icon> Manage </a>
+        <a
+          mat-raised-button
+          color="accent"
+          (click)="SetActiveDataFlow(dataFlow)"
+        >
+          <mat-icon>settings</mat-icon> Manage
+        </a>
 
-        <a mat-icon-button color="warn" (click)="DeleteDataFlow(dataFlow)"> <mat-icon>delete</mat-icon> </a>
+        <a mat-icon-button color="warn" (click)="DeleteDataFlow(dataFlow)">
+          <mat-icon>delete</mat-icon>
+        </a>
       </div>
     </mat-list-item>
 
@@ -30,31 +38,65 @@
   <ng-container *ngIf="State.IsCreating">
     <form [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
       <div>
-        <mat-form-field style="width: 100%">
-          <input type="text" matInput placeholder="Name" formControlName="name" required />
+        <mat-form-field style="width: 100%;">
+          <input
+            type="text"
+            matInput
+            placeholder="Name"
+            formControlName="name"
+            required
+          />
         </mat-form-field>
       </div>
 
       <div>
-        <mat-form-field style="width: 100%">
-          <input type="text" matInput placeholder="Description" formControlName="desc" required />
+        <mat-form-field style="width: 100%;">
+          <input
+            type="text"
+            matInput
+            placeholder="Description"
+            formControlName="desc"
+            required
+          />
         </mat-form-field>
       </div>
 
       <div>
-        <mat-form-field style="width: 100%">
-          <input type="text" matInput placeholder="Lookup" formControlName="lookup" required maxlength="4" />
-          <mat-icon matSuffix
-            matTooltip="Lookups are a 3 to 4 length alphanumeric representation of the current domain object.  Flows are built with the format of 'flw-{Organization Lookup}-{Flow Lookup}-{Module Lookup}'.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating">
+        <mat-form-field style="width: 100%;">
+          <input
+            type="text"
+            matInput
+            placeholder="Lookup"
+            formControlName="lookup"
+            required
+            maxlength="4"
+          />
+          <mat-icon
+            matSuffix
+            matTooltip="Lookups are a 1 to 4 length alpha lower-case representation of the current domain object.  This format helps keep your flow agnostic to any specific service provider.  When naming lookups, use something that is recognizable and relevant based on the asset you are creating"
+          >
             info
           </mat-icon>
+
+          <mat-error *ngIf="DataFlowLookupHasError">
+            {{ DataFlowLookupErrorMessage }}
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <div>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!CreateNewDataFlowForm.valid">Create Data Flow</button>
+      <div class="spread">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!CreateNewDataFlowForm.valid"
+        >
+          Create Data Flow
+        </button>
 
-        <a mat-raised-button color="warn" (click)="ToggleIsCreating()"><mat-icon>delete</mat-icon> Cancel</a>
+        <a mat-raised-button color="warn" (click)="ToggleIsCreating()"
+          ><mat-icon>delete</mat-icon> Cancel</a
+        >
       </div>
     </form>
   </ng-container>
@@ -64,7 +106,12 @@
   <br />
 
   <mat-list-item>
-    <a mat-raised-button color="accent" (click)="ToggleIsCreating()" *ngIf="!State.IsCreating">
+    <a
+      mat-raised-button
+      color="accent"
+      (click)="ToggleIsCreating()"
+      *ngIf="!State.IsCreating"
+    >
       Create New Data Flow
     </a>
   </mat-list-item>
