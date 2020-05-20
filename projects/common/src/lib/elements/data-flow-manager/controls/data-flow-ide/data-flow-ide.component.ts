@@ -5,14 +5,14 @@ import {
   Injector,
   ViewChild,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 import { DataFlowManagementState } from '../../../../core/data-flow-management.state';
 import {
   jsPlumbSurfaceComponent,
   AngularViewOptions,
-  jsPlumbService
+  jsPlumbService,
 } from 'jsplumbtoolkit-angular';
 import {
   Surface,
@@ -22,14 +22,14 @@ import {
   SurfaceMode,
   SurfaceRenderParams,
   jsPlumbToolkitOptions,
-  Edge
+  Edge,
 } from 'jsplumbtoolkit';
 import { DataFlowJSPlumbToolkitIOService } from '../../../../services/data-flow-jsplumb-toolkit-io.service';
 import { DataFlowNodeFactoryParams } from '../../../../models/DataFlowNodeFactoryParams';
 import {
   MatDialog,
   MatDialogRef,
-  MatDialogConfig
+  MatDialogConfig,
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { DataFlowManagerEventService } from '../../data-flow-manager-event.service';
@@ -41,9 +41,12 @@ export interface DialogData {
 
 export class LcuDataFlowDataFlowIdeElementState extends DataFlowManagementState {}
 
-export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<LcuDataFlowDataFlowIdeElementState> {}
+export class LcuDataFlowDataFlowIdeContext extends LCUElementContext<
+  LcuDataFlowDataFlowIdeElementState
+> {}
 
-export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element';
+export const SelectorLcuDataFlowDataFlowIdeElement =
+  'lcu-data-flow-ide-element';
 
 // @Component({
 //   selector: 'dialog-overview-example-dialog',
@@ -64,14 +67,17 @@ export const SelectorLcuDataFlowDataFlowIdeElement = 'lcu-data-flow-ide-element'
 @Component({
   selector: SelectorLcuDataFlowDataFlowIdeElement,
   templateUrl: './data-flow-ide.component.html',
-  styleUrls: ['./data-flow-ide.component.scss']
+  styleUrls: ['./data-flow-ide.component.scss'],
 })
-export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
-                                                    implements AfterViewInit, OnDestroy, OnInit {
+export class LcuDataFlowDataFlowIdeElementComponent
+  extends LcuElementComponent<LcuDataFlowDataFlowIdeContext>
+  implements AfterViewInit, OnDestroy, OnInit {
   //  Fields
   protected dialogRef: MatDialogRef<DialogBodyComponent>;
 
   protected drawing: DrawingTools;
+
+  protected originalState: string;
 
   protected subscriptions: { [key: string]: Subscription };
 
@@ -80,6 +86,8 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   protected toolkit: jsPlumbToolkit;
 
   //  Properties
+  public IsSaved: boolean;
+
   public RenderParams: SurfaceRenderParams;
 
   public SelectMode: SurfaceMode;
@@ -118,7 +126,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
       this.toolkit = this.surface.getToolkit();
 
       this.drawing = new DrawingTools({
-        renderer: this.surface
+        renderer: this.surface,
       });
 
       this.io.SetViewNodes(this.State.ModuleOptions, this.View);
@@ -150,7 +158,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
   }
 
   public Deploy() {
-    this.dataFlowEventService.EmitDeployDataFlowEvent(this.State.ActiveDataFlow.Lookup);
+    this.dataFlowEventService.EmitDeployDataFlowEvent(
+      this.State.ActiveDataFlow.Lookup
+    );
   }
 
   public async Relayout(refreshOutput: boolean = false) {
@@ -188,6 +198,7 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     // if (params.addedByMouse) {
     //   this.editLabel(params.edge);
     // }
+    this.setIsSaved();
   }
 
   protected editLabel(edge: Edge) {
@@ -213,6 +224,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
       this.io.SetViewNodes(this.State.ModuleOptions, this.View);
     }
 
+    this.setOriginalState();
+
+    this.IsSaved = true;
+
     await this.Relayout(true);
   }
 
@@ -220,7 +235,9 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
     type: string;
     data: any;
     callback: (data: object) => void;
-  }) {}
+  }) {
+    this.setIsSaved();
+  }
 
   protected nodeFactory(params: DataFlowNodeFactoryParams) {
     const dialogConfig = new MatDialogConfig();
@@ -235,10 +252,10 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
 
     this.dialogRef = this.matDialog.open(DialogBodyComponent, dialogConfig);
 
-    this.dialogRef.afterClosed().subscribe(value => {
+    this.dialogRef.afterClosed().subscribe((value) => {
       const data = {
         ...params.Data,
-        Text: value.data
+        Text: value.data,
       };
 
       if (data.Text) {
@@ -246,21 +263,50 @@ export class LcuDataFlowDataFlowIdeElementComponent extends LcuElementComponent<
           data.id = jsPlumbUtil.uuid();
 
           params.Callback(data);
+
+          this.setIsSaved();
         } else {
-          alert(`${data.Display.ModuleType} names must be at least 2 characters!`);
+          alert(
+            `${data.Display.ModuleType} names must be at least 2 characters!`
+          );
         }
       }
     });
+
+    this.setIsSaved();
   }
 
   protected removeEdge(edge: any) {
     this.toolkit.removeEdge(edge);
+
+    this.setIsSaved();
+  }
+
+  protected setIsSaved(): void {
+    if (this.State && this.State.ActiveDataFlow) {
+      const curState = JSON.stringify(this.State.ActiveDataFlow.Output);
+
+      this.IsSaved = curState === this.originalState;
+    } else {
+      this.IsSaved = false;
+    }
+  }
+
+  protected setOriginalState(): void {
+    if (this.State && this.State.ActiveDataFlow) {
+      this.originalState = JSON.stringify(this.State.ActiveDataFlow.Output);
+    } else {
+      this.originalState = null;
+    }
   }
 
   protected setupJsPlumbSurface() {
     this.RenderParams = this.io.LoadRenderParams();
 
-    this.ToolkitParams = this.io.LoadToolkitParamsWithOptions(this.State.ModuleOptions, () => this.toolkit);
+    this.ToolkitParams = this.io.LoadToolkitParamsWithOptions(
+      this.State.ModuleOptions,
+      () => this.toolkit
+    );
 
     this.View = this.io.LoadView();
 

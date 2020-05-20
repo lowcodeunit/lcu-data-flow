@@ -40,13 +40,14 @@
     <mat-drawer mode="side" opened position="end" #drawer>
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
+          {{IsSaved}}
           <a mat-icon-button title="Save" color="primary" (click)="Save()">
             <mat-icon>save</mat-icon>
           </a>
 
-          <a mat-icon-button title="Deploy" color="primary" (click)="Deploy()">
+          <button mat-icon-button title="Deploy" color="primary" (click)="Deploy()" [disabled]="!IsSaved">
             <mat-icon>cloud_upload</mat-icon>
-          </a>
+          </button>
 
           <a mat-icon-button title="Relayout" color="primary" (click)="Relayout()">
             <mat-icon>loop</mat-icon>
