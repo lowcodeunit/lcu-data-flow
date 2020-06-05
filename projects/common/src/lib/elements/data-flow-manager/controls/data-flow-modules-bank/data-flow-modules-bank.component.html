@@ -26,7 +26,7 @@
 
         <ng-container *ngFor="let option of GetOptions(category)">
           <ng-container *ngIf="GetDisplay(option.ModuleType); let display">
-            <div class="option">
+            <div class="option" id="{{ option.ModuleType | stringPipes: 'camelcase' }}ModuleOption">
               <a
                 fxFlex
                 fxLayoutAlign="start center"
