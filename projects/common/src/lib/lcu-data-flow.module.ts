@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FathymSharedModule, MaterialModule } from '@lcu/common';
+import { FathymSharedModule, MaterialModule, PipeModule } from '@lcu/common';
 import { jsPlumbToolkitModule } from 'jsplumbtoolkit-angular';
 import { jsPlumbToolkitDragDropModule } from 'jsplumbtoolkit-angular-drop';
 import { ChartsModule } from 'ng2-charts';
@@ -66,7 +66,8 @@ import { DialogModuleConfigureComponent } from './elements/data-flow-manager/con
     jsPlumbToolkitModule,
     jsPlumbToolkitDragDropModule,
     ChartsModule,
-    LazyElementModule
+    LazyElementModule,
+    PipeModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
