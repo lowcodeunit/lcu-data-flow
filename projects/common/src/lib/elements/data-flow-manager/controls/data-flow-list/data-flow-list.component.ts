@@ -27,20 +27,20 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
     return !this.CreateNewDataFlowForm ? null : this.CreateNewDataFlowForm.get('lookup');
   }
 
-  public get DataFlowLookupHasError(): boolean {
-    return (
-      this.DataFlowLookup.hasError('pattern') ||
-      this.DataFlowLookup.hasError('required')
-    );
-  }
+  // public get DataFlowLookupHasError(): boolean {
+  //   return (
+  //     this.DataFlowLookup.hasError('pattern') ||
+  //     this.DataFlowLookup.hasError('required')
+  //   );
+  // }
 
-  public get DataFlowLookupErrorMessage(): string {
-    if (this.DataFlowLookup.hasError('pattern')) {
-      return `The Project lookup must contain 1 - 4 charaters, all lowercase with '-'. A '-' may not start or end the value.`;
-    } else if (this.DataFlowLookup.hasError('required')) {
-      return 'The Data Flow lookup is required.';
-    }
-  }
+  // public get DataFlowLookupErrorMessage(): string {
+  //   if (this.DataFlowLookup.hasError('pattern')) {
+  //     return `The Project lookup must contain 1 - 4 charaters, all lowercase with '-'. A '-' may not start or end the value.`;
+  //   } else if (this.DataFlowLookup.hasError('required')) {
+  //     return 'The Data Flow lookup is required.';
+  //   }
+  // }
 
   public get State(): DataFlowManagementState {
     return this.context.State;
@@ -61,14 +61,15 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
 
     this.CreateNewDataFlowForm = this.formBldr.group({
       name: ['', Validators.required],
-      desc: ['', Validators.required],
-      lookup: ['', {
-        validators: Validators.compose([
-          Validators.required,
-          Validators.pattern('^[a-z-]{1,4}$'),
-        ]),
-        updateOn: 'change',
-      }]
+      desc: ['', Validators.required]
+      // ,
+      // lookup: ['', {
+      //   validators: Validators.compose([
+      //     Validators.required,
+      //     Validators.pattern('^[a-z-]{1,4}$'),
+      //   ]),
+      //   updateOn: 'change',
+      // }]
     });
 
     this.handleStateChanged();
@@ -84,8 +85,9 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   public CreateNewDataFlow() {
     this.dataFlowEventService.EmitSaveDataFlowEvent({
       Name: this.CreateNewDataFlowForm.controls.name.value,
-      Description: this.CreateNewDataFlowForm.controls.desc.value,
-      Lookup: this.CreateNewDataFlowForm.controls.lookup.value
+      Description: this.CreateNewDataFlowForm.controls.desc.value
+      //,
+      //Lookup: this.CreateNewDataFlowForm.controls.lookup.value
     });
   }
 

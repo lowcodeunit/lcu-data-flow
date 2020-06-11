@@ -236,7 +236,8 @@ export class LcuDataFlowDataFlowIdeElementComponent
     data: any;
     callback: (data: object) => void;
   }) {
-    this.setIsSaved();
+    this.IsSaved = false;
+//    this.setIsSaved();
   }
 
   protected nodeFactory(params: DataFlowNodeFactoryParams) {
@@ -284,9 +285,9 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
   protected setIsSaved(): void {
     if (this.State && this.State.ActiveDataFlow) {
-      const curState = JSON.stringify(this.State.ActiveDataFlow.Output);
+      //const curState = JSON.stringify(this.State.ActiveDataFlow.Output);
 
-      this.IsSaved = curState === this.originalState;
+      //this.IsSaved = curState === this.originalState;
     } else {
       this.IsSaved = false;
     }
