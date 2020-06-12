@@ -40,15 +40,15 @@
     <mat-drawer #drawer mode="side" position="end" [opened]="IsModuleSidebarOpened" (openedChange)="ModuleSidebarToggled($event)">
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
-          <a mat-icon-button id="dataFlowIdeSaveBtn" matTooltip="Save" color="primary" (click)="Save()">
+          <a mat-icon-button id="dataFlowIdeSaveBtn" matTooltip="Save" (click)="Save()">
             <mat-icon>save</mat-icon>
           </a>
 
-          <button mat-icon-button id="dataFlowIdeDeployBtn" matTooltip="Deploy" color="primary" (click)="Deploy()" [disabled]="!IsSaved">
+          <button mat-icon-button id="dataFlowIdeDeployBtn" matTooltip="Deploy" (click)="Deploy()" [disabled]="!IsSaved">
             <mat-icon>cloud_upload</mat-icon>
           </button>
 
-          <a mat-icon-button id="dataFlowIdeRelayoutBtn" matTooltip="Align" color="primary" (click)="Relayout()">
+          <a mat-icon-button id="dataFlowIdeRelayoutBtn" matTooltip="Align" (click)="Relayout()">
             <mat-icon>loop</mat-icon>
           </a>
 
