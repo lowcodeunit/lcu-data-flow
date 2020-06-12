@@ -1,20 +1,22 @@
 
-<mat-card>
+<mat-card class="data-flow-create-container">
   <ng-container *ngIf="!State.IsCreating">
     <mat-card-header>
       <mat-card-title>
         Data Flow Management
       </mat-card-title>
-      <mat-card-subtitle matTooltip="Data Application">
-        A tool for creating and managing a collection of Data Flows across an organization.
+      <mat-card-subtitle>
+        A tool for creating and managing data flows for your workspace.
       </mat-card-subtitle>
     </mat-card-header>
 
     <mat-divider color="accent"></mat-divider>
     <div *ngIf="!State.Loading" fxLayout="row">
       <div fxFlex="60" class="padding-3 mat-body margin-top-3">
-        A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
-        have different outcomes in provisioned and deployed enterprise assets/configurations.
+        <!-- TODO: This text doesn't apply to Limited Trial users. Need to distinguish between versions here -->
+
+        <!-- A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
+        have different outcomes in provisioned and deployed enterprise assets/configurations. -->
       </div>
 
       <div class="accent-divider"></div>
@@ -42,9 +44,10 @@
 
     <div *ngIf="!State.Loading" fxLayout="row">
       <div fxFlex="30" class="padding-3 mat-body margin-top-3">
-        A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
-        have different outcomes in provisioned and deployed enterprise assets/configurations.
+        <!-- TODO: This text doesn't apply to Limited Trial users. Need to distinguish between versions here -->
 
+        <!-- A collection of all data flows across your organization. Pay close attention to the type of Data Flow from this view as they all
+        have different outcomes in provisioned and deployed enterprise assets/configurations. -->
         <p fxLayoutAlign="end center" class="margin-top-5 mat-subheading-2">
           Get started here <mat-icon color="accent">forward</mat-icon>
         </p>

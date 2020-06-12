@@ -40,27 +40,15 @@
     <mat-drawer #drawer mode="side" position="end" [opened]="IsModuleSidebarOpened" (openedChange)="ModuleSidebarToggled($event)">
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
-<<<<<<< HEAD
-          <a mat-icon-button matTooltip="Save" (click)="Save()">
+          <a mat-icon-button id="dataFlowIdeSaveBtn" matTooltip="Save" color="primary" (click)="Save()">
             <mat-icon>save</mat-icon>
           </a>
 
-          <a mat-icon-button matTooltip="Deploy" (click)="Deploy()">
-=======
-          <a mat-icon-button id="dataFlowIdeSaveBtn" title="Save" color="primary" (click)="Save()">
-            <mat-icon>save</mat-icon>
-          </a>
-
-          <button mat-icon-button id="dataFlowIdeDeployBtn" title="Deploy" color="primary" (click)="Deploy()" [disabled]="!IsSaved">
->>>>>>> integration
+          <button mat-icon-button id="dataFlowIdeDeployBtn" matTooltip="Deploy" color="primary" (click)="Deploy()" [disabled]="!IsSaved">
             <mat-icon>cloud_upload</mat-icon>
           </button>
 
-<<<<<<< HEAD
-          <a mat-icon-button matTooltip="Relayout" (click)="Relayout()">
-=======
-          <a mat-icon-button id="dataFlowIdeRelayoutBtn" title="Relayout" color="primary" (click)="Relayout()">
->>>>>>> integration
+          <a mat-icon-button id="dataFlowIdeRelayoutBtn" matTooltip="Align" color="primary" (click)="Relayout()">
             <mat-icon>loop</mat-icon>
           </a>
 

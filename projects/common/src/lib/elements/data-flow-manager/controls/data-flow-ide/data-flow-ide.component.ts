@@ -86,11 +86,9 @@ export class LcuDataFlowDataFlowIdeElementComponent
   protected toolkit: jsPlumbToolkit;
 
   //  Properties
-<<<<<<< HEAD
   public IsModuleSidebarOpened: boolean;
-=======
+
   public IsSaved: boolean;
->>>>>>> integration
 
   public RenderParams: SurfaceRenderParams;
 
@@ -275,13 +273,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
           this.setIsSaved();
         } else {
-<<<<<<< HEAD
           console.error(`${data.Display.ModuleType} names must be at least 2 characters!`);
-=======
-          alert(
-            `${data.Display.ModuleType} names must be at least 2 characters!`
-          );
->>>>>>> integration
         }
       }
     });
