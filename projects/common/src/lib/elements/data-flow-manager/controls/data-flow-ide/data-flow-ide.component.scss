@@ -66,6 +66,14 @@
             margin: 0.5rem;
             color: #000;
           }
+
+          button {
+            &:disabled {
+              color: black;
+              cursor: not-allowed;
+              opacity: 0.35;
+            }
+          }
         }
       }
     }
