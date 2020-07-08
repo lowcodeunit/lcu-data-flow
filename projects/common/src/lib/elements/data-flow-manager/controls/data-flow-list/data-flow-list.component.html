@@ -38,7 +38,7 @@
   <ng-container *ngIf="State.IsCreating">
     <form [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
       <div>
-        <mat-form-field style="width: 100%;">
+        <mat-form-field style="width: 100%;" class="disable-autofill-background-default">
           <input
             type="text"
             matInput
@@ -50,7 +50,7 @@
       </div>
 
       <div>
-        <mat-form-field style="width: 100%;">
+        <mat-form-field style="width: 100%;" class="disable-autofill-background-default">
           <input
             type="text"
             matInput
@@ -61,8 +61,13 @@
         </mat-form-field>
       </div>
 
+<<<<<<< HEAD
       <!-- <div>
         <mat-form-field style="width: 100%;">
+=======
+      <div>
+        <mat-form-field style="width: 100%;" class="disable-autofill-background-default">
+>>>>>>> integration
           <input
             type="text"
             matInput
