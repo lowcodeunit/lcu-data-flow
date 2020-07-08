@@ -40,8 +40,13 @@
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
     "@aspnet/signalr": "^1.1.4",
+<<<<<<< HEAD
     "@lcu/common": "^1.41.188",
     "@lowcodeunit-devkit/ng-lcu": "^1.9.66",
+=======
+    "@lcu/common": "^1.41.281-integration",
+    "@lowcodeunit-devkit/ng-lcu": "^1.5.26",
+>>>>>>> integration
     "@lowcodeunit/lazy-element": "0.0.13",
     "@swimlane/ngx-charts": "^12.1.0",
     "@webcomponents/custom-elements": "^1.4.1",
