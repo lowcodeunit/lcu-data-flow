@@ -2,7 +2,7 @@
 	"name": "@napkin-ide/lcu-data-flow-common",
 	"version": "0.0.4",
 	"peerDependencies": {
-		"@angular/common": "^8.2.0",
-		"@angular/core": "^8.2.0"
+		"@angular/common": "^10.0.8",
+		"@angular/core": "^10.0.8"
 	}
 }
