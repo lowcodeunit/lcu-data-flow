@@ -48,6 +48,8 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
     this.state.Context.subscribe(async state => {
       this.State = state;
 
+      console.log(this.State);
+
       await this.handleStateChanged();
     });
   }
