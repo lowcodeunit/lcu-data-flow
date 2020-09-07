@@ -6,14 +6,18 @@ import {
   jsPlumbToolkit,
   jsPlumbUtil,
   jsPlumbToolkitOptions,
-  SurfaceRenderParams
+  SurfaceRenderParams,
 } from 'jsplumbtoolkit';
 import { isString } from 'util';
-import { AngularViewOptions, jsPlumbService, ViewNodeAngularOptions } from 'jsplumbtoolkit-angular';
+import {
+  AngularViewOptions,
+  jsPlumbService,
+  ViewNodeAngularOptions,
+} from 'jsplumbtoolkit-angular';
 import { DataFlowNodeFactoryParams } from '../models/DataFlowNodeFactoryParams';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   // 	Fields
@@ -81,21 +85,26 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   public async ExportFromSurface(surface: Surface): Promise<TOutput> {
     const toolkit = surface.getToolkit();
 
-    return <TOutput> toolkit.exportData({
+    return <TOutput>toolkit.exportData({
       type: this.ioName,
-      parameters: {}
+      parameters: {},
     });
   }
 
   public async GetSurface(surfaceId: string) {
-    return new Promise<Surface>(resolve => {
-      this.jsPlumb.getSurface(surfaceId, surface => {
+    return new Promise<Surface>((resolve) => {
+      this.jsPlumb.getSurface(surfaceId, (surface) => {
         resolve(surface);
       });
     });
   }
 
-  public async LoadOntoSurface(surface: Surface, output: TOutput, refreshOutput: boolean, layoutSpec: LayoutSpec | string = null) {
+  public async LoadOntoSurface(
+    surface: Surface,
+    output: TOutput,
+    refreshOutput: boolean,
+    layoutSpec: LayoutSpec | string = null
+  ) {
     if (!layoutSpec) {
       layoutSpec = this.loadDefaultLayoutSpec();
     } else if (isString(layoutSpec)) {
@@ -108,22 +117,22 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
 
     surface.repaintEverything();
 
-    surface.setLayout(<LayoutSpec> layoutSpec);
+    surface.setLayout(<LayoutSpec>layoutSpec);
 
     surface.zoomToFit();
   }
 
   public async LoadOutput(surface: Surface, output: TOutput) {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       const toolkit = surface.getToolkit();
 
       toolkit.load({
         type: this.ioName,
-        data: <any> output,
+        data: <any>output || {},
         parameters: {},
         onload() {
           resolve();
-        }
+        },
       });
     });
   }
@@ -131,7 +140,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   public LoadRenderParams(): SurfaceRenderParams {
     return {
       layout: {
-        type: 'Absolute'
+        type: 'Absolute',
       },
       events: {
         canvasClick: (e: Event) => {
@@ -144,7 +153,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
         modeChanged: (mode: string) => this.ModeChanged.emit(mode),
         nodeAdded: (params: any) => {
           this.NodeAdded.emit(params);
-        }
+        },
         // edgeTarget: (edge: any, oldTarget: any, newTarget: any) => {
         //   alert('moved');
         // },  // edgeMoved(this.ctx, edge, oldTarget, newTarget),
@@ -153,19 +162,23 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
       elementsDroppable: true,
       consumeRightClick: false,
       dragOptions: {
-        filter: '.jtk-draw-handle, .node-action, .node-action i, .bank-module'
+        filter: '.jtk-draw-handle, .node-action, .node-action i, .bank-module',
         // magnetize: false
       },
       modelLeftAttribute: 'Left',
-      modelTopAttribute: 'Top'
+      modelTopAttribute: 'Top',
     };
   }
 
   public LoadToolkitParams(): jsPlumbToolkitOptions {
     return {
-      nodeFactory: (type: string, data: any, callback: (data: object) => void) => {
+      nodeFactory: (
+        type: string,
+        data: any,
+        callback: (data: object) => void
+      ) => {
         this.NodeFactoried.emit({ Type: type, Data: data, Callback: callback });
-      }
+      },
     };
   }
 
@@ -175,7 +188,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   public LoadView(): AngularViewOptions {
     const view: AngularViewOptions = {
       nodes: {
-        parent: this.loadParentNode()
+        parent: this.loadParentNode(),
       },
       edges: {
         default: {
@@ -186,15 +199,18 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
             strokeWidth: 2,
             stroke: 'rgb(132, 172, 179)',
             outlineWidth: 3,
-            outlineStroke: 'transparent'
+            outlineStroke: 'transparent',
           },
           hoverPaintStyle: { strokeWidth: 2, stroke: 'rgb(67,67,67)' },
-          overlays: [['Arrow', { location: 1, width: 10, length: 10 }], ['Arrow', { location: 0.3, width: 10, length: 10 }]],
+          overlays: [
+            ['Arrow', { location: 1, width: 10, length: 10 }],
+            ['Arrow', { location: 0.3, width: 10, length: 10 }],
+          ],
           events: {
             dblclick: (params: any) => {
               this.EdgeDoubleClicked.emit(params);
-            }
-          }
+            },
+          },
         },
         connection: {
           parent: 'default',
@@ -206,12 +222,12 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
                 events: {
                   click: (params: any) => {
                     this.EdgeLabelClicked.emit(params);
-                  }
-                }
-              }
-            ]
-          ]
-        }
+                  },
+                },
+              },
+            ],
+          ],
+        },
       },
       ports: {
         default: {
@@ -220,8 +236,8 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
           events: {
             click: (params: any) => {
               this.PortClicked.emit(params);
-            }
-          }
+            },
+          },
         },
         source: {
           endpoint: 'Blank',
@@ -233,10 +249,10 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
           events: {
             click: (params: any) => {
               this.SourceClicked.emit(params);
-            }
+            },
           },
           isSource: true,
-          isTarget: false
+          isTarget: false,
         },
         target: {
           maxConnections: -1,
@@ -250,10 +266,10 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
           events: {
             click: (params: any) => {
               this.TargetClicked.emit(params);
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     };
 
     return view;
@@ -263,24 +279,28 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
   protected abstract exportOutput(toolkit: jsPlumbToolkit, params: {}): TOutput;
 
   protected loadDefaultLayoutSpec(type: string = 'Hierarchical'): LayoutSpec {
-    return <LayoutSpec> {
+    return <LayoutSpec>{
       type,
       parameters: {
         padding: [150, 150],
-        orientation: 'vertical'
-      }
+        orientation: 'vertical',
+      },
     };
   }
 
   protected loadParentNode(): ViewNodeAngularOptions {
     return {
       events: {
-        tap: (params: any) => this.NodeTapped.emit(params)
-      }
+        tap: (params: any) => this.NodeTapped.emit(params),
+      },
     };
   }
 
   protected abstract loadIOName(): string;
 
-  protected abstract parseOutput(output: TOutput, toolkit: jsPlumbToolkit, params: {}): void;
+  protected abstract parseOutput(
+    output: TOutput,
+    toolkit: jsPlumbToolkit,
+    params: {}
+  ): void;
 }
