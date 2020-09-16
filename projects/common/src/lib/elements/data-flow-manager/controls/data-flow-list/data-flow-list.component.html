@@ -7,11 +7,12 @@
 <mat-list *ngIf="State">
   <ng-container *ngIf="!State.IsCreating">
     <mat-list-item *ngFor="let dataFlow of State.DataFlows">
-      <div fxFlex="70%">
-        <div matLine>
+      <div fxFlex="70%" class="list-item-container">
+        <div fxLayout="row" fxLayoutAlign="start center">
           <h4>
-            {{ dataFlow.Name }} - <small>{{ dataFlow.Description }}</small>
+            {{ dataFlow.Name }} - &nbsp;
           </h4>
+          <div class="description"  fxFlex="75%" >{{ dataFlow.Description }}</div>
         </div>
       </div>
 
@@ -56,6 +57,7 @@
             matInput
             placeholder="Description"
             formControlName="desc"
+            maxlength="175"
             required
           />
         </mat-form-field>
