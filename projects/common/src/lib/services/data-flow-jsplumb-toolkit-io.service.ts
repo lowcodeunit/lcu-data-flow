@@ -10,13 +10,13 @@ import {
   SurfaceRenderParams,
   Node,
   Port,
-  Group
+  Group,
 } from 'jsplumbtoolkit';
 import {
   DataFlow,
   DataFlowOutput,
   DataFlowModule,
-  DataFlowModuleOption
+  DataFlowModuleOption,
 } from '@lcu/common';
 import { isString } from 'util';
 import { AngularViewOptions, jsPlumbService } from 'jsplumbtoolkit-angular';
@@ -24,7 +24,7 @@ import { DataFlowModuleComponent } from '../elements/data-flow-manager/controls/
 import { LCUJSPlumbToolkitIOService } from './lcu-jsplumb-toolkit-io.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
   DataFlowOutput
@@ -79,7 +79,7 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
 
     view.edges.default.connector = [
       'Flowchart',
-      { cornerRadius: 5, anchors: ['Bottom', 'Top'] }
+      { cornerRadius: 5, anchors: ['Bottom', 'Top'] },
     ];
 
     return view;
@@ -92,14 +92,14 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
   ) {
     if (options && view) {
       view.nodes = {
-        parent: this.loadParentNode()
+        parent: this.loadParentNode(),
       };
 
       if (options) {
-        options.forEach(option => {
+        options.forEach((option) => {
           view.nodes[option.ModuleType] = {
             parent: 'parent',
-            component: comp
+            component: comp,
           };
         });
       }
@@ -118,27 +118,29 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
 
     const targetEdges = toolkit
       .getAllEdgesFor(target)
-      .filter(edge => edge.target.id === target.id);
+      .filter((edge) => edge.target.id === target.id);
 
-    if (targetEdges.find(te => te.source.id === source.id)) {
+    if (targetEdges.find((te) => te.source.id === source.id)) {
       this.openSnackBar(`These two modules are already connected.`);
 
       return false;
     }
 
     const sourceModuleOption = options.find(
-      opt => opt.ModuleType === source.data.type
+      (opt) => opt.ModuleType === source.data.type
     );
 
     const targetModuleOption = options.find(
-      opt => opt.ModuleType === target.data.type
+      (opt) => opt.ModuleType === target.data.type
     );
 
     if (
       targetModuleOption.IncomingConnectionLimit >= 0 &&
       targetEdges.length >= targetModuleOption.IncomingConnectionLimit
     ) {
-      this.openSnackBar(`No more incoming connections allowed for ${target.data.type}`);
+      this.openSnackBar(
+        `No more incoming connections allowed for ${target.data.type}`
+      );
 
       return false;
     }
@@ -147,7 +149,7 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
       targetModuleOption.IncomingConnectionTypes &&
       targetModuleOption.IncomingConnectionTypes.length > 0 &&
       !targetModuleOption.IncomingConnectionTypes.find(
-        ict => ict === source.data.type
+        (ict) => ict === source.data.type
       )
     ) {
       this.openSnackBar(
@@ -161,7 +163,7 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
       sourceModuleOption.OutgoingConnectionTypes &&
       sourceModuleOption.OutgoingConnectionTypes.length > 0 &&
       !sourceModuleOption.OutgoingConnectionTypes.find(
-        ict => ict === target.data.type
+        (ict) => ict === target.data.type
       )
     ) {
       this.openSnackBar(
@@ -182,17 +184,21 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
   ) {
     const toolkit = toolkitLookup();
 
-    const moduleOption = options.find(opt => opt.ModuleType === node.data.type);
+    const moduleOption = options.find(
+      (opt) => opt.ModuleType === node.data.type
+    );
 
     const edges = toolkit
       .getAllEdgesFor(node)
-      .filter(edge => edge.source.id === node.id);
+      .filter((edge) => edge.source.id === node.id);
 
     if (
       moduleOption.OutgoingConnectionLimit >= 0 &&
       edges.length >= moduleOption.OutgoingConnectionLimit
     ) {
-      this.openSnackBar(`No more outgoing connections allowed for ${node.data.type}`);
+      this.openSnackBar(
+        `No more outgoing connections allowed for ${node.data.type}`
+      );
 
       return false;
     }
@@ -207,17 +213,17 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
 
     const output: DataFlowOutput = {
       Modules: [],
-      Streams: []
+      Streams: [],
     };
 
-    nodes.forEach(item => {
+    nodes.forEach((item) => {
       const mdl: DataFlowModule = {
         ID: item.id,
         Text: item.data.Text,
         Display: item.data.Display,
         Deleted: item.data.Deleted,
         Settings: item.data.Settings,
-        Status: item.data.Status
+        Status: item.data.Status,
       };
 
       mdl.Display.Left = item.data.left;
@@ -231,12 +237,12 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
       output.Modules.push(mdl);
     });
 
-    edges.forEach(item => {
+    edges.forEach((item) => {
       output.Streams.push({
         ID: item.data.id,
         InputModuleID: item.source.id,
         OutputModuleID: item.target.id,
-        Title: item.data.label
+        Title: item.data.label,
       });
     });
 
@@ -249,7 +255,7 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
 
   protected openSnackBar(message: string, action: string = null) {
     this.snackBar.open(message, action, {
-      duration: 5000
+      duration: 5000,
     });
   }
 
@@ -261,33 +267,39 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
     if (output) {
       toolkit.clear();
 
-      output.Modules.filter(item => {
-        return !item.Deleted;
-      }).forEach(item => {
-        const jspItem = {
-          ...item,
-          id: item.ID,
-          type: item.Display.ModuleType,
-          left: item.Display.Left,
-          top: item.Display.Top,
-          w: item.Display.Width,
-          h: item.Display.Height
-        };
+      if (output) {
+        if (output.Modules) {
+          output.Modules.filter((item) => {
+            return !item.Deleted;
+          }).forEach((item) => {
+            const jspItem = {
+              ...item,
+              id: item.ID,
+              type: item.Display.ModuleType,
+              left: item.Display.Left,
+              top: item.Display.Top,
+              w: item.Display.Width,
+              h: item.Display.Height,
+            };
 
-        toolkit.addNode(jspItem);
-      });
+            toolkit.addNode(jspItem);
+          });
+        }
 
-      output.Streams.forEach(item => {
-        toolkit.addEdge({
-          source: item.InputModuleID,
-          target: item.OutputModuleID,
-          data: {
-            id: item.ID,
-            label: item.Title,
-            type: 'connection'
-          }
-        });
-      });
+        if (output.Streams) {
+          output.Streams.forEach((item) => {
+            toolkit.addEdge({
+              source: item.InputModuleID,
+              target: item.OutputModuleID,
+              data: {
+                id: item.ID,
+                label: item.Title,
+                type: 'connection',
+              },
+            });
+          });
+        }
+      }
     }
   }
 }
