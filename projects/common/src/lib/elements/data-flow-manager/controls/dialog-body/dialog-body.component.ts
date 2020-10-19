@@ -56,4 +56,8 @@ export class DialogBodyComponent implements OnInit {
     this.dialogRef.close({event: 'test', data: this.NameControl.value});
   }
 
+  public CancelResourceCreation(): void{
+    this.dialogRef.close();
+  }
+
 }
