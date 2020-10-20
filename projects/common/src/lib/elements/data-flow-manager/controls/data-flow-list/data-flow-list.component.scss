@@ -1,2 +1,21 @@
+@import '../../../../../../assets/common-theme';
+
 :host ::ng-deep {
+    .health-status {
+        font-size: 20px;
+    }
+
+    .health-ok {
+        @extend .health-status;
+        color: rgb(108, 224, 0);
+    }
+
+    .health-error {
+        @extend .health-status;
+        color: mat-color(map-get($global-theme, warn));
+    }
+
+    .health-error-row-background {
+        background-color: mat-color(map-get($global-theme, warn), 500, .15);
+    }
 }

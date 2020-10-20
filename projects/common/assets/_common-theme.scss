@@ -1,0 +1,14 @@
+@import '../../../node_modules/@lcu/common/assets/theming/common-theme';
+// @import '../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
+
+$global-theme: fathym-ivy-theme(true);
+
+/**
+* Set the theme and generate dynamic variant theme classes,
+* theme-setup is inside of Ref Arch (common-theme)
+*
+* If we skip this @include, the default theme is 'fathym-ivy-theme'
+*/
+@include theme-setup($global-theme);
+
+

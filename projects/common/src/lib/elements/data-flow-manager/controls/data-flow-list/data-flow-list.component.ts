@@ -43,6 +43,7 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   }
 
   public get State(): DataFlowManagementState {
+    console.log(this.context.State);
     return this.context.State;
   }
 
@@ -95,6 +96,10 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
 
   public ToggleIsCreating() {
     this.dataFlowEventService.EmitToggleIsCreatingEvent();
+  }
+
+  public HealthStatus(dataFlow: DataFlow): string {
+    return dataFlow.Name !== 'Test' ? '' : 'Health Error';
   }
 
   //  Helpers
