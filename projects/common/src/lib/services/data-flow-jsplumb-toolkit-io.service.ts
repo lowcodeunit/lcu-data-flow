@@ -76,10 +76,11 @@ export class DataFlowJSPlumbToolkitIOService extends LCUJSPlumbToolkitIOService<
 
   public LoadView(): AngularViewOptions {
     const view = super.LoadView();
-
     view.edges.default.connector = [
       'Flowchart',
-      { cornerRadius: 5, anchors: ['Bottom', 'Top'] },
+      { cornerRadius: 5, 
+        anchor: "AutoDefault", 
+      },
     ];
 
     return view;
