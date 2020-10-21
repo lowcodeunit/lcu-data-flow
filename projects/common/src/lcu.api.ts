@@ -11,3 +11,4 @@ export * from './lib/services/data-flow-jsplumb-toolkit-io.service';
 export * from './lib/services/data-flow-map-jsplumb-toolkit-io.service';
 export * from './lib/elements/data-flow-analytics/data-flow-analytics.component';
 export * from './lib/elements/data-flow-map/data-flow-map.component';
+export * from './lib/elements/data-flow-manager/data-flow-manager-event.service';

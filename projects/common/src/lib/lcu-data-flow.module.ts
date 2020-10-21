@@ -22,6 +22,7 @@ import { DialogBodyComponent } from './elements/data-flow-manager/controls/dialo
 import { LcuDataFlowDataFlowMapElementComponent } from './elements/data-flow-map/data-flow-map.component';
 import { DataFlowMapJSPlumbToolkitIOService } from './services/data-flow-map-jsplumb-toolkit-io.service';
 import { DialogModuleConfigureComponent } from './elements/data-flow-manager/controls/dialog-module-configure/dialog-module-configure.component';
+import { DataFlowManagerEventService } from './elements/data-flow-manager/data-flow-manager-event.service';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ export class LcuDataFlowModule {
     return {
       ngModule: LcuDataFlowModule,
       providers: [
+        DataFlowManagerEventService,
         DataFlowJSPlumbToolkitIOService,
         DataFlowMapJSPlumbToolkitIOService
       ]
