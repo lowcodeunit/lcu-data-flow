@@ -194,7 +194,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
         default: {
           anchor: 'AutoDefault',
           endpoint: 'Blank',
-          connector: ['Flowchart', { cornerRadius: 5 }],
+          connector: ['Flowchart', { cornerRadius: 5}],
           paintStyle: {
             strokeWidth: 2,
             stroke: 'rgb(132, 172, 179)',
@@ -282,7 +282,7 @@ export abstract class LCUJSPlumbToolkitIOService<TOutput> {
     return <LayoutSpec>{
       type,
       parameters: {
-        padding: [150, 150],
+        padding: [150, 151],
         orientation: 'vertical',
       },
     };
