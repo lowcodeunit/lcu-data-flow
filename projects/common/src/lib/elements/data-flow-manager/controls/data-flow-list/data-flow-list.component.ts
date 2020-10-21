@@ -43,7 +43,6 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   }
 
   public get State(): DataFlowManagementState {
-    console.log(this.context.State);
     return this.context.State;
   }
 

@@ -1,5 +1,5 @@
 @import '../../../../../../assets/common-theme';
-
+$warn: mat-color(map-get($global-theme, warn));
 :host ::ng-deep {
     .health-status {
         font-size: 20px;
@@ -11,8 +11,15 @@
     }
 
     .health-error {
+       
         @extend .health-status;
-        color: mat-color(map-get($global-theme, warn));
+        color: $warn;
+        filter: drop-shadow(0 0 0.5rem $warn);
+    }
+
+    .health-error-btn {
+        // @extend .mat-flat-button;
+        margin-left: 10px;
     }
 
     .health-error-row-background {
