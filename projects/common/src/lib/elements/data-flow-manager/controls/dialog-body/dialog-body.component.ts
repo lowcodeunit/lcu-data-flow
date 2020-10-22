@@ -22,16 +22,23 @@ export class DialogBodyComponent implements OnInit {
    */
   public Form: FormGroup;
 
+  public DisableCreateButton: boolean = true;
+
+  public ResourceName: string;
+
   protected action: string;
   protected localData: any;
 
   constructor(
     protected dialogRef: MatDialogRef<DialogBodyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log("Data: ", data)
+      
   }
 
   ngOnInit() {
     this.setupForm();
+    this.setupTitle();
   }
 
   protected setupForm(): void {
@@ -43,17 +50,44 @@ export class DialogBodyComponent implements OnInit {
   }
 
   /**
+   * Builds the title of the dialog from the data type passed in
+   */
+  protected setupTitle(): void{
+    if(this.data.Type){
+      let TitleName = "";
+      //loop through words capitalize first letter add rest of word 
+      this.data.Type.split("-").forEach((item: string) => {
+        TitleName += item.charAt(0).toLocaleUpperCase() +  item.slice(1) + " ";
+      });
+      this.ResourceName = TitleName.trim();
+    }
+    
+  }
+
+  /**
    * Listen for form changes
    */
   protected onChanges(): void {
 
     this.Form.valueChanges.subscribe((val: any) => {
       // this.updateSessionStorage(val);
+      //Determines whether or not the Resource name title is 
+      //valid and if the create button should be disabled
+      if(val.nameControl === "" || !val.nameControl || val.nameControl.length < 2){
+        this.DisableCreateButton = true;
+      }
+      else{
+        this.DisableCreateButton = false;
+      }
     });
   }
 
   public Create(): void {
     this.dialogRef.close({event: 'test', data: this.NameControl.value});
+  }
+
+  public CancelResourceCreation(): void{
+    this.dialogRef.close();
   }
 
 }
