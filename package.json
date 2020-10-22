@@ -53,10 +53,10 @@
     "jsplumbtoolkit-angular-drop": "^1.16.0",
     "jsplumbtoolkit-drop": "^1.16.0",
     "jsplumbtoolkit-undo-redo": "^1.16.0",
-    "ng2-charts": "^2.3.0",
+    "ng2-charts": "^2.4.2",
     "ngx-build-plus": "^10.1.1",
     "rxjs": "~6.6.3",
-    "terser": "^5.3.7",
+    "terser": "^5.3.8",
     "tslib": "^2.0.3",
     "zone.js": "~0.11.2"
   },
