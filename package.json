@@ -69,7 +69,7 @@
     "@lcu/cli": "^1.7.97",
     "@types/jasmine": "~3.5.14",
     "@types/jasminewd2": "~2.0.8",
-    "@types/node": "^14.14.2",
+    "@types/node": "12.12.39",
     "codelyzer": "^6.0.1",
     "concat-glob-cli": "^0.1.0",
     "jasmine-core": "~3.6.0",
