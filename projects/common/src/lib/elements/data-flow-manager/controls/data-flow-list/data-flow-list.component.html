@@ -1,36 +1,3 @@
-<<<<<<< HEAD
-<mat-tab-group *ngIf="DataFlowLists">
-  <mat-tab *ngFor="let list of DataFlowLists | keyvalue">
-    <ng-template matTabLabel>
-      <span [matBadge]="list.value?.length" matBadgeOverlap="false">{{ list.key | decamelize }}</span>
-    </ng-template>
-
-    <mat-card
-      *ngFor="let dataFlow of list.value; let first = first; let last = last"
-      [ngClass]="{ 'margin-top-2': first, 'active-item': State?.ActiveDataFlow?.ID === dataFlow.ID && State.IsCreating === false }"
-      class="margin-bottom-1">
-      <div fxLayout="row">
-          <mat-icon>{{ dataFlow.MaterialIcon ? dataFlow.MaterialIcon : 'account_tree' }}</mat-icon>
-          <mat-card-header [matTooltip]="dataFlow.Name">
-              <mat-card-title>{{ dataFlow.Name }}</mat-card-title>
-              <mat-card-subtitle>{{ dataFlow.Description }}</mat-card-subtitle>
-          </mat-card-header>
-      </div>
-
-      <mat-card-actions fxLayoutAlign="end">
-          <button mat-button color="accent" (click)="SetActiveDataFlow(dataFlow)">
-              <mat-icon class="margin-right-1">edit</mat-icon>
-              Manage
-          </button>
-          <button mat-button color="warn" (click)="DeleteDataFlow(dataFlow)" *ngIf="AllowDelete">
-              <mat-icon class="margin-right-1">delete</mat-icon>
-              Delete
-          </button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-tab>
-</mat-tab-group>
-=======
 <h3>
   <mat-icon>settings_input_antenna</mat-icon>
 
@@ -151,4 +118,3 @@
     </a>
   </mat-list-item>
 </mat-list>
->>>>>>> integration
