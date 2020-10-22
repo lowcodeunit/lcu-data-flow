@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 <form autocomplete="off" fxLayout="column" fxLayoutGap="10px" [formGroup]="Form" (ngSubmit)="Create()" novalidate>
   <h2 mat-dialog-title>
     {{ IsEdit ? 'Edit: ' : 'Create New: ' }}
     <i>{{ IsEdit ? Data.type : Data.Type }}</i>
   </h2>
+=======
+<form fxLayout="column" fxLayoutGap="10px" [formGroup]="Form" (ngSubmit)="Create()" novalidate>
+  <h2 mat-dialog-title>{{ResourceName}}</h2>
+>>>>>>> integration
 
   <mat-dialog-content>
     <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
@@ -20,7 +25,12 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
+<<<<<<< HEAD
     <button type="button" class="mat-button" (click)="OnCancel()">Cancel</button>
     <button type="submit" class="mat-raised-button" [disabled]="!Form.valid">{{ IsEdit ? 'Save' : 'Create' }}</button>
+=======
+    <button mat-button color="primary" class="mat-raised-button" [disabled]="DisableCreateButton" type="submit" >Create</button>
+    <button mat-button color="warn" class="mat-raised-button"  (click)="CancelResourceCreation()">Cancel</button>
+>>>>>>> integration
   </mat-dialog-actions>
 </form>
