@@ -1,16 +1,27 @@
-<h3>
-  <mat-icon>settings_input_antenna</mat-icon>
-
-  Active Data Flows
-</h3>
+<div class="data-flow-list-header" fxLayout="row" fxLayoutAlign="space-between center">
+  <h3 fxLayoutAlign="start center" fxFlex="70%">
+    <mat-icon>settings_input_antenna</mat-icon>
+    Active Data Flows
+  </h3>
+  <div fxLayout="start center" fxFlex="30%">
+    <a
+      mat-raised-button
+      color="accent"
+      (click)="ToggleIsCreating()"
+      *ngIf="!State.IsCreating"
+    >
+      Create New Data Flow
+    </a>
+  </div>
+</div>
 
 <mat-list *ngIf="State">
   <ng-container *ngIf="!State.IsCreating">
     <mat-list-item *ngFor="let dataFlow of State.DataFlows">
       <div fxFlex="70%" class="list-item-container">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <h4>
-            {{ dataFlow.Name }} - &nbsp;
+          <h4 fxFlex="20%">
+            {{ dataFlow.Name }}  &nbsp;
           </h4>
           <div class="description"  fxFlex="75%" >{{ dataFlow.Description }}</div>
         </div>
@@ -45,6 +56,7 @@
             matInput
             placeholder="Name"
             formControlName="name"
+            maxlength="40"
             required
           />
         </mat-form-field>
@@ -107,7 +119,7 @@
 
   <br />
 
-  <mat-list-item>
+  <!-- <mat-list-item>
     <a
       mat-raised-button
       color="accent"
@@ -116,5 +128,5 @@
     >
       Create New Data Flow
     </a>
-  </mat-list-item>
+  </mat-list-item> -->
 </mat-list>
