@@ -33,7 +33,11 @@
           color="accent"
           (click)="SetActiveDataFlow(dataFlow)"
         >
-          <mat-icon>settings</mat-icon> Manage
+          <mat-icon>settings</mat-icon>
+
+          <span *ngIf="!dataFlow.PreventEditing">Manage</span>
+
+          <span *ngIf="dataFlow.PreventEditing">View</span>
         </a>
 
         <a mat-icon-button color="warn" (click)="DeleteDataFlow(dataFlow)">
