@@ -95,7 +95,7 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   protected saveDataFlow(): Subscription {
     return this.dataFlowEventService.GetSaveDataFlowEvent().subscribe(
       (dataFlow: DataFlow) => {
-        console.log('GetSaveDataFlowEvent() triggered');
+        // console.log('GetSaveDataFlowEvent() triggered', dataFlow);
         this.State.Loading = true;
         this.state.SaveDataFlow(dataFlow);
       }
