@@ -7,7 +7,7 @@
         </a>
       </div>
 
-      <div class="panel-actions">
+      <div class="panel-actions" *ngIf="!State.ActiveDataFlow.PreventEditing">
         <a mat-mini-fab color="primary" title="Toggle Modules" (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </a>
@@ -37,7 +37,7 @@
       <jsplumb-controls [surfaceId]="State.ActiveDataFlow.Lookup"></jsplumb-controls>
     </mat-drawer-content>
 
-    <mat-drawer mode="side" opened position="end" #drawer>
+    <mat-drawer mode="side" [opened]="!State.ActiveDataFlow.PreventEditing" position="end" #drawer>
       <div class="data-flow-ide-bank-container">
         <mat-toolbar>
           <a mat-icon-button id="dataFlowIdeSaveBtn" title="Save" color="primary" (click)="Save()">
