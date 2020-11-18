@@ -79,8 +79,7 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
     this.dataFlowEventService.EmitSaveDataFlowEvent({
       Name: this.CreateNewDataFlowForm.controls.name.value,
       Description: this.CreateNewDataFlowForm.controls.desc.value,
-      Lookup: this.CreateNewDataFlowForm.controls.lookup.value,
-      IsEditable: true
+      Lookup: this.CreateNewDataFlowForm.controls.lookup.value
     });
   }
 
