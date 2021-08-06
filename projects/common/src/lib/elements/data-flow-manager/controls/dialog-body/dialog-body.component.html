@@ -1,5 +1,5 @@
 <form fxLayout="column" fxLayoutGap="10px" [formGroup]="Form" (ngSubmit)="Create()" novalidate>
-  <h2 mat-dialog-title>This is a Dialog title</h2>
+  <h2 mat-dialog-title>{{ResourceName}}</h2>
 
   <mat-dialog-content>
     <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
@@ -14,6 +14,7 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button type="submit" class="mat-raised-button">Create</button>
+    <button mat-button color="primary" class="mat-raised-button" [disabled]="DisableCreateButton" type="submit" >Save</button>
+    <a mat-button color="warn" class="mat-raised-button"  (click)="CancelResourceCreation()">Cancel</a>
   </mat-dialog-actions>
 </form>

@@ -76,12 +76,6 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
   }
 
   //  API Methods
-  public DeleteDataFlow(dataFlow: DataFlow) {
-    if (confirm(`Are you sure you want to delete the data flow for '${dataFlow.Name}'?`)) {
-      this.dataFlowEventService.EmitDeleteDataFlowEvent(dataFlow.Lookup);
-    }
-  }
-
   public CreateNewDataFlow() {
     this.dataFlowEventService.EmitSaveDataFlowEvent({
       Name: this.CreateNewDataFlowForm.controls.name.value,
@@ -89,6 +83,12 @@ export class LcuDataFlowDataFlowListElementComponent extends LcuElementComponent
       //,
       //Lookup: this.CreateNewDataFlowForm.controls.lookup.value
     });
+  }
+
+  public DeleteDataFlow(dataFlow: DataFlow) {
+    if (confirm(`Are you sure you want to delete the data flow for '${dataFlow.Name}'?`)) {
+      this.dataFlowEventService.EmitDeleteDataFlowEvent(dataFlow.Lookup);
+    }
   }
 
   public SetActiveDataFlow(dataFlow: DataFlow) {

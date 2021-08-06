@@ -1,17 +1,29 @@
-<h3>
-  <mat-icon>settings_input_antenna</mat-icon>
-
-  Active Data Flows
-</h3>
+<div class="data-flow-list-header" fxLayout="row" fxLayoutAlign="space-between center">
+  <h3 fxLayoutAlign="start center" fxFlex="70%">
+    <mat-icon>settings_input_antenna</mat-icon>
+    Active Data Flows
+  </h3>
+  <div fxLayout="start center" fxFlex="30%">
+    <a
+      mat-raised-button
+      color="accent"
+      (click)="ToggleIsCreating()"
+      *ngIf="!State.IsCreating"
+    >
+      Create New Data Flow
+    </a>
+  </div>
+</div>
 
 <mat-list *ngIf="State">
   <ng-container *ngIf="!State.IsCreating">
     <mat-list-item *ngFor="let dataFlow of State.DataFlows">
-      <div fxFlex="70%">
-        <div matLine>
-          <h4>
-            {{ dataFlow.Name }} - <small>{{ dataFlow.Description }}</small>
+      <div fxFlex="70%" class="list-item-container">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <h4 fxFlex="20%">
+            {{ dataFlow.Name }}  &nbsp;
           </h4>
+          <div class="description"  fxFlex="75%" >{{ dataFlow.Description }}</div>
         </div>
       </div>
 
@@ -21,7 +33,11 @@
           color="accent"
           (click)="SetActiveDataFlow(dataFlow)"
         >
-          <mat-icon>settings</mat-icon> Manage
+          <mat-icon>settings</mat-icon>
+
+          <span *ngIf="!dataFlow.PreventEditing">Manage</span>
+
+          <span *ngIf="dataFlow.PreventEditing">View</span>
         </a>
 
         <a mat-icon-button color="warn" (click)="DeleteDataFlow(dataFlow)">
@@ -38,31 +54,33 @@
   <ng-container *ngIf="State.IsCreating">
     <form [formGroup]="CreateNewDataFlowForm" (ngSubmit)="CreateNewDataFlow()">
       <div>
-        <mat-form-field style="width: 100%;">
+        <mat-form-field style="width: 100%;" class="disable-autofill-background-default">
           <input
             type="text"
             matInput
             placeholder="Name"
             formControlName="name"
+            maxlength="40"
             required
           />
         </mat-form-field>
       </div>
 
       <div>
-        <mat-form-field style="width: 100%;">
+        <mat-form-field style="width: 100%;" class="disable-autofill-background-default">
           <input
             type="text"
             matInput
             placeholder="Description"
             formControlName="desc"
+            maxlength="175"
             required
           />
         </mat-form-field>
       </div>
 
-      <!-- <div>
-        <mat-form-field style="width: 100%;">
+      <div>
+        <mat-form-field style="width: 100%;" class="disable-autofill-background-default">
           <input
             type="text"
             matInput
@@ -82,7 +100,7 @@
             {{ DataFlowLookupErrorMessage }}
           </mat-error>
         </mat-form-field>
-      </div> -->
+      </div>
 
       <div class="spread">
         <button
@@ -105,7 +123,7 @@
 
   <br />
 
-  <mat-list-item>
+  <!-- <mat-list-item>
     <a
       mat-raised-button
       color="accent"
@@ -114,5 +132,5 @@
     >
       Create New Data Flow
     </a>
-  </mat-list-item>
+  </mat-list-item> -->
 </mat-list>

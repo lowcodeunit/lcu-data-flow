@@ -48,6 +48,8 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
     this.state.Context.subscribe(async state => {
       this.State = state;
 
+      console.log(this.State);
+
       await this.handleStateChanged();
     });
   }
@@ -93,7 +95,7 @@ export class LcuDataFlowDataFlowManagerElementComponent extends LcuElementCompon
   protected saveDataFlow(): Subscription {
     return this.dataFlowEventService.GetSaveDataFlowEvent().subscribe(
       (dataFlow: DataFlow) => {
-        console.log('GetSaveDataFlowEvent() triggered');
+        // console.log('GetSaveDataFlowEvent() triggered', dataFlow);
         this.State.Loading = true;
         this.state.SaveDataFlow(dataFlow);
       }

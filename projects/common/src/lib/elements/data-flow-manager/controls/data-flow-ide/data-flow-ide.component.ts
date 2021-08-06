@@ -216,6 +216,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
 
   protected async handleStateChanged() {
     if (this.State.ActiveDataFlow) {
+      // console.log("STATE: ", this.State)
       this.toolkit = this.$jsplumb.getToolkit(
         this.State.ActiveDataFlow.Lookup,
         this.ToolkitParams
@@ -310,6 +311,7 @@ export class LcuDataFlowDataFlowIdeElementComponent
     );
 
     this.View = this.io.LoadView();
+    // console.log("view: ", this.View)
 
     if (!this.subscriptions.EdgeAdded) {
       this.subscriptions.EdgeAdded = this.io.EdgeAdded.subscribe(

@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { StateContext, Application, DAFViewApplicationConfig } from '@lcu/common';
+import { StateContext, Application } from '@lcu/common';
 import { DataFlowManagementState } from './data-flow-management.state';
 import { DataFlow } from '@lcu/common';
 
